@@ -79,7 +79,7 @@
 		if (responseObject) {
 
             NSString *stringData = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-            
+
 //            NSLog(@"rawData:%@", stringData);
 
             CHCSVParser *csvParser = [[CHCSVParser alloc] initWithCSVString:stringData];
@@ -122,11 +122,11 @@
     if (!self.urlString && !self.name && !self.actions) {
         return YES;
     }
-    
+
     if (self.urlString.length == 0 && self.name.length == 0 && self.actions.length == 0) {
         return YES;
     }
-    
+
     return NO;
 }
 
@@ -178,16 +178,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     [[[HackfolerClient sharedClient] pagaDataAtPath:@"kuansim"] continueWithBlock:^id(BFTask *task) {
         NSLog(@"error:%@", task.error);
-        
+
         NSLog(@"task.result:%@", task.result);
         CHCSVParser *parser = (CHCSVParser *)task.result;
         parser.delegate = self;
-//        parser.recognizesComments = YES;
-//        parser.sanitizesFields = YES;
-//        parser.recognizesBackslashesAsEscapes = YES;
 
         [parser parse];
 
@@ -225,7 +222,7 @@
         case 2:
             self.oneField.actions = field;
             break;
-            
+
         default:
             break;
     }
@@ -244,9 +241,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [[UITableViewCell alloc] init];
-    
+
     cell.textLabel.text = ((HackfolerField *)self.fields[indexPath.row]).name;
-    
+
     return cell;
 }
 
@@ -258,7 +255,7 @@
     if (urlString && urlString.length == 0) {
         return;
     }
-    
+
     UIWebView *webView =
     [UIWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]
                     loaded:^(UIWebView *webView) {
@@ -267,13 +264,8 @@
                     failed:^(UIWebView *webView, NSError *error) {
                         NSLog(@"Failed loading %@", error);
                     }];
-    
-//    [self.view addSubview:webView];
-//    self.view.backgroundColor = [UIColor clearColor];
 
     self.view = webView;
-
-//    [self.sidePanelController setCenterPanelHidden:YES animated:YES duration:2.0f];
 }
 
 @end
