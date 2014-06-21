@@ -8,6 +8,7 @@ target "hackfoldr-iOS" do
 
   pod 'JASidePanels', '~> 1.3.2'
   pod 'NJKWebViewProgress', '~> 0.2.3'
+  pod 'UIWebView-Blocks'
 end
 
 target "hackfoldr-iOSTests" do
