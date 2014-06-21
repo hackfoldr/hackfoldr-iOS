@@ -17,17 +17,17 @@
 #import "UIWebView+Blocks.h"
 #import "UIViewController+JASidePanel.h"
 
-@interface G0VABTaskCompletionSource : BFTaskCompletionSource
-+ (G0VABTaskCompletionSource *)taskCompletionSource;
+@interface HackfolerTaskCompletionSource : BFTaskCompletionSource
++ (HackfolerTaskCompletionSource *)taskCompletionSource;
 @property (strong, nonatomic) NSURLSessionTask *connectionTask;
 
 @end
 
-@implementation G0VABTaskCompletionSource
+@implementation HackfolerTaskCompletionSource
 
-+ (G0VABTaskCompletionSource *)taskCompletionSource
++ (HackfolerTaskCompletionSource *)taskCompletionSource
 {
-	return [[G0VABTaskCompletionSource alloc] init];
+	return [[HackfolerTaskCompletionSource alloc] init];
 }
 
 - (void)dealloc
@@ -74,7 +74,7 @@
 
 - (BFTask *)_taskWithPath:(NSString *)inPath parameters:(NSDictionary *)parameters
 {
-	G0VABTaskCompletionSource *source = [G0VABTaskCompletionSource taskCompletionSource];
+	HackfolerTaskCompletionSource *source = [HackfolerTaskCompletionSource taskCompletionSource];
 	source.connectionTask = [self GET:inPath parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
 		if (responseObject) {
 
@@ -211,7 +211,7 @@
 
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)fieldIndex
 {
-    NSLog(@"field:%@, at %d", field, fieldIndex);
+    NSLog(@"field:%@, at %ld", field, (long)fieldIndex);
     switch (fieldIndex) {
         case 0:
             self.oneField.urlString = field;
