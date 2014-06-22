@@ -25,7 +25,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"name:%@ url:%@ actions:%@", self.name, self.urlString, self.actions];
+    return [NSString stringWithFormat:@"index:%ld name:%@ url:%@ actions:%@", (long)self.index, self.name, self.urlString, self.actions];
 }
 
 @end
