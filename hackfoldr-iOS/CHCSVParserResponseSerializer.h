@@ -9,9 +9,9 @@
 #import "AFURLResponseSerialization.h"
 
 /**
- `CHCSVParserResponseSerializer` is a subclass of `AFHTTPResponseSerializer` that validates and decodes XML responses as an `NSArray`, which includes `HackfolerField`.
+ `CHCSVParserResponseSerializer` is a subclass of `AFHTTPResponseSerializer` that validates and decodes CSV responses as an `NSArray`, which includes `HackfolerField`.
 
- By default, `CHCSVParserResponseSerializer` accepts the following MIME types, which includes the official standard, `text/csv`, as well as other commonly-used types:
+ By default, `CHCSVParserResponseSerializer` accepts the following MIME types:
 
  - `text/csv`
  */
