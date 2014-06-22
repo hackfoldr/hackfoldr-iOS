@@ -9,7 +9,6 @@
 #import "ViewController.h"
 
 #import "HackfolerClient.h"
-
 #import "NJKWebViewProgress.h"
 #import "UIWebView+Blocks.h"
 #import "UIViewController+JASidePanel.h"
@@ -52,7 +51,9 @@
     [super viewWillAppear:animated];
 
     [[[HackfolerClient sharedClient] pagaDataAtPath:@"kuansim"] continueWithBlock:^id(BFTask *task) {
-        NSLog(@"error:%@", task.error);
+        if (task.error) {
+            NSLog(@"error:%@", task.error);
+        }
 
         NSLog(@"task.result:%@", task.result);
 

@@ -102,7 +102,6 @@
 
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)fieldIndex
 {
-    NSLog(@"field:%@, at %ld", field, (long)fieldIndex);
     switch (fieldIndex) {
         case 0:
             self._oneField.urlString = field;

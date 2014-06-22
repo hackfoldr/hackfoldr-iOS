@@ -71,7 +71,6 @@
 	HackfolerTaskCompletionSource *source = [HackfolerTaskCompletionSource taskCompletionSource];
 	source.connectionTask = [self GET:inPath parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
 		if (responseObject) {
-            NSLog(@"rawData:%@", responseObject);
             self.fields = responseObject;
 		}
 	} failure:^(NSURLSessionDataTask *task, NSError *error) {
