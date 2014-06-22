@@ -72,6 +72,7 @@
 	source.connectionTask = [self GET:inPath parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
 		if (responseObject) {
             self.fields = responseObject;
+            [source setResult:self.fields];
 		}
 	} failure:^(NSURLSessionDataTask *task, NSError *error) {
 		[source setError:error];
