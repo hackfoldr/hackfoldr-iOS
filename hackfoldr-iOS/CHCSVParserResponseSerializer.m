@@ -55,9 +55,9 @@
         }
     }
 
-    NSString *stringData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-
-    CHCSVParser *csvParser = [[CHCSVParser alloc] initWithCSVString:stringData];
+    NSStringEncoding encoding = NSUTF8StringEncoding;
+    NSInputStream *stream = [NSInputStream inputStreamWithData:data];
+    CHCSVParser *csvParser = [[CHCSVParser alloc] initWithInputStream:stream usedEncoding:&encoding delimiter:','];
     csvParser.delegate = self;
     csvParser.recognizesBackslashesAsEscapes = self.recognizesBackslashesAsEscapes;
     csvParser.sanitizesFields = self.sanitizesFields;
