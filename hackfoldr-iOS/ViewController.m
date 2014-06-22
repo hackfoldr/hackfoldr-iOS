@@ -14,6 +14,8 @@
 #import "UIWebView+Blocks.h"
 #import "UIViewController+JASidePanel.h"
 
+static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
+
 @interface ViewController () <UITableViewDelegate>
 
 @property (nonatomic, strong) UIViewController *centerViewController;
@@ -31,13 +33,13 @@
 
     [self setLeftPanel:self.leftViewController];
     [self setCenterPanel:self.centerViewController];
-
-    self.leftViewController.tableView.delegate = self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.leftViewController.tableView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,11 +47,26 @@
     [super didReceiveMemoryWarning];
 }
 
+- (NSString *)hackfoldrPageKey
+{
+    NSString *pageKey = [[NSUserDefaults standardUserDefaults] objectForKey:kDefaultHackfolerPage];
+
+    if (!pageKey || pageKey.length == 0) {
+        NSString *defaultPage = @"kuansim";
+
+        [[NSUserDefaults standardUserDefaults] setObject:defaultPage forKey:kDefaultHackfolerPage];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        pageKey = defaultPage;
+    }
+
+    return pageKey;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
-    [[[HackfolerClient sharedClient] pagaDataAtPath:@"kuansim"] continueWithBlock:^id(BFTask *task) {
+    [[[HackfolerClient sharedClient] pagaDataAtPath:self.hackfoldrPageKey] continueWithBlock:^id(BFTask *task) {
         if (task.error) {
             NSLog(@"error:%@", task.error);
         }
