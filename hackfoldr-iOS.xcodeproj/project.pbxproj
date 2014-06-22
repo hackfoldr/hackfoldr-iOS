@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		84FEEA5C40A246A495BB0AA2 /* libPods-hackfoldr-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BF3E8BC95B4A9183627B72 /* libPods-hackfoldr-iOSTests.a */; };
+		E71D192A1956CE5500B57207 /* HackfolerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D19291956CE5500B57207 /* HackfolerClient.m */; };
+		E71D192D1956CFB600B57207 /* HackfolerField.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D192C1956CFB600B57207 /* HackfolerField.m */; };
+		E71D19321956DE0300B57207 /* CHCSVParserResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D19311956DE0300B57207 /* CHCSVParserResponseSerializer.m */; };
 		E7EB66BC19554E290069FD71 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7EB66BB19554E290069FD71 /* Foundation.framework */; };
 		E7EB66BE19554E290069FD71 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7EB66BD19554E290069FD71 /* CoreGraphics.framework */; };
 		E7EB66C019554E290069FD71 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7EB66BF19554E290069FD71 /* UIKit.framework */; };
@@ -42,6 +45,12 @@
 		592911384328487494648D2E /* libPods-hackfoldr-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hackfoldr-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68052F00A60744809CFBF1EF /* Pods-hackfoldr-iOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOS.xcconfig"; path = "Pods/Pods-hackfoldr-iOS.xcconfig"; sourceTree = "<group>"; };
 		A42D435D2F5D4FFDA4B372F8 /* Pods-hackfoldr-iOSTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOSTests.xcconfig"; path = "Pods/Pods-hackfoldr-iOSTests.xcconfig"; sourceTree = "<group>"; };
+		E71D19281956CE5500B57207 /* HackfolerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HackfolerClient.h; path = "hackfoldr-iOS/HackfolerClient.h"; sourceTree = "<group>"; };
+		E71D19291956CE5500B57207 /* HackfolerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfolerClient.m; path = "hackfoldr-iOS/HackfolerClient.m"; sourceTree = "<group>"; };
+		E71D192B1956CFB600B57207 /* HackfolerField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HackfolerField.h; path = "hackfoldr-iOS/HackfolerField.h"; sourceTree = "<group>"; };
+		E71D192C1956CFB600B57207 /* HackfolerField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfolerField.m; path = "hackfoldr-iOS/HackfolerField.m"; sourceTree = "<group>"; };
+		E71D19301956DE0300B57207 /* CHCSVParserResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHCSVParserResponseSerializer.h; path = "hackfoldr-iOS/CHCSVParserResponseSerializer.h"; sourceTree = "<group>"; };
+		E71D19311956DE0300B57207 /* CHCSVParserResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CHCSVParserResponseSerializer.m; path = "hackfoldr-iOS/CHCSVParserResponseSerializer.m"; sourceTree = "<group>"; };
 		E7EB66B819554E290069FD71 /* hackfoldr-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hackfoldr-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7EB66BB19554E290069FD71 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E7EB66BD19554E290069FD71 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -92,15 +101,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E71D192E1956DAF800B57207 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E71D192B1956CFB600B57207 /* HackfolerField.h */,
+				E71D192C1956CFB600B57207 /* HackfolerField.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		E71D192F1956DB0300B57207 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				E71D19301956DE0300B57207 /* CHCSVParserResponseSerializer.h */,
+				E71D19311956DE0300B57207 /* CHCSVParserResponseSerializer.m */,
+				E71D19281956CE5500B57207 /* HackfolerClient.h */,
+				E71D19291956CE5500B57207 /* HackfolerClient.m */,
+			);
+			name = Client;
+			sourceTree = "<group>";
+		};
 		E7EB66AF19554E290069FD71 = {
 			isa = PBXGroup;
 			children = (
+				E71D192F1956DB0300B57207 /* Client */,
+				E7EB66BA19554E290069FD71 /* Frameworks */,
 				E7EB66C119554E290069FD71 /* hackfoldr-iOS */,
 				E7EB66E319554E290069FD71 /* hackfoldr-iOSTests */,
-				E7EB66BA19554E290069FD71 /* Frameworks */,
-				E7EB66B919554E290069FD71 /* Products */,
+				E71D192E1956DAF800B57207 /* Models */,
 				68052F00A60744809CFBF1EF /* Pods-hackfoldr-iOS.xcconfig */,
 				A42D435D2F5D4FFDA4B372F8 /* Pods-hackfoldr-iOSTests.xcconfig */,
+				E7EB66B919554E290069FD71 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -340,7 +371,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7EB66D519554E290069FD71 /* ViewController.m in Sources */,
+				E71D19321956DE0300B57207 /* CHCSVParserResponseSerializer.m in Sources */,
 				E7EB66CC19554E290069FD71 /* AppDelegate.m in Sources */,
+				E71D192A1956CE5500B57207 /* HackfolerClient.m in Sources */,
+				E71D192D1956CFB600B57207 /* HackfolerField.m in Sources */,
 				E7EB66C819554E290069FD71 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
