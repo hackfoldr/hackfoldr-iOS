@@ -9,16 +9,16 @@
 #import "ViewController.h"
 
 #import "HackfolerClient.h"
+#import "HackfolerPage.h"
 #import "NJKWebViewProgress.h"
 #import "UIWebView+Blocks.h"
 #import "UIViewController+JASidePanel.h"
-
-#pragma mark -
 
 @interface ViewController () <UITableViewDelegate>
 
 @property (nonatomic, strong) UIViewController *centerViewController;
 @property (nonatomic, strong) UITableViewController *leftViewController;
+@property (nonatomic, strong) HackfolerPage *currentPage;
 
 @end
 
@@ -32,7 +32,6 @@
     [self setLeftPanel:self.leftViewController];
     [self setCenterPanel:self.centerViewController];
 
-    self.leftViewController.tableView.dataSource = [HackfolerClient sharedClient];
     self.leftViewController.tableView.delegate = self;
 }
 
@@ -56,6 +55,8 @@
         }
 
         NSLog(@"task.result:%@", task.result);
+        self.currentPage = task.result;
+        self.leftViewController.tableView.dataSource = self.currentPage;
 
         [self.leftViewController.tableView reloadData];
         return nil;
@@ -64,7 +65,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HackfolerField *field = (HackfolerField *)[HackfolerClient sharedClient].fields[indexPath.row];
+    HackfolerField *field = (HackfolerField *)self.currentPage.cells[indexPath.row];
     NSString *urlString = field.urlString;
 
     if (urlString && urlString.length == 0) {

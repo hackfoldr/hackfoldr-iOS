@@ -25,7 +25,20 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"index:%ld name:%@ url:%@ actions:%@", (long)self.index, self.name, self.urlString, self.actions];
+    NSMutableString *description = [NSMutableString string];
+
+    [description appendFormat:@"index:%ld ", (long)self.index];
+    if (self.name) {
+        [description appendFormat:@"name: %@ ", self.name];
+    }
+    if (self.urlString) {
+        [description appendFormat:@"urlString: %@ ", self.urlString];
+    }
+    if (self.actions) {
+        [description appendFormat:@"actions: %@ ", self.actions];
+    }
+
+    return description;
 }
 
 @end

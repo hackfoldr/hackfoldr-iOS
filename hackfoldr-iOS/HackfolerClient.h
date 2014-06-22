@@ -8,15 +8,11 @@
 
 #import "AFHTTPSessionManager.h"
 #import "Bolts.h"
-#import "HackfolerField.h"
 
-@interface HackfolerClient : AFHTTPSessionManager <UITableViewDataSource>
+@interface HackfolerClient : AFHTTPSessionManager
 
 + (instancetype)sharedClient;
 
 - (BFTask *)pagaDataAtPath:(NSString *)inPath;
-
-// Objcect in NSArray is |HackfolerField|
-- (NSArray *)fields;
 
 @end

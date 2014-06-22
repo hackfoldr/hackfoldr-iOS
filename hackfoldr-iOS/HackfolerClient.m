@@ -9,6 +9,7 @@
 #import "HackfolerClient.h"
 
 #import "CHCSVParserResponseSerializer.h"
+#import "HackfolerPage.h"
 
 @interface HackfolerTaskCompletionSource : BFTaskCompletionSource
 
@@ -41,7 +42,7 @@
 #pragma mark -
 
 @interface HackfolerClient ()
-@property NSArray *fields;
+
 @end
 
 @implementation HackfolerClient
@@ -69,11 +70,9 @@
 - (BFTask *)_taskWithPath:(NSString *)inPath parameters:(NSDictionary *)parameters
 {
 	HackfolerTaskCompletionSource *source = [HackfolerTaskCompletionSource taskCompletionSource];
-	source.connectionTask = [self GET:inPath parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-		if (responseObject) {
-            self.fields = responseObject;
-            [source setResult:self.fields];
-		}
+	source.connectionTask = [self GET:inPath parameters:parameters success:^(NSURLSessionDataTask *task, id csvFieldArray) {
+        HackfolerPage *page = [[HackfolerPage alloc] initWithFieldArray:csvFieldArray];
+        [source setResult:page];
 	} failure:^(NSURLSessionDataTask *task, NSError *error) {
 		[source setError:error];
 	}];
@@ -83,22 +82,6 @@
 - (BFTask *)pagaDataAtPath:(NSString *)inPath
 {
     return [self _taskWithPath:[NSString stringWithFormat:@"%@/csv", inPath] parameters:nil];
-}
-
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.fields.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
-
-    cell.textLabel.text = ((HackfolerField *)self.fields[indexPath.row]).name;
-
-    return cell;
 }
 
 @end

@@ -27,6 +27,7 @@
 		E7EB66E819554E290069FD71 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E7EB66E619554E290069FD71 /* InfoPlist.strings */; };
 		E7EB66EA19554E290069FD71 /* hackfoldr_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB66E919554E290069FD71 /* hackfoldr_iOSTests.m */; };
 		E7F7482A1955878C00262A34 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7F748291955878C00262A34 /* QuartzCore.framework */; };
+		E7F9558719570D4E0098661E /* HackfolerPage.m in Sources */ = {isa = PBXBuildFile; fileRef = E7F9558619570D4E0098661E /* HackfolerPage.m */; };
 		F8C75494381B4A8B87C9B571 /* libPods-hackfoldr-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 592911384328487494648D2E /* libPods-hackfoldr-iOS.a */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +73,8 @@
 		E7EB66E719554E290069FD71 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E7EB66E919554E290069FD71 /* hackfoldr_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = hackfoldr_iOSTests.m; sourceTree = "<group>"; };
 		E7F748291955878C00262A34 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		E7F9558519570D4E0098661E /* HackfolerPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HackfolerPage.h; path = "hackfoldr-iOS/HackfolerPage.h"; sourceTree = "<group>"; };
+		E7F9558619570D4E0098661E /* HackfolerPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfolerPage.m; path = "hackfoldr-iOS/HackfolerPage.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +109,8 @@
 			children = (
 				E71D192B1956CFB600B57207 /* HackfolerField.h */,
 				E71D192C1956CFB600B57207 /* HackfolerField.m */,
+				E7F9558519570D4E0098661E /* HackfolerPage.h */,
+				E7F9558619570D4E0098661E /* HackfolerPage.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -375,6 +380,7 @@
 				E7EB66CC19554E290069FD71 /* AppDelegate.m in Sources */,
 				E71D192A1956CE5500B57207 /* HackfolerClient.m in Sources */,
 				E71D192D1956CFB600B57207 /* HackfolerField.m in Sources */,
+				E7F9558719570D4E0098661E /* HackfolerPage.m in Sources */,
 				E7EB66C819554E290069FD71 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
