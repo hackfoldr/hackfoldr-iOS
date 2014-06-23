@@ -8,7 +8,6 @@
 #import "AFCSVParserResponseSerializer.h"
 
 #import "CHCSVParser.h"
-#import "HackfolerField.h"
 
 @interface AFCSVParserResponseSerializer () <CHCSVParserDelegate>
 
