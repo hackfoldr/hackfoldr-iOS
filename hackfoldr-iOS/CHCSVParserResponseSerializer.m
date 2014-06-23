@@ -14,7 +14,7 @@
 @interface CHCSVParserResponseSerializer () <CHCSVParserDelegate>
 
 @property (nonatomic, strong) NSMutableArray *_fields;
-@property (nonatomic, strong) HackfolerField *_oneField;
+@property (nonatomic, strong) NSMutableArray *_oneLine;
 @property (nonatomic, strong) NSError *_parserError;
 
 @end
@@ -55,9 +55,11 @@
         }
     }
 
-    NSStringEncoding encoding = NSUTF8StringEncoding;
+    NSStringEncoding usedEncoding = self.usedEncoding ? self.usedEncoding : [NSString defaultCStringEncoding];
+    unichar usedDelimiter = self.usedDelimiter ? self.usedDelimiter : ',';
+
     NSInputStream *stream = [NSInputStream inputStreamWithData:data];
-    CHCSVParser *csvParser = [[CHCSVParser alloc] initWithInputStream:stream usedEncoding:&encoding delimiter:','];
+    CHCSVParser *csvParser = [[CHCSVParser alloc] initWithInputStream:stream usedEncoding:&usedEncoding delimiter:usedDelimiter];
     csvParser.delegate = self;
     csvParser.recognizesBackslashesAsEscapes = self.recognizesBackslashesAsEscapes;
     csvParser.sanitizesFields = self.sanitizesFields;
@@ -82,44 +84,26 @@
 
 - (void)parserDidEndDocument:(CHCSVParser *)parser
 {
-    self._oneField = nil;
+    self._oneLine = nil;
 }
 
 - (void)parser:(CHCSVParser *)parser didBeginLine:(NSUInteger)recordNumber
 {
-    self._oneField = [[HackfolerField alloc] init];
-    self._oneField.index = recordNumber;
+    self._oneLine = [NSMutableArray array];
 }
 
 - (void)parser:(CHCSVParser *)parser didEndLine:(NSUInteger)recordNumber
 {
-    if (![self._oneField isEmpty]) {
-        [self._fields addObject:self._oneField];
-    }
-
-    self._oneField = nil;
+    [self._fields addObject:self._oneLine];
 }
 
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)fieldIndex
 {
-    switch (fieldIndex) {
-        case 0:
-            self._oneField.urlString = field;
-            break;
-        case 1:
-            self._oneField.name = field;
-            break;
-        case 2:
-            self._oneField.actions = field;
-            break;
-        default:
-            break;
-    }
+    [self._oneLine addObject:field];
 }
 
 - (void)parser:(CHCSVParser *)parser didFailWithError:(NSError *)error
 {
-    NSLog(@"parser error:%@", error);
     self._parserError = error;
 }
 

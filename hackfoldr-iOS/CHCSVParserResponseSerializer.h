@@ -24,5 +24,7 @@
 @property (assign) BOOL recognizesBackslashesAsEscapes; // default is NO
 @property (assign) BOOL sanitizesFields; // default is NO
 @property (assign) BOOL recognizesComments; // default is NO
+@property (assign) NSStringEncoding usedEncoding;
+@property (assign) unichar usedDelimiter;
 
 @end

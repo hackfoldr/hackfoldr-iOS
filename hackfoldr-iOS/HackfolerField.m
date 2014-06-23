@@ -8,7 +8,43 @@
 
 #import "HackfolerField.h"
 
+typedef NS_ENUM(NSUInteger, FieldType) {
+    FieldType_URLString = 0,
+    FieldType_Name,
+    FieldType_Actions,
+};
+
 @implementation HackfolerField
+
+- (instancetype)initWithFieldArray:(NSArray *)fields
+{
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    if (!fields) {
+        return self;
+    }
+
+    [fields enumerateObjectsUsingBlock:^(NSString *field, NSUInteger idx, BOOL *stop) {
+        switch (idx) {
+            case FieldType_URLString:
+                self.urlString = field;
+                break;
+            case FieldType_Name:
+                self.name = field;
+                break;
+            case FieldType_Actions:
+                self.actions = field;
+                break;
+            default:
+                break;
+        }
+    }];
+
+    return self;
+}
 
 - (BOOL)isEmpty
 {

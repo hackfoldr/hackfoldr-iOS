@@ -62,7 +62,9 @@
     self = [super initWithBaseURL:url];
     if (self) {
         self.requestSerializer = [AFHTTPRequestSerializer serializer];
-		self.responseSerializer = [CHCSVParserResponseSerializer serializer];
+        CHCSVParserResponseSerializer *serializer = [CHCSVParserResponseSerializer serializer];
+        serializer.usedEncoding = NSUTF8StringEncoding;
+		self.responseSerializer = serializer;
     }
     return self;
 }

@@ -8,6 +8,8 @@
 
 @interface HackfolerField : NSObject
 
+- (instancetype)initWithFieldArray:(NSArray *)fields;
+
 @property (nonatomic, assign) NSUInteger index;
 @property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSString *name;

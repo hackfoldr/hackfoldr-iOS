@@ -42,13 +42,17 @@
 
     NSMutableArray *cellsWithoutTitleField = [NSMutableArray array];
 
-    [fieldArray enumerateObjectsUsingBlock:^(HackfolerField *field, NSUInteger idx, BOOL *stop) {
+    [fieldArray enumerateObjectsUsingBlock:^(NSArray *fields, NSUInteger idx, BOOL *stop) {
+        HackfolerField *field = [[HackfolerField alloc] initWithFieldArray:fields];
         // first row is title row
         if (idx == 0) {
             self.pageTitle = field.name;
             return;
         }
-        [cellsWithoutTitleField addObject:field];
+        // other row
+        if (!field.isEmpty) {
+            [cellsWithoutTitleField addObject:field];
+        }
     }];
 
     self.fields = cellsWithoutTitleField;
