@@ -1,6 +1,5 @@
 //
-//  CHCSVParserResponseSerializer.h
-//  hackfoldr-iOS
+//  AFCSVParserResponseSerializer.h
 //
 //  Created by Superbil on 2014/6/22.
 //  Copyright (c) 2014年 org.superbil. All rights reserved.
@@ -9,14 +8,14 @@
 #import "AFURLResponseSerialization.h"
 
 /**
- `CHCSVParserResponseSerializer` is a subclass of `AFHTTPResponseSerializer` that validates and decodes CSV responses as an `NSArray`, which includes `HackfolerField`.
+ `AFCSVParserResponseSerializer` is a subclass of `AFHTTPResponseSerializer` that validates and decodes CSV responses as an `NSArray`,
 
- By default, `CHCSVParserResponseSerializer` accepts the following MIME types:
+ By default, `AFCSVParserResponseSerializer` accepts the following MIME types:
 
  - `text/csv`
  */
 
-@interface CHCSVParserResponseSerializer : AFHTTPResponseSerializer
+@interface AFCSVParserResponseSerializer : AFHTTPResponseSerializer
 
 /*
  CHCSVParser settings

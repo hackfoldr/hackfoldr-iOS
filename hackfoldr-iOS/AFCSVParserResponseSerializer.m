@@ -1,17 +1,16 @@
 //
-//  CHCSVParserResponseSerializer.m
-//  hackfoldr-iOS
+//  AFCSVParserResponseSerializer.m
 //
 //  Created by Superbil on 2014/6/22.
 //  Copyright (c) 2014年 org.superbil. All rights reserved.
 //
 
-#import "CHCSVParserResponseSerializer.h"
+#import "AFCSVParserResponseSerializer.h"
 
 #import "CHCSVParser.h"
 #import "HackfolerField.h"
 
-@interface CHCSVParserResponseSerializer () <CHCSVParserDelegate>
+@interface AFCSVParserResponseSerializer () <CHCSVParserDelegate>
 
 @property (nonatomic, strong) NSMutableArray *_fields;
 @property (nonatomic, strong) NSMutableArray *_oneLine;
@@ -19,10 +18,10 @@
 
 @end
 
-@implementation CHCSVParserResponseSerializer
+@implementation AFCSVParserResponseSerializer
 
 + (instancetype)serializer {
-    CHCSVParserResponseSerializer *serializer = [[self alloc] init];
+    AFCSVParserResponseSerializer *serializer = [[self alloc] init];
 
     return serializer;
 }

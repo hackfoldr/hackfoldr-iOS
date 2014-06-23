@@ -8,7 +8,7 @@
 
 #import "HackfolerClient.h"
 
-#import "CHCSVParserResponseSerializer.h"
+#import "AFCSVParserResponseSerializer.h"
 #import "HackfolerPage.h"
 
 @interface HackfolerTaskCompletionSource : BFTaskCompletionSource
@@ -62,7 +62,7 @@
     self = [super initWithBaseURL:url];
     if (self) {
         self.requestSerializer = [AFHTTPRequestSerializer serializer];
-        CHCSVParserResponseSerializer *serializer = [CHCSVParserResponseSerializer serializer];
+        AFCSVParserResponseSerializer *serializer = [AFCSVParserResponseSerializer serializer];
         serializer.usedEncoding = NSUTF8StringEncoding;
 		self.responseSerializer = serializer;
     }
