@@ -8,17 +8,18 @@
 
 #import "ViewController.h"
 
+// Model & Client
 #import "HackfolerClient.h"
 #import "HackfolerPage.h"
-#import "NJKWebViewProgress.h"
-#import "UIWebView+Blocks.h"
+// ViewController
+#import "CenterViewController.h"
 #import "UIViewController+JASidePanel.h"
 
 static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
 
 @interface ViewController () <UITableViewDelegate>
 
-@property (nonatomic, strong) UIViewController *centerViewController;
+@property (nonatomic, strong) CenterViewController *centerViewController;
 @property (nonatomic, strong) UITableViewController *leftViewController;
 @property (nonatomic, strong) HackfolerPage *currentPage;
 
@@ -90,16 +91,7 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
     }
     NSLog(@"url: %@", urlString);
 
-    UIWebView *webView =
-    [UIWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]
-                    loaded:^(UIWebView *webView) {
-                        NSLog(@"Loaded successfully");
-                    }
-                    failed:^(UIWebView *webView, NSError *error) {
-                        NSLog(@"Failed loading %@", error);
-                    }];
-
-    self.view = webView;
+    [self.centerViewController loadWithField:field];
 }
 
 @end
