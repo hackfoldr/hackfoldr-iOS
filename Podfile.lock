@@ -23,24 +23,20 @@ PODS:
   - Bolts (1.0.0)
   - CHCSVParser (2.0.7)
   - JASidePanels (1.3.2)
-  - NJKWebViewProgress (0.2.3):
-    - NJKWebViewProgress/Core
-    - NJKWebViewProgress/ProgressView
-  - NJKWebViewProgress/Core (0.2.3)
-  - NJKWebViewProgress/ProgressView (0.2.3)
+  - TOWebViewController (2.0.11)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.3.1)
   - Bolts (~> 1.0.0)
   - CHCSVParser (~> 2.0.7)
   - JASidePanels (~> 1.3.2)
-  - NJKWebViewProgress (~> 0.2.3)
+  - TOWebViewController
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
   Bolts: 0d6132ce6856f2eac784cfeb3fc3feceac15eae3
   CHCSVParser: 0c75a766de2eabc4ff03639945a7ad4a724344d4
   JASidePanels: ca943907d88a0738c80755204c6098969d43e4e9
-  NJKWebViewProgress: 721b57080c840c76f70ff6c2dda4f836ee1b27c1
+  TOWebViewController: 8c34044ad88dda030aad550b409eb2a8351014a0
 
 COCOAPODS: 0.33.1

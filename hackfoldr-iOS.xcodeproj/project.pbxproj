@@ -11,7 +11,7 @@
 		E71D192A1956CE5500B57207 /* HackfolerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D19291956CE5500B57207 /* HackfolerClient.m */; };
 		E71D192D1956CFB600B57207 /* HackfolerField.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D192C1956CFB600B57207 /* HackfolerField.m */; };
 		E71D19321956DE0300B57207 /* AFCSVParserResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D19311956DE0300B57207 /* AFCSVParserResponseSerializer.m */; };
-		E7B1DD861959AFD500768FFA /* CenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B1DD851959AFD500768FFA /* CenterViewController.m */; };
+		E7B1DD8A195AEE7D00768FFA /* TOWebViewController+HackfolerField.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B1DD89195AEE7D00768FFA /* TOWebViewController+HackfolerField.m */; };
 		E7EB66BC19554E290069FD71 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7EB66BB19554E290069FD71 /* Foundation.framework */; };
 		E7EB66BE19554E290069FD71 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7EB66BD19554E290069FD71 /* CoreGraphics.framework */; };
 		E7EB66C019554E290069FD71 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7EB66BF19554E290069FD71 /* UIKit.framework */; };
@@ -53,8 +53,8 @@
 		E71D192C1956CFB600B57207 /* HackfolerField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfolerField.m; path = "hackfoldr-iOS/HackfolerField.m"; sourceTree = "<group>"; };
 		E71D19301956DE0300B57207 /* AFCSVParserResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFCSVParserResponseSerializer.h; path = "hackfoldr-iOS/AFCSVParserResponseSerializer.h"; sourceTree = "<group>"; };
 		E71D19311956DE0300B57207 /* AFCSVParserResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFCSVParserResponseSerializer.m; path = "hackfoldr-iOS/AFCSVParserResponseSerializer.m"; sourceTree = "<group>"; };
-		E7B1DD841959AFD500768FFA /* CenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CenterViewController.h; path = "hackfoldr-iOS/CenterViewController.h"; sourceTree = "<group>"; };
-		E7B1DD851959AFD500768FFA /* CenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CenterViewController.m; path = "hackfoldr-iOS/CenterViewController.m"; sourceTree = "<group>"; };
+		E7B1DD88195AEE7D00768FFA /* TOWebViewController+HackfolerField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TOWebViewController+HackfolerField.h"; path = "hackfoldr-iOS/TOWebViewController+HackfolerField.h"; sourceTree = "<group>"; };
+		E7B1DD89195AEE7D00768FFA /* TOWebViewController+HackfolerField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TOWebViewController+HackfolerField.m"; path = "hackfoldr-iOS/TOWebViewController+HackfolerField.m"; sourceTree = "<group>"; };
 		E7EB66B819554E290069FD71 /* hackfoldr-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hackfoldr-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7EB66BB19554E290069FD71 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E7EB66BD19554E290069FD71 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -132,8 +132,8 @@
 		E7B1DD871959AFE700768FFA /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				E7B1DD841959AFD500768FFA /* CenterViewController.h */,
-				E7B1DD851959AFD500768FFA /* CenterViewController.m */,
+				E7B1DD88195AEE7D00768FFA /* TOWebViewController+HackfolerField.h */,
+				E7B1DD89195AEE7D00768FFA /* TOWebViewController+HackfolerField.m */,
 				E7EB66D319554E290069FD71 /* ViewController.h */,
 				E7EB66D419554E290069FD71 /* ViewController.m */,
 			);
@@ -389,8 +389,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7EB66D519554E290069FD71 /* ViewController.m in Sources */,
-				E7B1DD861959AFD500768FFA /* CenterViewController.m in Sources */,
 				E71D19321956DE0300B57207 /* AFCSVParserResponseSerializer.m in Sources */,
+				E7B1DD8A195AEE7D00768FFA /* TOWebViewController+HackfolerField.m in Sources */,
 				E7EB66CC19554E290069FD71 /* AppDelegate.m in Sources */,
 				E71D192A1956CE5500B57207 /* HackfolerClient.m in Sources */,
 				E71D192D1956CFB600B57207 /* HackfolerField.m in Sources */,

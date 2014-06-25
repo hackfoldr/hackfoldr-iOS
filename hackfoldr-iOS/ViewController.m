@@ -12,16 +12,17 @@
 #import "HackfolerClient.h"
 #import "HackfolerPage.h"
 // ViewController
-#import "CenterViewController.h"
+#import "TOWebViewController+HackfolerField.h"
 #import "UIViewController+JASidePanel.h"
 
 static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
 
 @interface ViewController () <UITableViewDelegate>
 
-@property (nonatomic, strong) CenterViewController *centerViewController;
-@property (nonatomic, strong) UITableViewController *leftViewController;
+@property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) HackfolerPage *currentPage;
+@property (nonatomic, strong) UINavigationController *navigationController;
+@property (nonatomic, strong) UITableViewController *leftViewController;
 
 @end
 
@@ -30,15 +31,17 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
 - (void)awakeFromNib
 {
     self.leftViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftViewController"];
-    self.centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"centerViewController"];
-
-    [self setLeftPanel:self.leftViewController];
-    [self setCenterPanel:self.centerViewController];
+    self.webViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"centerViewController"];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.webViewController];
+
+    [self setLeftPanel:self.leftViewController];
+    [self setCenterPanel:self.navigationController];
 
     self.leftViewController.tableView.delegate = self;
 }
@@ -72,7 +75,7 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
             NSLog(@"error:%@", task.error);
         }
 
-        NSLog(@"task.result:%@", task.result);
+        NSLog(@"%@", task.result);
         self.currentPage = task.result;
         self.leftViewController.tableView.dataSource = self.currentPage;
 
@@ -85,13 +88,14 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
 {
     HackfolerField *field = (HackfolerField *)self.currentPage.cells[indexPath.row];
     NSString *urlString = field.urlString;
+    NSLog(@"url: %@", urlString);
 
     if (urlString && urlString.length == 0) {
         return;
     }
-    NSLog(@"url: %@", urlString);
 
-    [self.centerViewController loadWithField:field];
+    [self.webViewController loadWithField:field];
+    [self showCenterPanelAnimated:YES];
 }
 
 @end

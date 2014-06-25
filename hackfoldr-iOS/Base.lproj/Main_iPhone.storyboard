@@ -20,7 +20,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="229" y="382"/>
+            <point key="canvasLocation" x="181" y="382"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="0PQ-BU-gXv">
@@ -48,12 +48,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v6v-zA-H9x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="634" y="382"/>
+            <point key="canvasLocation" x="539" y="382"/>
         </scene>
-        <!--Center View Controller-->
+        <!--Web View Controller-->
         <scene sceneID="jov-LS-hIw">
             <objects>
-                <viewController storyboardIdentifier="centerViewController" id="1EP-nP-qzf" customClass="CenterViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="centerViewController" id="1EP-nP-qzf" customClass="TOWebViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="f7X-7f-9pp"/>
                         <viewControllerLayoutGuide type="bottom" id="94f-fp-Qb5"/>
@@ -62,18 +62,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Wi-aZ-hve">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Web Title" id="fav-r6-c2I"/>
-                                </items>
-                            </navigationBar>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zfa-ZT-k4v">
-                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </webView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="hackfoldr" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jUG-kI-Esn">
                                 <rect key="frame" x="74" y="238" width="173" height="91"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -84,15 +72,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <connections>
-                        <outlet property="logo" destination="jUG-kI-Esn" id="qBW-8D-Ze6"/>
-                        <outlet property="navigationBar" destination="1Wi-aZ-hve" id="p9k-aW-9hF"/>
-                        <outlet property="webView" destination="Zfa-ZT-k4v" id="M9Z-Ez-uT5"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="zWh-Bc-V8C"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gpb-nS-MZD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048" y="382"/>
+            <point key="canvasLocation" x="918" y="382"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
