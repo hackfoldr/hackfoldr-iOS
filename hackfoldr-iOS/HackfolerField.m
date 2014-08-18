@@ -14,6 +14,11 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     FieldType_Actions,
 };
 
+@interface HackfolerField () {
+    NSString *_urlString;
+}
+@end
+
 @implementation HackfolerField
 
 - (instancetype)initWithFieldArray:(NSArray *)fields
@@ -59,6 +64,24 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     return NO;
 }
 
+- (void)setUrlString:(NSString *)aURLString
+{
+    NSString *cleanString = [aURLString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    _urlString = cleanString;
+
+    if (!aURLString || aURLString.length == 0) {
+        return;
+    }
+
+    // While first string is space, this HackfolerField is subItem
+    self.isSubItem = [[aURLString substringWithRange:NSMakeRange(0, 1)] isEqualToString:@" "];
+}
+
+- (NSString *)urlString
+{
+    return _urlString;
+}
+
 - (NSString *)description
 {
     NSMutableString *description = [NSMutableString string];
@@ -73,6 +96,8 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     if (self.actions) {
         [description appendFormat:@"actions: %@ ", self.actions];
     }
+
+    [description appendFormat:@"isSubItem: %@", self.actions ? @"YES" : @"NO"];
 
     return description;
 }

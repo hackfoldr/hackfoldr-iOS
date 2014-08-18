@@ -15,6 +15,8 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *actions;
 
+@property (nonatomic, assign) BOOL isSubItem;
+
 - (BOOL)isEmpty;
 
 @end

@@ -8,6 +8,8 @@
 
 #import <XCTest/XCTest.h>
 
+#import "HackfolerField.h"
+
 @interface hackfoldr_iOSTests : XCTestCase
 
 @end
@@ -26,9 +28,26 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testHackField
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    NSString *nameURL = @"http://www.g0v.tw";
+    NSString *name = @"Name ";
+    NSString *actions = @"{target}";
+    HackfolerField *field = [[HackfolerField alloc] initWithFieldArray:@[nameURL, name, actions]];
+
+    XCTAssertTrue([field.urlString isEqualToString:nameURL], @"");
+    XCTAssertTrue([field.name isEqualToString:name], @"");
+    XCTAssertTrue([field.actions isEqualToString:actions], @"");
+    XCTAssertFalse(field.isSubItem, @"");
+
+    NSString *subItemURL = @" http://www.g0v.tw";
+
+    HackfolerField *subField = [[HackfolerField alloc] initWithFieldArray:@[subItemURL, name, actions]];
+    NSString *subString = [subItemURL substringWithRange:NSMakeRange(1, subItemURL.length-1)];
+    XCTAssertTrue([subField.urlString isEqualToString:subString], @"");
+    XCTAssertTrue([subField.name isEqualToString:name], @"");
+    XCTAssertTrue([subField.actions isEqualToString:actions], @"");
+    XCTAssertTrue(subField.isSubItem, @"isSubItem must be YES");
 }
 
 @end
