@@ -5,14 +5,14 @@
       "idiom" : "iphone",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
-      "filename" : "hackfoldr-Launch-3.png",
+      "filename" : "iPhone 4 LaunchImage.png",
       "scale" : "2x"
     },
     {
       "extent" : "full-screen",
       "idiom" : "iphone",
       "subtype" : "retina4",
-      "filename" : "hackfoldr-Launch-2.png",
+      "filename" : "iPhone 5 LaunchImage.png",
       "minimum-system-version" : "7.0",
       "orientation" : "portrait",
       "scale" : "2x"
@@ -22,7 +22,6 @@
       "idiom" : "ipad",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
-      "filename" : "hackfoldr-Launch-1.png",
       "scale" : "1x"
     },
     {
@@ -37,7 +36,7 @@
       "idiom" : "ipad",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
-      "filename" : "hackfoldr-Launch.png",
+      "filename" : "iPad Portrait LaunchImage.png",
       "scale" : "2x"
     },
     {
@@ -45,6 +44,7 @@
       "idiom" : "ipad",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
+      "filename" : "iPad Landscape LaunchImage.png",
       "scale" : "2x"
     }
   ],
