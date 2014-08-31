@@ -22,7 +22,6 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
 @property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) UITableViewController *leftViewController;
-
 @end
 
 @implementation ViewController
@@ -82,16 +81,8 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
     }];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)loadWithField:(HackfolerField *)field
 {
-    HackfolerField *field = [HackfolerClient sharedClient].lastPage.cells[indexPath.row];
-    NSString *urlString = field.urlString;
-    NSLog(@"url: %@", urlString);
-
-    if (urlString && urlString.length == 0) {
-        return;
-    }
-
     [self.webViewController loadWithField:field];
     [self showCenterPanelAnimated:YES];
 }

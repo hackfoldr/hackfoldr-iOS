@@ -6,8 +6,6 @@
 //  Copyright (c) 2014年 org.superbil. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 #import "JASidePanelController.h"
 
 @interface ViewController : JASidePanelController
