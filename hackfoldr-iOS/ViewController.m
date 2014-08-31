@@ -30,7 +30,7 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
 
 - (void)awakeFromNib
 {
-    self.leftViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftViewController"];
+    self.leftViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"listViewController"];
     self.webViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"centerViewController"];
 }
 
