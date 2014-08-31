@@ -22,17 +22,34 @@
             </objects>
             <point key="canvasLocation" x="181" y="382"/>
         </scene>
-        <!--Table View Controller-->
+        <!--List View Controller-->
         <scene sceneID="0PQ-BU-gXv">
             <objects>
-                <tableViewController storyboardIdentifier="leftViewController" id="aiz-WL-MdN" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="leftViewController" id="aiz-WL-MdN" customClass="ListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Mo1-J3-HyP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="pD0-KR-3Cd">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3b3-KW-fWX">
+                                    <rect key="frame" x="20" y="7" width="199" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Hackfoldr">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="settingAction:" destination="aiz-WL-MdN" eventType="touchUpInside" id="BFJ-X5-v2q"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ZKH-Q0-26o">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZKH-Q0-26o" id="9At-58-IZO">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -45,10 +62,13 @@
                             <outlet property="delegate" destination="aiz-WL-MdN" id="T3l-J1-gyM"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="settingButton" destination="3b3-KW-fWX" id="4Vm-hE-YDx"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v6v-zA-H9x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="539" y="382"/>
+            <point key="canvasLocation" x="551" y="382"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="jov-LS-hIw">
