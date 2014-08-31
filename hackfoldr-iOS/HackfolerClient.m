@@ -74,6 +74,7 @@
 	HackfolerTaskCompletionSource *source = [HackfolerTaskCompletionSource taskCompletionSource];
 	source.connectionTask = [self GET:inPath parameters:parameters success:^(NSURLSessionDataTask *task, id csvFieldArray) {
         HackfolerPage *page = [[HackfolerPage alloc] initWithFieldArray:csvFieldArray];
+        _lastPage = page;
         [source setResult:page];
 	} failure:^(NSURLSessionDataTask *task, NSError *error) {
 		[source setError:error];

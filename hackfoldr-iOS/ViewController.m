@@ -20,7 +20,6 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
 @interface ViewController () <UITableViewDelegate>
 
 @property (nonatomic, strong) TOWebViewController *webViewController;
-@property (nonatomic, strong) HackfolerPage *currentPage;
 @property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) UITableViewController *leftViewController;
 
@@ -76,8 +75,7 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
         }
 
         NSLog(@"%@", task.result);
-        self.currentPage = task.result;
-        self.leftViewController.tableView.dataSource = self.currentPage;
+        self.leftViewController.tableView.dataSource = [HackfolerClient sharedClient].lastPage;
 
         [self.leftViewController.tableView reloadData];
         return nil;
@@ -86,7 +84,7 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HackfolerField *field = (HackfolerField *)self.currentPage.cells[indexPath.row];
+    HackfolerField *field = [HackfolerClient sharedClient].lastPage.cells[indexPath.row];
     NSString *urlString = field.urlString;
     NSLog(@"url: %@", urlString);
 

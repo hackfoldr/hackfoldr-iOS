@@ -9,10 +9,14 @@
 #import "AFHTTPSessionManager.h"
 #import "Bolts.h"
 
+@class HackfolerPage;
+
 @interface HackfolerClient : AFHTTPSessionManager
 
 + (instancetype)sharedClient;
 
 - (BFTask *)pagaDataAtPath:(NSString *)inPath;
+
+@property (nonatomic, strong) HackfolerPage *lastPage;
 
 @end
