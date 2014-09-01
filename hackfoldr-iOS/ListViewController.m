@@ -8,6 +8,7 @@
 
 #import "ListViewController.h"
 
+#import "ViewController.h"
 #import "HackfolerClient.h"
 #import "HackfolerPage.h"
 
@@ -33,11 +34,16 @@
     if (urlString && urlString.length == 0) {
         return;
     }
+
+    ViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+    [mainViewController loadWithField:field];
 }
 
 - (IBAction)settingAction:(id)sender
 {
     NSLog(@"setting button clicked");
+    UIViewController *editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editViewController"];
+    [self.navigationController pushViewController:editViewController animated:YES];
 }
 
 @end
