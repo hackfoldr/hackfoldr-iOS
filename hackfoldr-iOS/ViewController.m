@@ -38,6 +38,13 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
 
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.webViewController];
 
+    UIImage *backgroundImage =  [UIImage imageNamed:@"LaunchImage-700"];
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
+
+    if (backgroundImageView) {
+        [self.webViewController.view addSubview:backgroundImageView];
+    }
+
     [self setLeftPanel:self.leftViewController];
     [self setCenterPanel:self.navigationController];
 
