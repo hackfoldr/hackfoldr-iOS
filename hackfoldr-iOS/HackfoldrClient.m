@@ -1,28 +1,28 @@
 //
-//  HackfolerClient.m
+//  HackfoldrClient.m
 //  hackfoldr-iOS
 //
 //  Created by Superbil on 2014/6/22.
 //  Copyright (c) 2014年 org.superbil. All rights reserved.
 //
 
-#import "HackfolerClient.h"
+#import "HackfoldrClient.h"
 
 #import "AFCSVParserResponseSerializer.h"
-#import "HackfolerPage.h"
+#import "HackfoldrPage.h"
 
-@interface HackfolerTaskCompletionSource : BFTaskCompletionSource
+@interface HackfoldrTaskCompletionSource : BFTaskCompletionSource
 
-+ (HackfolerTaskCompletionSource *)taskCompletionSource;
++ (HackfoldrTaskCompletionSource *)taskCompletionSource;
 @property (strong, nonatomic) NSURLSessionTask *connectionTask;
 
 @end
 
-@implementation HackfolerTaskCompletionSource
+@implementation HackfoldrTaskCompletionSource
 
-+ (HackfolerTaskCompletionSource *)taskCompletionSource
++ (HackfoldrTaskCompletionSource *)taskCompletionSource
 {
-	return [[HackfolerTaskCompletionSource alloc] init];
+	return [[HackfoldrTaskCompletionSource alloc] init];
 }
 
 - (void)dealloc
@@ -41,18 +41,18 @@
 
 #pragma mark -
 
-@interface HackfolerClient ()
+@interface HackfoldrClient ()
 
 @end
 
-@implementation HackfolerClient
+@implementation HackfoldrClient
 
 + (instancetype)sharedClient
 {
     static dispatch_once_t onceToken;
-    static HackfolerClient *shareClient;
+    static HackfoldrClient *shareClient;
     dispatch_once(&onceToken, ^{
-        shareClient = [[HackfolerClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://ethercalc.org/_/"]];
+        shareClient = [[HackfoldrClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://ethercalc.org/_/"]];
     });
     return shareClient;
 }
@@ -71,9 +71,9 @@
 
 - (BFTask *)_taskWithPath:(NSString *)inPath parameters:(NSDictionary *)parameters
 {
-	HackfolerTaskCompletionSource *source = [HackfolerTaskCompletionSource taskCompletionSource];
+	HackfoldrTaskCompletionSource *source = [HackfoldrTaskCompletionSource taskCompletionSource];
 	source.connectionTask = [self GET:inPath parameters:parameters success:^(NSURLSessionDataTask *task, id csvFieldArray) {
-        HackfolerPage *page = [[HackfolerPage alloc] initWithFieldArray:csvFieldArray];
+        HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:csvFieldArray];
         _lastPage = page;
         [source setResult:page];
 	} failure:^(NSURLSessionDataTask *task, NSError *error) {

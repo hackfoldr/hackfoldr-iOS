@@ -8,10 +8,10 @@
 
 #import "JASidePanelController.h"
 
-@class HackfolerField;
+@class HackfoldrField;
 
 @interface ViewController : JASidePanelController
 
-- (void)loadWithField:(HackfolerField *)field;
+- (void)loadWithField:(HackfoldrField *)field;
 
 @end

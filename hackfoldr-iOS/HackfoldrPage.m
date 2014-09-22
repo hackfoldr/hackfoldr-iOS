@@ -1,21 +1,21 @@
 //
-//  HackfolerPage.m
+//  HackfoldrPage.m
 //  hackfoldr-iOS
 //
 //  Created by Superbil on 2014/6/22.
 //  Copyright (c) 2014年 org.superbil. All rights reserved.
 //
 
-#import "HackfolerPage.h"
+#import "HackfoldrPage.h"
 
-#import "HackfolerField.h"
+#import "HackfoldrField.h"
 
-@interface HackfolerPage ()
+@interface HackfoldrPage ()
 @property (nonatomic, strong) NSArray *fields;
 @property (nonatomic, strong, readwrite) NSString *pagetitle;
 @end
 
-@implementation HackfolerPage
+@implementation HackfoldrPage
 
 - (instancetype)initWithFieldArray:(NSArray *)fieldArray
 {
@@ -43,7 +43,7 @@
     NSMutableArray *cellsWithoutTitleField = [NSMutableArray array];
 
     [fieldArray enumerateObjectsUsingBlock:^(NSArray *fields, NSUInteger idx, BOOL *stop) {
-        HackfolerField *field = [[HackfolerField alloc] initWithFieldArray:fields];
+        HackfoldrField *field = [[HackfoldrField alloc] initWithFieldArray:fields];
         // first row is title row
         if (idx == 0) {
             self.pageTitle = field.name;
@@ -77,7 +77,7 @@
 {
     UITableViewCell *cell = [[UITableViewCell alloc] init];
 
-    cell.textLabel.text = ((HackfolerField *)self.fields[indexPath.row]).name;
+    cell.textLabel.text = ((HackfoldrField *)self.fields[indexPath.row]).name;
 
     return cell;
 }

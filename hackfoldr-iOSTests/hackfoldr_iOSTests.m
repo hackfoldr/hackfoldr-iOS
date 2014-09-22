@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
-#import "HackfolerField.h"
+#import "HackfoldrField.h"
 
 @interface hackfoldr_iOSTests : XCTestCase
 
@@ -33,7 +33,7 @@
     NSString *nameURL = @"http://www.g0v.tw";
     NSString *name = @"Name ";
     NSString *actions = @"{target}";
-    HackfolerField *field = [[HackfolerField alloc] initWithFieldArray:@[nameURL, name, actions]];
+    HackfoldrField *field = [[HackfoldrField alloc] initWithFieldArray:@[nameURL, name, actions]];
 
     XCTAssertTrue([field.urlString isEqualToString:nameURL], @"");
     XCTAssertTrue([field.name isEqualToString:name], @"");
@@ -42,7 +42,7 @@
 
     NSString *subItemURL = @" http://www.g0v.tw";
 
-    HackfolerField *subField = [[HackfolerField alloc] initWithFieldArray:@[subItemURL, name, actions]];
+    HackfoldrField *subField = [[HackfoldrField alloc] initWithFieldArray:@[subItemURL, name, actions]];
     NSString *subString = [subItemURL substringWithRange:NSMakeRange(1, subItemURL.length-1)];
     XCTAssertTrue([subField.urlString isEqualToString:subString], @"");
     XCTAssertTrue([subField.name isEqualToString:name], @"");

@@ -1,5 +1,5 @@
 //
-//  TOWebViewController+HackfolerField.h
+//  TOWebViewController+HackfoldrField.h
 //  hackfoldr-iOS
 //
 //  Created by Superbil on 2014/6/25.
@@ -8,10 +8,10 @@
 
 #import "TOWebViewController.h"
 
-@class HackfolerField;
+@class HackfoldrField;
 
-@interface TOWebViewController (HackfolerField)
+@interface TOWebViewController (HackfoldrField)
 
-- (void)loadWithField:(HackfolerField *)oneField;
+- (void)loadWithField:(HackfoldrField *)oneField;
 
 @end

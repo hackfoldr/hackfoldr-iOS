@@ -1,5 +1,5 @@
 //
-//  HackfolerClient.h
+//  HackfoldrClient.h
 //  hackfoldr-iOS
 //
 //  Created by Superbil on 2014/6/22.
@@ -9,14 +9,14 @@
 #import "AFHTTPSessionManager.h"
 #import "Bolts.h"
 
-@class HackfolerPage;
+@class HackfoldrPage;
 
-@interface HackfolerClient : AFHTTPSessionManager
+@interface HackfoldrClient : AFHTTPSessionManager
 
 + (instancetype)sharedClient;
 
 - (BFTask *)pagaDataAtPath:(NSString *)inPath;
 
-@property (nonatomic, strong) HackfolerPage *lastPage;
+@property (nonatomic, strong) HackfoldrPage *lastPage;
 
 @end

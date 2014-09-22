@@ -9,13 +9,13 @@
 #import "ViewController.h"
 
 // Model & Client
-#import "HackfolerClient.h"
-#import "HackfolerPage.h"
+#import "HackfoldrClient.h"
+#import "HackfoldrPage.h"
 // ViewController
-#import "TOWebViewController+HackfolerField.h"
+#import "TOWebViewController+HackfoldrField.h"
 #import "UIViewController+JASidePanel.h"
 
-static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
+static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
 @interface ViewController () <UITableViewDelegate>
 
@@ -51,12 +51,12 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
 
 - (NSString *)hackfoldrPageKey
 {
-    NSString *pageKey = [[NSUserDefaults standardUserDefaults] objectForKey:kDefaultHackfolerPage];
+    NSString *pageKey = [[NSUserDefaults standardUserDefaults] objectForKey:kDefaultHackfoldrPage];
 
     if (!pageKey || pageKey.length == 0) {
         NSString *defaultPage = @"kuansim";
 
-        [[NSUserDefaults standardUserDefaults] setObject:defaultPage forKey:kDefaultHackfolerPage];
+        [[NSUserDefaults standardUserDefaults] setObject:defaultPage forKey:kDefaultHackfoldrPage];
         [[NSUserDefaults standardUserDefaults] synchronize];
         pageKey = defaultPage;
     }
@@ -68,20 +68,20 @@ static NSString *kDefaultHackfolerPage = @"Default Hackfolder Page";
 {
     [super viewWillAppear:animated];
 
-    [[[HackfolerClient sharedClient] pagaDataAtPath:self.hackfoldrPageKey] continueWithBlock:^id(BFTask *task) {
+    [[[HackfoldrClient sharedClient] pagaDataAtPath:self.hackfoldrPageKey] continueWithBlock:^id(BFTask *task) {
         if (task.error) {
             NSLog(@"error:%@", task.error);
         }
 
         NSLog(@"%@", task.result);
-        self.leftViewController.tableView.dataSource = [HackfolerClient sharedClient].lastPage;
+        self.leftViewController.tableView.dataSource = [HackfoldrClient sharedClient].lastPage;
 
         [self.leftViewController.tableView reloadData];
         return nil;
     }];
 }
 
-- (void)loadWithField:(HackfolerField *)field
+- (void)loadWithField:(HackfoldrField *)field
 {
     [self.webViewController loadWithField:field];
     [self showCenterPanelAnimated:YES];

@@ -1,12 +1,12 @@
 //
-//  HackfolerField.m
+//  HackfoldrField.m
 //  hackfoldr-iOS
 //
 //  Created by Superbil on 2014/6/22.
 //  Copyright (c) 2014年 org.superbil. All rights reserved.
 //
 
-#import "HackfolerField.h"
+#import "HackfoldrField.h"
 
 typedef NS_ENUM(NSUInteger, FieldType) {
     FieldType_URLString = 0,
@@ -14,12 +14,12 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     FieldType_Actions,
 };
 
-@interface HackfolerField () {
+@interface HackfoldrField () {
     NSString *_urlString;
 }
 @end
 
-@implementation HackfolerField
+@implementation HackfoldrField
 
 - (instancetype)initWithFieldArray:(NSArray *)fields
 {
@@ -73,7 +73,7 @@ typedef NS_ENUM(NSUInteger, FieldType) {
         return;
     }
 
-    // While first string is space, this HackfolerField is subItem
+    // While first string is space, this HackfoldrField is subItem
     self.isSubItem = [[aURLString substringWithRange:NSMakeRange(0, 1)] isEqualToString:@" "];
 }
 
