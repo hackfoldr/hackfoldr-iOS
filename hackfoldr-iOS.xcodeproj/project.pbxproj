@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		66344E0B19D96529005A75E0 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 66344E0A19D96529005A75E0 /* settings.png */; };
+		66344E1119D96A63005A75E0 /* HFSettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 66344E1019D96A63005A75E0 /* HFSettingVC.m */; };
 		84FEEA5C40A246A495BB0AA2 /* libPods-hackfoldr-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BF3E8BC95B4A9183627B72 /* libPods-hackfoldr-iOSTests.a */; };
 		882E652A19B2D5920054E522 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 882E652919B2D5920054E522 /* ListViewController.m */; };
 		E71D192A1956CE5500B57207 /* HackfoldrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D19291956CE5500B57207 /* HackfoldrClient.m */; };
@@ -47,6 +49,9 @@
 /* Begin PBXFileReference section */
 		49BF3E8BC95B4A9183627B72 /* libPods-hackfoldr-iOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hackfoldr-iOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		592911384328487494648D2E /* libPods-hackfoldr-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hackfoldr-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		66344E0A19D96529005A75E0 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		66344E0F19D96A63005A75E0 /* HFSettingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HFSettingVC.h; path = "hackfoldr-iOS/HFSettingVC.h"; sourceTree = "<group>"; };
+		66344E1019D96A63005A75E0 /* HFSettingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HFSettingVC.m; path = "hackfoldr-iOS/HFSettingVC.m"; sourceTree = "<group>"; };
 		68052F00A60744809CFBF1EF /* Pods-hackfoldr-iOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOS.xcconfig"; path = "Pods/Pods-hackfoldr-iOS.xcconfig"; sourceTree = "<group>"; };
 		882E652819B2D5920054E522 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListViewController.h; path = "hackfoldr-iOS/ListViewController.h"; sourceTree = "<group>"; };
 		882E652919B2D5920054E522 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListViewController.m; path = "hackfoldr-iOS/ListViewController.m"; sourceTree = "<group>"; };
@@ -143,6 +148,8 @@
 				E7B1DD89195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m */,
 				E7EB66D319554E290069FD71 /* ViewController.h */,
 				E7EB66D419554E290069FD71 /* ViewController.m */,
+				66344E0F19D96A63005A75E0 /* HFSettingVC.h */,
+				66344E1019D96A63005A75E0 /* HFSettingVC.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -150,6 +157,7 @@
 		E7E2F14C19815AE60037B3CD /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				66344E0A19D96529005A75E0 /* settings.png */,
 				E7E2F14D19815B290037B3CD /* Hackfoldr.png */,
 			);
 			name = Assets;
@@ -319,6 +327,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66344E0B19D96529005A75E0 /* settings.png in Resources */,
 				E7E2F14E19815B290037B3CD /* Hackfoldr.png in Resources */,
 				E7EB66D219554E290069FD71 /* Main_iPad.storyboard in Resources */,
 				E7EB66D719554E290069FD71 /* Images.xcassets in Resources */,
@@ -406,6 +415,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7EB66D519554E290069FD71 /* ViewController.m in Sources */,
+				66344E1119D96A63005A75E0 /* HFSettingVC.m in Sources */,
 				E71D19321956DE0300B57207 /* AFCSVParserResponseSerializer.m in Sources */,
 				882E652A19B2D5920054E522 /* ListViewController.m in Sources */,
 				E7B1DD8A195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m in Sources */,

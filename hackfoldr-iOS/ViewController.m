@@ -15,7 +15,6 @@
 #import "TOWebViewController+HackfoldrField.h"
 #import "UIViewController+JASidePanel.h"
 
-static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
 @interface ViewController () <UITableViewDelegate>
 
@@ -36,12 +35,21 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 {
     [super viewDidLoad];
 
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.webViewController];
+     self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.webViewController];
 
     [self setLeftPanel:self.leftViewController];
     [self setCenterPanel:self.navigationController];
 
     self.leftViewController.tableView.delegate = self;
+    
+    
+    self.webViewController.navigationItem.rightBarButtonItem =
+    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"]
+                                     style:UIBarButtonItemStylePlain
+                                    target:self
+                                    action:@selector(showSettings)];
+;
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,26 +57,11 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     [super didReceiveMemoryWarning];
 }
 
-- (NSString *)hackfoldrPageKey
-{
-    NSString *pageKey = [[NSUserDefaults standardUserDefaults] objectForKey:kDefaultHackfoldrPage];
-
-    if (!pageKey || pageKey.length == 0) {
-        NSString *defaultPage = @"kuansim";
-
-        [[NSUserDefaults standardUserDefaults] setObject:defaultPage forKey:kDefaultHackfoldrPage];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        pageKey = defaultPage;
-    }
-
-    return pageKey;
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
-    [[[HackfoldrClient sharedClient] pagaDataAtPath:self.hackfoldrPageKey] continueWithBlock:^id(BFTask *task) {
+    [[[HackfoldrClient sharedClient] getPageData] continueWithBlock:^id(BFTask *task) {
         if (task.error) {
             NSLog(@"error:%@", task.error);
         }
@@ -86,5 +79,13 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     [self.webViewController loadWithField:field];
     [self showCenterPanelAnimated:YES];
 }
+
+- (void) showSettings{
+
+    UIViewController *pVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editViewController"];
+    [self.navigationController pushViewController:pVC animated:YES];
+    
+}
+
 
 @end
