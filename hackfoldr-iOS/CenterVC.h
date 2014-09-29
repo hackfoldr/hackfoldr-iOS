@@ -10,8 +10,6 @@
 
 @class HackfoldrField;
 
-@interface ViewController : JASidePanelController
-
-- (void)loadWithField:(HackfoldrField *)field;
+@interface CenterVC : JASidePanelController
 
 @end

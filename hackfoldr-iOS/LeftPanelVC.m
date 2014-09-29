@@ -40,8 +40,11 @@
         return;
     }
 
-    ViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-    [mainViewController loadWithField:field];
+//    ViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+//    [mainViewController loadWithField:field];
+    if (self.delegate){
+        [self.delegate loadWithField:field];
+    }
 }
 
 - (IBAction)settingAction:(id)sender

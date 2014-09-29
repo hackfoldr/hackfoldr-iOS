@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--CenterVC-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController storyboardIdentifier="mainViewController" id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mainViewController" id="vXZ-lx-hvc" customClass="CenterVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -23,10 +23,10 @@
             </objects>
             <point key="canvasLocation" x="181" y="382"/>
         </scene>
-        <!--List View Controller-->
+        <!--Left PanelVC-->
         <scene sceneID="0PQ-BU-gXv">
             <objects>
-                <tableViewController storyboardIdentifier="listViewController" id="aiz-WL-MdN" customClass="ListViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="LeftPanelVC" id="aiz-WL-MdN" customClass="LeftPanelVC" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Mo1-J3-HyP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -113,7 +113,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hns-FI-Clt">
-                                <rect key="frame" x="84" y="158" width="161" height="30"/>
+                                <rect key="frame" x="80" y="217" width="161" height="30"/>
                                 <state key="normal" title="Update Hackfoldr Page">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -121,10 +121,22 @@
                                     <action selector="updateHackFoldrURL:" destination="9I4-6O-HgD" eventType="touchUpInside" id="gpC-NJ-RyV"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sna-La-939">
+                                <rect key="frame" x="24" y="187" width="280" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Or Hackfoldr Id" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTW-4P-pbN">
+                                <rect key="frame" x="31" y="158" width="118" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="idTextField" destination="sna-La-939" id="pcS-8c-0zS"/>
                         <outlet property="urlTextField" destination="AuU-vp-EkG" id="RwH-Kg-eEb"/>
                     </connections>
                 </viewController>

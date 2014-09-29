@@ -10,5 +10,5 @@
 
 @interface HFSettingVC : UIViewController
 @property (nonatomic, strong) IBOutlet UITextField *urlTextField;
-
+@property (nonatomic, strong) IBOutlet UITextField *idTextField;
 @end

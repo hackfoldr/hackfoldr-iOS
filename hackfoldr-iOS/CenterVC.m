@@ -12,22 +12,23 @@
 #import "HackfoldrClient.h"
 #import "HackfoldrPage.h"
 // ViewController
+#import "LeftPanelVC.h"
 #import "TOWebViewController+HackfoldrField.h"
 #import "UIViewController+JASidePanel.h"
 
 
-@interface ViewController () <UITableViewDelegate>
+@interface ViewController () <UITableViewDelegate, LeftPanelVCDelegate>
 
 @property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) UINavigationController *navigationController;
-@property (nonatomic, strong) UITableViewController *leftViewController;
+@property (nonatomic, strong) LeftPanelVC *leftViewController;
 @end
 
 @implementation ViewController
 
 - (void)awakeFromNib
 {
-    self.leftViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"listViewController"];
+    self.leftViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"LeftPanelVC"];
     self.webViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"centerViewController"];
 }
 
@@ -35,7 +36,8 @@
 {
     [super viewDidLoad];
 
-     self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.webViewController];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.webViewController];
+    self.leftViewController.delegate = self;
 
     [self setLeftPanel:self.leftViewController];
     [self setCenterPanel:self.navigationController];
@@ -74,18 +76,17 @@
     }];
 }
 
-- (void)loadWithField:(HackfoldrField *)field
-{
-    [self.webViewController loadWithField:field];
-    [self showCenterPanelAnimated:YES];
-}
-
 - (void) showSettings{
 
     UIViewController *pVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editViewController"];
     [self.navigationController pushViewController:pVC animated:YES];
     
 }
-
+#pragma mark LeftViewControllerDelegate
+- (void) loadWithField:(HackfoldrField *)field
+{
+    [self.webViewController loadWithField:field];
+    [self showCenterPanelAnimated:YES];
+}
 
 @end

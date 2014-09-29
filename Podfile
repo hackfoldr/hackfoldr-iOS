@@ -7,6 +7,8 @@ target "hackfoldr-iOS" do
 
   pod 'JASidePanels', '~> 1.3.2'
   pod 'TOWebViewController'
+  pod 'SLExpandableTableView'
+  pod 'ACEExpandableTextCell'
 end
 
 target "hackfoldr-iOSTests" do
@@ -16,5 +18,7 @@ target "hackfoldr-iOSTests" do
 
   pod 'JASidePanels', '~> 1.3.2'
   pod 'TOWebViewController'
+  pod 'SLExpandableTableView'
+  pod 'ACEExpandableTextCell'  
 end
 

@@ -39,19 +39,27 @@
 
 - (IBAction) updateHackFoldrURL:(id)sender
 {
-    NSString *input = self.urlTextField.text;
-    NSString* regexString = @"hack.etblue.tw/([^/]*)/*";
-    NSRegularExpression *regex =
-    [NSRegularExpression regularExpressionWithPattern:regexString
-                                              options:NSRegularExpressionCaseInsensitive
-                                                error:nil];
-    NSRange range = NSMakeRange(0,input.length);
-    NSString* body = [regex stringByReplacingMatchesInString:input
-                                                     options:0
-                                                       range:range
-                                                withTemplate:@"$1"];
+    NSString* hfId;
+    if (self.idTextField.text != NULL)
+    {
+        hfId = self.idTextField.text;
+    }
+    else {
+    
+        NSString *input = self.urlTextField.text;
+        NSString* regexString = @"hack.etblue.tw/([^/]*)/*";
+        NSRegularExpression *regex =
+        [NSRegularExpression regularExpressionWithPattern:regexString
+                                                  options:NSRegularExpressionCaseInsensitive
+                                                    error:nil];
+        NSRange range = NSMakeRange(0,input.length);
+        hfId = [regex stringByReplacingMatchesInString:input
+                                               options:0
+                                                 range:range
+                                          withTemplate:@"$1"];
+    }
 
-    [[HackfoldrClient sharedClient] setHackfoldrId:body];
+    [[HackfoldrClient sharedClient] setHackfoldrId:hfId];
     [self.navigationController popViewControllerAnimated:YES];
     
 }
