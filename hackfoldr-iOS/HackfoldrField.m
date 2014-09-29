@@ -66,7 +66,8 @@ typedef NS_ENUM(NSUInteger, FieldType) {
 
 - (void)setUrlString:(NSString *)aURLString
 {
-    NSString *cleanString = [aURLString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString *cleanString = [aURLString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    cleanString = [cleanString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     _urlString = cleanString;
 
     if (!aURLString || aURLString.length == 0) {
