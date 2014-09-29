@@ -61,7 +61,10 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     NSString *pageKey = [[NSUserDefaults standardUserDefaults] objectForKey:kDefaultHackfoldrPage];
 
     if (!pageKey || pageKey.length == 0) {
-        NSString *defaultPage = @"kuansim";
+        NSString *defaultPage = @"hackfoldr-iOS";
+#if DEBUG
+        defaultPage = @"kuansim";
+#endif
 
         [[NSUserDefaults standardUserDefaults] setObject:defaultPage forKey:kDefaultHackfoldrPage];
         [[NSUserDefaults standardUserDefaults] synchronize];
