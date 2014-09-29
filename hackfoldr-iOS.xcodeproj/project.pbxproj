@@ -147,18 +147,9 @@
 			name = ViewController;
 			sourceTree = "<group>";
 		};
-		E7E2F14C19815AE60037B3CD /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-				E7E2F14D19815B290037B3CD /* Hackfoldr.png */,
-			);
-			name = Assets;
-			sourceTree = "<group>";
-		};
 		E7EB66AF19554E290069FD71 = {
 			isa = PBXGroup;
 			children = (
-				E7E2F14C19815AE60037B3CD /* Assets */,
 				E7B1DD871959AFE700768FFA /* ViewController */,
 				E71D192F1956DB0300B57207 /* Client */,
 				E7EB66BA19554E290069FD71 /* Frameworks */,
@@ -319,7 +310,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7E2F14E19815B290037B3CD /* Hackfoldr.png in Resources */,
 				E7EB66D219554E290069FD71 /* Main_iPad.storyboard in Resources */,
 				E7EB66D719554E290069FD71 /* Images.xcassets in Resources */,
 				E7EB66CF19554E290069FD71 /* Main_iPhone.storyboard in Resources */,
