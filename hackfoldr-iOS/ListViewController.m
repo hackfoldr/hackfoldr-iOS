@@ -22,11 +22,6 @@
 {
     [super viewWillAppear:animated];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(changeHackFoldr)
-                                                 name:HackfoldrPageChangeIdNotification
-                                               object:NULL];
-
     self.tableView.delegate = self;
 }
 
@@ -50,11 +45,5 @@
     UIViewController *editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editViewController"];
     [self.navigationController pushViewController:editViewController animated:YES];
 }
-
-- (void) changeHackFoldr
-{
-    [self.tableView reloadData];
-}
-
 
 @end

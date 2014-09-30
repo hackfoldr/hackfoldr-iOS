@@ -15,6 +15,7 @@
 #import "TOWebViewController+HackfoldrField.h"
 #import "UIViewController+JASidePanel.h"
 
+static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
 @interface ViewController () <UITableViewDelegate>
 
@@ -35,7 +36,7 @@
 {
     [super viewDidLoad];
 
-     self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.webViewController];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.webViewController];
 
     UIImage *backgroundImage =  [UIImage imageNamed:@"LaunchImage-700"];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
@@ -48,15 +49,6 @@
     [self setCenterPanel:self.navigationController];
 
     self.leftViewController.tableView.delegate = self;
-    
-    
-    self.webViewController.navigationItem.rightBarButtonItem =
-    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"]
-                                     style:UIBarButtonItemStylePlain
-                                    target:self
-                                    action:@selector(showSettings)];
-;
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,11 +56,29 @@
     [super didReceiveMemoryWarning];
 }
 
+- (NSString *)hackfoldrPageKey
+{
+    NSString *pageKey = [[NSUserDefaults standardUserDefaults] objectForKey:kDefaultHackfoldrPage];
+
+    if (!pageKey || pageKey.length == 0) {
+        NSString *defaultPage = @"hackfoldr-iOS";
+#if DEBUG
+        defaultPage = @"kuansim";
+#endif
+
+        [[NSUserDefaults standardUserDefaults] setObject:defaultPage forKey:kDefaultHackfoldrPage];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        pageKey = defaultPage;
+    }
+
+    return pageKey;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
-    [[[HackfoldrClient sharedClient] taskOfPageData] continueWithBlock:^id(BFTask *task) {
+    [[[HackfoldrClient sharedClient] pagaDataAtPath:self.hackfoldrPageKey] continueWithBlock:^id(BFTask *task) {
         if (task.error) {
             NSLog(@"error:%@", task.error);
         }
@@ -86,13 +96,5 @@
     [self.webViewController loadWithField:field];
     [self showCenterPanelAnimated:YES];
 }
-
-- (void) showSettings{
-
-    UIViewController *pVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editViewController"];
-    [self.navigationController pushViewController:pVC animated:YES];
-    
-}
-
 
 @end

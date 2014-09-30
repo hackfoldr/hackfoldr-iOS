@@ -9,18 +9,14 @@
 #import "AFHTTPSessionManager.h"
 #import "Bolts.h"
 
-#define HackfoldrPageChangeIdNotification @"HackfoldrPageChangeIdNotification"
-
 @class HackfoldrPage;
 
 @interface HackfoldrClient : AFHTTPSessionManager
 
 + (instancetype)sharedClient;
 
-- (void) setHackfoldrId:(NSString *)hfId;
-- (BFTask *)taskOfPageData;
+- (BFTask *)pagaDataAtPath:(NSString *)inPath;
 
 @property (nonatomic, strong) HackfoldrPage *lastPage;
-@property (nonatomic, strong, readonly) NSString *hfId;
 
 @end

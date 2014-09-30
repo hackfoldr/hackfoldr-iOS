@@ -14,9 +14,6 @@
 @property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *actions;
-@property (nonatomic, strong) NSString *tag;
-@property (nonatomic, strong) NSString *live;
-
 
 @property (nonatomic, assign) BOOL isSubItem;
 

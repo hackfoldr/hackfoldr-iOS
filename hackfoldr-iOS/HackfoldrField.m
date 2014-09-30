@@ -12,8 +12,6 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     FieldType_URLString = 0,
     FieldType_Name,
     FieldType_Actions,
-    FieldType_Tag,
-    FieldType_Live
 };
 
 @interface HackfoldrField () {
@@ -45,13 +43,6 @@ typedef NS_ENUM(NSUInteger, FieldType) {
             case FieldType_Actions:
                 self.actions = field;
                 break;
-            case FieldType_Tag:
-                self.tag = field;
-                break;
-            case FieldType_Live:
-                self.live = field;
-                break;
-                
             default:
                 break;
         }
