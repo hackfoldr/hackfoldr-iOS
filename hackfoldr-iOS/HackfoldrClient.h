@@ -18,7 +18,7 @@
 + (instancetype)sharedClient;
 
 - (void) setHackfoldrId:(NSString *)hfId;
-- (BFTask *)getPageData;
+- (BFTask *)taskOfPageData;
 
 @property (nonatomic, strong) HackfoldrPage *lastPage;
 @property (nonatomic, strong, readonly) NSString *hfId;

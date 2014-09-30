@@ -17,11 +17,11 @@
 
 
 @interface ViewController () <UITableViewDelegate>
+
 @property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) UITableViewController *leftViewController;
 @end
-
 
 @implementation ViewController
 
@@ -48,13 +48,15 @@
     [self setCenterPanel:self.navigationController];
 
     self.leftViewController.tableView.delegate = self;
-
+    
+    
     self.webViewController.navigationItem.rightBarButtonItem =
     [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"]
                                      style:UIBarButtonItemStylePlain
                                     target:self
                                     action:@selector(showSettings)];
-
+;
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,7 +68,7 @@
 {
     [super viewWillAppear:animated];
 
-    [[[HackfoldrClient sharedClient] getPageData] continueWithBlock:^id(BFTask *task) {
+    [[[HackfoldrClient sharedClient] taskOfPageData] continueWithBlock:^id(BFTask *task) {
         if (task.error) {
             NSLog(@"error:%@", task.error);
         }
@@ -85,10 +87,11 @@
     [self showCenterPanelAnimated:YES];
 }
 
-- (void)showSettings{
+- (void) showSettings{
 
     UIViewController *pVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editViewController"];
     [self.navigationController pushViewController:pVC animated:YES];
+    
 }
 
 

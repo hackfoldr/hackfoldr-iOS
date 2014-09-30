@@ -51,6 +51,7 @@ typedef NS_ENUM(NSUInteger, FieldType) {
             case FieldType_Live:
                 self.live = field;
                 break;
+                
             default:
                 break;
         }

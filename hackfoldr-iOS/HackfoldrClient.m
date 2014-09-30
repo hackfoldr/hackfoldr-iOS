@@ -54,12 +54,13 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     static HackfoldrClient *shareClient;
     dispatch_once(&onceToken, ^{
         shareClient = [[HackfoldrClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://ethercalc.org/_/"]];
-
-        NSString *pageKey = [[NSUserDefaults standardUserDefaults] objectForKey:kDefaultHackfoldrPage];
+        
+        NSString *pageKey = [[NSUserDefaults standardUserDefaults] objectForKey:kDefaultHackfoldrPage];        
         if (!pageKey || pageKey.length == 0) {
-            pageKey = @"kuansim";
+            pageKey = @"kuansim";            
         }
         [shareClient setHackfoldrId:pageKey];
+        
     });
     return shareClient;
 }
@@ -89,23 +90,23 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 	return source.task;
 }
 
-- (BFTask *)getPageData
+- (BFTask *)taskOfPageData
 {
     return [self _taskWithPath:[NSString stringWithFormat:@"%@/csv", self.hfId] parameters:nil];
 }
 
-- (void)setHackfoldrId:(NSString *)hfId
+- (void) setHackfoldrId:(NSString *)hfId
 {
     if (hfId != self.hfId){
         _hfId = hfId;
-        [self getPageData];
+        [self taskOfPageData];
         [[NSUserDefaults standardUserDefaults] setObject:_hfId
                                                   forKey:kDefaultHackfoldrPage];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [[NSNotificationCenter defaultCenter] postNotificationName:HackfoldrPageChangeIdNotification
                                                             object:NULL];
     }
-
+    
 }
 
 @end
