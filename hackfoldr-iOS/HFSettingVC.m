@@ -53,7 +53,6 @@
 
     [[HackfoldrClient sharedClient] setHackfoldrId:body];
     [self.navigationController popViewControllerAnimated:YES];
-    
 }
 
 @end
