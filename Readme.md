@@ -14,6 +14,10 @@ Hackfoldr on mobile is not good enought on iOS, let it simply.
 pod install
 ````
 
+## Use Git-flow for teamwork ##
+
+[Git-Flow](http://nvie.com/posts/a-successful-git-branching-model/)
+
 ## License ##
 
 And of course:
