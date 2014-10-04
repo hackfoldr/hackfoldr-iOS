@@ -18,5 +18,8 @@ target "hackfoldr-iOSTests" do
 
   pod 'JASidePanels', '~> 1.3.2'
   pod 'TOWebViewController'
+
+  pod 'OHHTTPStubs'
+  pod 'OHHTTPStubs/XCTestExpectation'
 end
 
