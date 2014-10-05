@@ -8,7 +8,9 @@
 
 #import <XCTest/XCTest.h>
 
+#import "HackfoldrClient.h"
 #import "HackfoldrField.h"
+#import "OHHTTPStubs.h"
 
 @interface hackfoldr_iOSTests : XCTestCase
 
@@ -19,12 +21,22 @@
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        NSLog(@"hook on :%@", request);
+        NSString *csvDataString = OHPathForFileInBundle(@"kaunsim.csv",nil);
+        NSData *csvData = [NSData dataWithContentsOfFile:csvDataString];
+
+        return [OHHTTPStubsResponse responseWithData:csvData statusCode:200 headers:nil];
+    }];
 }
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [OHHTTPStubs removeAllStubs];
+
     [super tearDown];
 }
 
