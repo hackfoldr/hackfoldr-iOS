@@ -1,22 +1,22 @@
 //
-//  ListViewController.m
+//  ListFieldViewController.m
 //  hackfoldr-iOS
 //
 //  Created by Superbil on 2014/8/31.
 //  Copyright (c) 2014年 org.superbil. All rights reserved.
 //
 
-#import "ListViewController.h"
+#import "ListFieldViewController.h"
 
-#import "ViewController.h"
+#import "MainViewController.h"
 #import "HackfoldrClient.h"
 #import "HackfoldrPage.h"
 
-@interface ListViewController () <UITabBarControllerDelegate>
+@interface ListFieldViewController () <UITabBarControllerDelegate>
 @property (nonatomic, strong) IBOutlet UIButton *settingButton;
 @end
 
-@implementation ListViewController
+@implementation ListFieldViewController
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -35,7 +35,7 @@
         return;
     }
 
-    ViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+    MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
     [mainViewController loadWithField:field];
 }
 

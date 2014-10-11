@@ -1,12 +1,12 @@
 //
-//  ViewController.m
+//  MainViewController.m
 //  hackfoldr-iOS
 //
 //  Created by Superbil on 2014/6/21.
 //  Copyright (c) 2014年 org.superbil. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "MainViewController.h"
 
 // Model & Client
 #import "HackfoldrClient.h"
@@ -16,14 +16,14 @@
 
 static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
-@interface ViewController () <UITableViewDelegate>
+@interface MainViewController () <UITableViewDelegate>
 
 @property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) UITableViewController *leftViewController;
 @end
 
-@implementation ViewController
+@implementation MainViewController
 
 - (void)awakeFromNib
 {

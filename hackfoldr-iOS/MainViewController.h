@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  MainViewController.h
 //  hackfoldr-iOS
 //
 //  Created by Superbil on 2014/6/21.
@@ -8,7 +8,7 @@
 
 @class HackfoldrField;
 
-@interface ViewController : UIViewController
+@interface MainViewController : UIViewController
 
 - (void)loadWithField:(HackfoldrField *)field;
 
