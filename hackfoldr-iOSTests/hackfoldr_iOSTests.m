@@ -23,13 +23,18 @@
     [super setUp];
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return YES;
+        if ([request.URL.absoluteString rangeOfString:@"ethercalc.org/_/"].location != NSNotFound) {
+            return YES;
+        }
+        return NO;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-        NSLog(@"hook on :%@", request);
-        NSString *csvDataString = OHPathForFileInBundle(@"kaunsim.csv",nil);
+        NSLog(@"hook hackfoldr:%@", request);
+        NSString *csvDataString = OHPathForFileInBundle(@"sample.csv", nil);
         NSData *csvData = [NSData dataWithContentsOfFile:csvDataString];
 
-        return [OHHTTPStubsResponse responseWithData:csvData statusCode:200 headers:nil];
+        return [OHHTTPStubsResponse responseWithData:csvData
+                                          statusCode:200
+                                             headers:@{@"Content-Type":@"text/csv"}];
     }];
 }
 
@@ -60,6 +65,21 @@
     XCTAssertTrue([subField.name isEqualToString:name], @"");
     XCTAssertTrue([subField.actions isEqualToString:actions], @"");
     XCTAssertTrue(subField.isSubItem, @"isSubItem must be YES");
+}
+
+- (void)testHackfoldrClient
+{
+    XCTestExpectation *openHackfoldrExpectation = [self expectationWithDescription:@"open Hackfoldr"];
+
+    [[[HackfoldrClient sharedClient] pagaDataAtPath:@"testHackFoldr"] continueWithBlock:^id(BFTask *task) {
+        XCTAssertNil(task.error);
+        NSLog(@"task %@ %@", task.error, task.result);
+
+        [openHackfoldrExpectation fulfill];;
+        return nil;
+    }];
+
+    [self waitForExpectationsWithTimeout:1000 handler:nil];
 }
 
 @end
