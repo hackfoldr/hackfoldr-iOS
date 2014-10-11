@@ -13,7 +13,6 @@
 #import "HackfoldrPage.h"
 // ViewController
 #import "TOWebViewController+HackfoldrField.h"
-#import "UIViewController+JASidePanel.h"
 
 static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
@@ -44,9 +43,6 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     if (backgroundImageView) {
         [self.webViewController.view addSubview:backgroundImageView];
     }
-
-    [self setLeftPanel:self.leftViewController];
-    [self setCenterPanel:self.navigationController];
 
     self.leftViewController.tableView.delegate = self;
 }
@@ -94,7 +90,6 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 - (void)loadWithField:(HackfoldrField *)field
 {
     [self.webViewController loadWithField:field];
-    [self showCenterPanelAnimated:YES];
 }
 
 @end

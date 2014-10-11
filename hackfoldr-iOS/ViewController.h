@@ -6,11 +6,9 @@
 //  Copyright (c) 2014年 org.superbil. All rights reserved.
 //
 
-#import "JASidePanelController.h"
-
 @class HackfoldrField;
 
-@interface ViewController : JASidePanelController
+@interface ViewController : UIViewController
 
 - (void)loadWithField:(HackfoldrField *)field;
 
