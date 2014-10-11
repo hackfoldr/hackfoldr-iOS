@@ -8,7 +8,9 @@
 
 #import <XCTest/XCTest.h>
 
+#import "HackfoldrClient.h"
 #import "HackfoldrField.h"
+#import "OHHTTPStubs.h"
 
 @interface hackfoldr_iOSTests : XCTestCase
 
@@ -19,12 +21,27 @@
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        if ([request.URL.absoluteString rangeOfString:@"ethercalc.org/_/"].location != NSNotFound) {
+            return YES;
+        }
+        return NO;
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        NSLog(@"hook hackfoldr:%@", request);
+        NSString *csvDataString = OHPathForFileInBundle(@"sample.csv", nil);
+        NSData *csvData = [NSData dataWithContentsOfFile:csvDataString];
+
+        return [OHHTTPStubsResponse responseWithData:csvData
+                                          statusCode:200
+                                             headers:@{@"Content-Type":@"text/csv"}];
+    }];
 }
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [OHHTTPStubs removeAllStubs];
+
     [super tearDown];
 }
 
@@ -48,6 +65,21 @@
     XCTAssertTrue([subField.name isEqualToString:name], @"");
     XCTAssertTrue([subField.actions isEqualToString:actions], @"");
     XCTAssertTrue(subField.isSubItem, @"isSubItem must be YES");
+}
+
+- (void)testHackfoldrClient
+{
+    XCTestExpectation *openHackfoldrExpectation = [self expectationWithDescription:@"open Hackfoldr"];
+
+    [[[HackfoldrClient sharedClient] pagaDataAtPath:@"testHackFoldr"] continueWithBlock:^id(BFTask *task) {
+        XCTAssertNil(task.error);
+        NSLog(@"task %@ %@", task.error, task.result);
+
+        [openHackfoldrExpectation fulfill];;
+        return nil;
+    }];
+
+    [self waitForExpectationsWithTimeout:1000 handler:nil];
 }
 
 @end
