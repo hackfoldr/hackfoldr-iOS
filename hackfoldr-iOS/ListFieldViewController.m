@@ -28,6 +28,7 @@
         return;
     }
 
+    // TODO: remove storyboard
     MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
     [mainViewController loadWithField:field];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -36,6 +37,7 @@
 - (IBAction)settingAction:(id)sender
 {
     NSLog(@"setting button clicked");
+    // TODO: remove storyboard
     UIViewController *editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editViewController"];
     [self.navigationController pushViewController:editViewController animated:YES];
 }
