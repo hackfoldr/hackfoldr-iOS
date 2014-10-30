@@ -8,4 +8,6 @@
 
 @interface ListFieldViewController : UITableViewController
 
+@property (nonatomic, weak) IBOutlet UIButton *settingButton;
+
 @end

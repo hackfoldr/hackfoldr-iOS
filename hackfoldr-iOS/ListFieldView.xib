@@ -27,9 +27,6 @@
                                 <state key="normal" title="Title">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="settingAction:" destination="-1" eventType="touchUpInside" id="lic-Nq-m8a"/>
-                                </connections>
                             </button>
                         </navigationItem>
                     </items>

@@ -14,10 +14,11 @@
 // ViewController
 #import "TOWebViewController+HackfoldrField.h"
 #import "ListFieldViewController.h"
+#import "SettingViewController.h"
 
 static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
-@interface MainViewController ()
+@interface MainViewController () <UITableViewDelegate>
 @property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) ListFieldViewController *listViewController;
@@ -31,6 +32,11 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     [super viewDidLoad];
 
     self.listViewController = [[ListFieldViewController alloc] init];
+    self.listViewController.tableView.delegate = self;
+    [self.listViewController.settingButton addTarget:self
+                                              action:@selector(settingAction:)
+                                    forControlEvents:UIControlEventTouchUpInside];
+
     self.webViewController = [[TOWebViewController alloc] init];
     if (self.webViewController) {
         [self.view addSubview:self.webViewController.view];
@@ -87,11 +93,35 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     }];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.listViewController.tableView) {
+        HackfoldrField *field = [HackfoldrClient sharedClient].lastPage.cells[indexPath.row];
+        NSString *urlString = field.urlString;
+        NSLog(@"url: %@", urlString);
+
+        if (urlString && urlString.length == 0) {
+            return;
+        }
+
+        [self loadWithField:field];
+        [self.listViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+- (void)settingAction:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        UIViewController *settingViewController = [[SettingViewController alloc] init];
+        [self presentViewController:settingViewController animated:YES completion:nil];
+    }];
+}
+
 - (void)loadWithField:(HackfoldrField *)field
 {
+    self.currentField = field;
     [self presentViewController:self.webViewController animated:YES completion:^{
         [self.webViewController loadWithField:field];
-        self.currentField = field;
     }];
 }
 

@@ -8,38 +8,6 @@
 
 #import "ListFieldViewController.h"
 
-#import "MainViewController.h"
-#import "HackfoldrClient.h"
-#import "HackfoldrPage.h"
-
-@interface ListFieldViewController () <UITabBarControllerDelegate>
-@property (nonatomic, weak) IBOutlet UIButton *settingButton;
-@end
-
 @implementation ListFieldViewController
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    HackfoldrField *field = [HackfoldrClient sharedClient].lastPage.cells[indexPath.row];
-    NSString *urlString = field.urlString;
-    NSLog(@"url: %@", urlString);
-
-    if (urlString && urlString.length == 0) {
-        return;
-    }
-
-    // TODO: remove storyboard
-    MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-    [mainViewController loadWithField:field];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)settingAction:(id)sender
-{
-    NSLog(@"setting button clicked");
-    // TODO: remove storyboard
-    UIViewController *editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editViewController"];
-    [self.navigationController pushViewController:editViewController animated:YES];
-}
 
 @end
