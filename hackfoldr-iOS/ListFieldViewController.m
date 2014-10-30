@@ -37,6 +37,7 @@
 
     MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
     [mainViewController loadWithField:field];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)settingAction:(id)sender
