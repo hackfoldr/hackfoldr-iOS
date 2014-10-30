@@ -18,7 +18,6 @@
 static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
 @interface MainViewController () <UITableViewDelegate>
-
 @property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) ListFieldViewController *listViewController;
@@ -26,16 +25,9 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
 @implementation MainViewController
 
-- (void)awakeFromNib
-{
-    self.listViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"listViewController"];
-    self.webViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewController"];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
 
     UIImage *backgroundImage =  [UIImage imageNamed:@"LaunchImage-700"];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
