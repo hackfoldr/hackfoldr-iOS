@@ -13,7 +13,7 @@
 #import "HackfoldrPage.h"
 
 @interface ListFieldViewController () <UITabBarControllerDelegate>
-@property (nonatomic, strong) IBOutlet UIButton *settingButton;
+@property (nonatomic, weak) IBOutlet UIButton *settingButton;
 @end
 
 @implementation ListFieldViewController
