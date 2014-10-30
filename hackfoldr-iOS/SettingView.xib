@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingViewController">
@@ -12,9 +13,52 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QmL-5n-r9K">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <items>
+                        <navigationItem title="Title" id="p6S-Ke-Rj6"/>
+                    </items>
+                </navigationBar>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hackfoldr Page URL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Urx-ek-337">
+                    <rect key="frame" x="8" y="54" width="157" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IL4-8e-wYo">
+                    <rect key="frame" x="8" y="83" width="359" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="af7-rc-fgd">
+                    <rect key="frame" x="107" y="121" width="161" height="30"/>
+                    <state key="normal" title="Update Hackfoldr Page">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="updateHackfoldrPage:" destination="-1" eventType="touchUpInside" id="i3X-Om-3Z6"/>
+                    </connections>
+                </button>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="IL4-8e-wYo" firstAttribute="centerX" secondItem="QmL-5n-r9K" secondAttribute="centerX" id="7Ph-Xp-HRI"/>
+                <constraint firstItem="QmL-5n-r9K" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="HmX-da-yrA"/>
+                <constraint firstItem="QmL-5n-r9K" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="W8y-vh-gek"/>
+                <constraint firstItem="IL4-8e-wYo" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailingMargin" id="Zxi-ml-Ady"/>
+                <constraint firstItem="IL4-8e-wYo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="f1q-ih-YSO"/>
+                <constraint firstItem="IL4-8e-wYo" firstAttribute="leading" secondItem="Urx-ek-337" secondAttribute="leading" id="f7u-iX-mSs"/>
+                <constraint firstItem="af7-rc-fgd" firstAttribute="top" secondItem="IL4-8e-wYo" secondAttribute="bottom" constant="8" symbolic="YES" id="grK-Pk-1or"/>
+                <constraint firstItem="IL4-8e-wYo" firstAttribute="top" secondItem="Urx-ek-337" secondAttribute="bottom" constant="8" symbolic="YES" id="hr8-qC-iH5"/>
+                <constraint firstItem="IL4-8e-wYo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="83" id="mCx-Xh-b1D"/>
+                <constraint firstItem="IL4-8e-wYo" firstAttribute="centerX" secondItem="af7-rc-fgd" secondAttribute="centerX" id="mep-PG-2Uf"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <point key="canvasLocation" x="139.5" y="153.5"/>
         </view>
     </objects>
 </document>
