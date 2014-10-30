@@ -38,9 +38,6 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
                                     forControlEvents:UIControlEventTouchUpInside];
 
     self.webViewController = [[TOWebViewController alloc] init];
-    if (self.webViewController) {
-        [self.view addSubview:self.webViewController.view];
-    }
 
     UIImage *backgroundImage =  [UIImage imageNamed:@"LaunchImage-700"];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
@@ -104,8 +101,9 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
             return;
         }
 
-        [self loadWithField:field];
-        [self.listViewController dismissViewControllerAnimated:YES completion:nil];
+        [self.listViewController dismissViewControllerAnimated:YES completion:^{
+            [self loadWithField:field];
+        }];
     }
 }
 
