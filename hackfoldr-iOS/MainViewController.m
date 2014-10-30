@@ -13,6 +13,7 @@
 #import "HackfoldrPage.h"
 // ViewController
 #import "TOWebViewController+HackfoldrField.h"
+#import "ListFieldViewController.h"
 
 static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
@@ -20,31 +21,30 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
 @property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) UINavigationController *navigationController;
-@property (nonatomic, strong) UITableViewController *leftViewController;
+@property (nonatomic, strong) ListFieldViewController *listViewController;
 @end
 
 @implementation MainViewController
 
 - (void)awakeFromNib
 {
-    self.leftViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"listViewController"];
-    self.webViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"centerViewController"];
+    self.listViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"listViewController"];
+    self.webViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewController"];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.webViewController];
 
     UIImage *backgroundImage =  [UIImage imageNamed:@"LaunchImage-700"];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
 
     if (backgroundImageView) {
-        [self.webViewController.view addSubview:backgroundImageView];
     }
 
-    self.leftViewController.tableView.delegate = self;
+    self.view.backgroundColor = [UIColor blueColor];
+    self.listViewController.tableView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,16 +80,22 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
         }
 
         NSLog(@"%@", task.result);
-        self.leftViewController.tableView.dataSource = [HackfoldrClient sharedClient].lastPage;
+        self.listViewController.tableView.dataSource = [HackfoldrClient sharedClient].lastPage;
 
-        [self.leftViewController.tableView reloadData];
+        [self.listViewController.tableView reloadData];
+        if (!self.currentField) {
+            [self presentViewController:self.listViewController animated:YES completion:nil];
+        }
         return nil;
     }];
 }
 
 - (void)loadWithField:(HackfoldrField *)field
 {
-    [self.webViewController loadWithField:field];
+    [self presentViewController:self.webViewController animated:YES completion:^{
+        [self.webViewController loadWithField:field];
+        self.currentField = field;
+    }];
 }
 
 @end
