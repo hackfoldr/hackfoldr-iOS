@@ -18,13 +18,6 @@
 
 @implementation ListFieldViewController
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    self.tableView.delegate = self;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HackfoldrField *field = [HackfoldrClient sharedClient].lastPage.cells[indexPath.row];
