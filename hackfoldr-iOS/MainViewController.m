@@ -17,10 +17,11 @@
 
 static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
-@interface MainViewController () <UITableViewDelegate>
+@interface MainViewController ()
 @property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) ListFieldViewController *listViewController;
+@property (nonatomic, strong) HackfoldrField *currentField;
 @end
 
 @implementation MainViewController
@@ -29,14 +30,14 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 {
     [super viewDidLoad];
 
+    self.listViewController = [[ListFieldViewController alloc] init];
+    self.webViewController = [[TOWebViewController alloc] init];
+
     UIImage *backgroundImage =  [UIImage imageNamed:@"LaunchImage-700"];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
 
     if (backgroundImageView) {
     }
-
-    self.view.backgroundColor = [UIColor blueColor];
-    self.listViewController.tableView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
