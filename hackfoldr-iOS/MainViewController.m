@@ -32,11 +32,15 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
     self.listViewController = [[ListFieldViewController alloc] init];
     self.webViewController = [[TOWebViewController alloc] init];
+    if (self.webViewController) {
+        [self.view addSubview:self.webViewController.view];
+    }
 
     UIImage *backgroundImage =  [UIImage imageNamed:@"LaunchImage-700"];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
 
     if (backgroundImageView) {
+        [self.view addSubview:backgroundImageView];
     }
 }
 
