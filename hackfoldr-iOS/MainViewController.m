@@ -20,7 +20,6 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
 @interface MainViewController () <UITableViewDelegate>
 @property (nonatomic, strong) TOWebViewController *webViewController;
-@property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) ListFieldViewController *listViewController;
 @property (nonatomic, strong) HackfoldrField *currentField;
 @end
@@ -31,13 +30,17 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 {
     [super viewDidLoad];
 
-    self.listViewController = [[ListFieldViewController alloc] init];
+    self.title = @"Hackfoldr";
+
+    self.listViewController = [[ListFieldViewController alloc] initWithNibName:@"ListFieldView"
+                                                                        bundle:[NSBundle mainBundle]];
     self.listViewController.tableView.delegate = self;
     [self.listViewController.settingButton addTarget:self
                                               action:@selector(settingAction:)
                                     forControlEvents:UIControlEventTouchUpInside];
 
     self.webViewController = [[TOWebViewController alloc] init];
+    self.webViewController.showPageTitles = NO;
 
     UIImage *backgroundImage =  [UIImage imageNamed:@"LaunchImage-700"];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
@@ -70,9 +73,9 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     return pageKey;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
 
     [[[HackfoldrClient sharedClient] pagaDataAtPath:self.hackfoldrPageKey] continueWithBlock:^id(BFTask *task) {
         if (task.error) {
@@ -118,9 +121,12 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 - (void)loadWithField:(HackfoldrField *)field
 {
     self.currentField = field;
-    [self presentViewController:self.webViewController animated:YES completion:^{
-        [self.webViewController loadWithField:field];
-    }];
+
+    // Let back button won't have other thing
+    self.title = @"";
+
+    [self.webViewController loadWithField:field];
+    [self.navigationController pushViewController:self.webViewController animated:YES];
 }
 
 @end
