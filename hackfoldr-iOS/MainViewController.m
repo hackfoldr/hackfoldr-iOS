@@ -30,7 +30,7 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 {
     [super viewDidLoad];
 
-    self.title = @"Hackfoldr";
+    self.title = [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleName"];
 
     self.listViewController = [[ListFieldViewController alloc] initWithNibName:@"ListFieldView"
                                                                         bundle:[NSBundle mainBundle]];
