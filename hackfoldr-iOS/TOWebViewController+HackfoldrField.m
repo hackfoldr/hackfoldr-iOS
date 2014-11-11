@@ -14,6 +14,7 @@
 
 - (void)loadWithField:(HackfoldrField *)oneField
 {
+    self.title = oneField.name;
     self.url = [NSURL URLWithString:oneField.urlString];
 }
 
