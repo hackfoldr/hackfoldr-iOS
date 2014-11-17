@@ -10,4 +10,10 @@
 
 @implementation ListFieldViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+}
+
 @end
