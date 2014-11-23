@@ -34,6 +34,8 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
     self.listViewController = [[ListFieldViewController alloc] initWithNibName:@"ListFieldView"
                                                                         bundle:[NSBundle mainBundle]];
+    self.listViewController.tableView = [[UITableView alloc] initWithFrame:self.listViewController.tableView.frame
+                                                                     style:UITableViewStyleGrouped];
     self.listViewController.tableView.delegate = self;
     [self.listViewController.settingButton addTarget:self
                                               action:@selector(settingAction:)
