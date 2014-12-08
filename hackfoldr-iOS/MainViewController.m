@@ -32,6 +32,9 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
     self.listViewController = [[ListFieldViewController alloc] init];
     self.listViewController.tableView.delegate = self;
+    [self.listViewController.settingButton addTarget:self
+                                              action:@selector(settingAction:)
+                                    forControlEvents:UIControlEventTouchUpInside];
 
     self.webViewController = [[TOWebViewController alloc] init];
     if (self.webViewController) {
@@ -108,9 +111,8 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 - (void)settingAction:(id)sender
 {
     NSLog(@"setting button clicked");
-    // TODO: remove storyboard
-    UIViewController *editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editViewController"];
-    [self.navigationController pushViewController:editViewController animated:YES];
+    SettingViewController *settingViewController = [[SettingViewController alloc] init];
+    [self.navigationController pushViewController:settingViewController animated:YES];
 }
 
 #pragma mark - UITableViewDelegate

@@ -19,6 +19,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.settingButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.settingButton.frame = CGRectMake(0, 0, 70, 20);
+    NSString *titleString = @"Hackfoldr";
+    [self.settingButton setTitle:titleString forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -27,6 +32,10 @@
 
     if ([self.tableView.dataSource isKindOfClass:[HackfoldrPage class]]) {
         self.title = ((HackfoldrPage *)self.tableView.dataSource).pageTitle;
+    }
+
+    if (self.navigationController) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.settingButton];
     }
 }
 
