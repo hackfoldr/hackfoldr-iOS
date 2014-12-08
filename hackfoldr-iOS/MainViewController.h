@@ -10,6 +10,4 @@
 
 @interface MainViewController : UIViewController
 
-- (void)loadWithField:(HackfoldrField *)field;
-
 @end

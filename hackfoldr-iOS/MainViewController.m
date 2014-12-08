@@ -14,10 +14,11 @@
 // ViewController
 #import "TOWebViewController+HackfoldrField.h"
 #import "ListFieldViewController.h"
+#import "SettingViewController.h"
 
 static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
-@interface MainViewController ()
+@interface MainViewController () <UITableViewDelegate>
 @property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) ListFieldViewController *listViewController;
@@ -31,6 +32,8 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     [super viewDidLoad];
 
     self.listViewController = [[ListFieldViewController alloc] init];
+    self.listViewController.tableView.delegate = self;
+
     self.webViewController = [[TOWebViewController alloc] init];
     if (self.webViewController) {
         [self.view addSubview:self.webViewController.view];
@@ -81,7 +84,7 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
         [self.listViewController.tableView reloadData];
         if (!self.currentField) {
-            [self presentViewController:self.listViewController animated:YES completion:nil];
+            [self showListViewController];
         }
         return nil;
     }];
@@ -93,6 +96,38 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
         [self.webViewController loadWithField:field];
         self.currentField = field;
     }];
+}
+
+#pragma mark - Actions
+
+- (void)showListViewController {
+    UINavigationController *navigationControllerForListViewController =
+    [[UINavigationController alloc] initWithRootViewController:self.listViewController];
+    [self presentViewController:navigationControllerForListViewController animated:YES completion:nil];
+}
+
+- (void)settingAction:(id)sender
+{
+    NSLog(@"setting button clicked");
+    // TODO: remove storyboard
+    UIViewController *editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editViewController"];
+    [self.navigationController pushViewController:editViewController animated:YES];
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    HackfoldrField *field = [HackfoldrClient sharedClient].lastPage.cells[indexPath.row];
+    NSString *urlString = field.urlString;
+    NSLog(@"url: %@", urlString);
+
+    if (urlString && urlString.length == 0) {
+        return;
+    }
+
+    [self loadWithField:field];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
