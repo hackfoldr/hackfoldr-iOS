@@ -20,7 +20,6 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
 @interface MainViewController () <UITableViewDelegate>
 @property (nonatomic, strong) TOWebViewController *webViewController;
-@property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) ListFieldViewController *listViewController;
 @property (nonatomic, strong) HackfoldrField *currentField;
 @end
