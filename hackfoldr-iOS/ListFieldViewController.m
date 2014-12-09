@@ -10,10 +10,6 @@
 
 #import "HackfoldrPage.h"
 
-@interface ListFieldViewController ()
-
-@end
-
 @implementation ListFieldViewController
 
 - (void)viewDidLoad

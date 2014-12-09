@@ -75,8 +75,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    NSString *identifier = NSStringFromClass([self class]);
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
 
+    // TODO: is folder show folder icon
     cell.textLabel.text = ((HackfoldrField *)self.fields[indexPath.row]).name;
 
     return cell;

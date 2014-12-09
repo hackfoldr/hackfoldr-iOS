@@ -30,16 +30,18 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 {
     [super viewDidLoad];
 
+    self.title = [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleName"];
+
     self.listViewController = [[ListFieldViewController alloc] init];
+    self.listViewController.tableView = [[UITableView alloc] initWithFrame:self.listViewController.tableView.frame
+                                                                     style:UITableViewStyleGrouped];
     self.listViewController.tableView.delegate = self;
     [self.listViewController.settingButton addTarget:self
                                               action:@selector(settingAction:)
                                     forControlEvents:UIControlEventTouchUpInside];
 
     self.webViewController = [[TOWebViewController alloc] init];
-    if (self.webViewController) {
-        [self.view addSubview:self.webViewController.view];
-    }
+    self.webViewController.showPageTitles = NO;
 
     UIImage *backgroundImage =  [UIImage imageNamed:@"LaunchImage-700"];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
@@ -72,9 +74,9 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     return pageKey;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
 
     [[[HackfoldrClient sharedClient] pagaDataAtPath:self.hackfoldrPageKey] continueWithBlock:^id(BFTask *task) {
         if (task.error) {
@@ -92,11 +94,33 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     }];
 }
 
-- (void)loadWithField:(HackfoldrField *)field
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self presentViewController:self.webViewController animated:YES completion:^{
-        [self.webViewController loadWithField:field];
-        self.currentField = field;
+    if (tableView == self.listViewController.tableView) {
+        HackfoldrField *field = [HackfoldrClient sharedClient].lastPage.cells[indexPath.row];
+        NSString *urlString = field.urlString;
+        NSLog(@"url: %@", urlString);
+
+        if (urlString && urlString.length == 0) {
+            return;
+        }
+
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self presentViewController:self.webViewController animated:YES completion:^{
+                [self.webViewController loadWithField:field];
+                self.currentField = field;
+            }];
+        }];
+    }
+}
+
+- (void)settingAction:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        UIViewController *settingViewController = [[SettingViewController alloc] init];
+        [self presentViewController:settingViewController animated:YES completion:nil];
     }];
 }
 
@@ -106,29 +130,6 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     UINavigationController *navigationControllerForListViewController =
     [[UINavigationController alloc] initWithRootViewController:self.listViewController];
     [self presentViewController:navigationControllerForListViewController animated:YES completion:nil];
-}
-
-- (void)settingAction:(id)sender
-{
-    NSLog(@"setting button clicked");
-    SettingViewController *settingViewController = [[SettingViewController alloc] init];
-    [self.navigationController pushViewController:settingViewController animated:YES];
-}
-
-#pragma mark - UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    HackfoldrField *field = [HackfoldrClient sharedClient].lastPage.cells[indexPath.row];
-    NSString *urlString = field.urlString;
-    NSLog(@"url: %@", urlString);
-
-    if (urlString && urlString.length == 0) {
-        return;
-    }
-
-    [self loadWithField:field];
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
