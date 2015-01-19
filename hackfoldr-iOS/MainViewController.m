@@ -43,12 +43,21 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     self.webViewController = [[TOWebViewController alloc] init];
     self.webViewController.showPageTitles = NO;
 
-    UIImage *backgroundImage =  [UIImage imageNamed:@"LaunchImage-700"];
+    UIImage *backgroundImage = [[UIImage imageNamed:@"hackfoldr-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
+    backgroundImageView.tintColor = [UIColor colorWithRed:0.888 green:0.953 blue:0.826 alpha:1.000];
+    backgroundImageView.backgroundColor = [UIColor clearColor];
+    CGFloat imageSize = 176.f;
+    backgroundImageView.frame = CGRectMake(CGRectGetWidth(self.view.frame)/2.f - imageSize/2.f,
+                                           CGRectGetHeight(self.view.frame)/2.f - imageSize/2.f,
+                                           imageSize,
+                                           imageSize);
 
     if (backgroundImageView) {
         [self.view addSubview:backgroundImageView];
     }
+
+    self.view.backgroundColor = [UIColor colorWithRed:0.490 green:0.781 blue:0.225 alpha:1.000];
 }
 
 - (void)didReceiveMemoryWarning
