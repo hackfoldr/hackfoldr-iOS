@@ -16,10 +16,8 @@
 {
     [super viewDidLoad];
 
-    self.settingButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    self.settingButton.frame = CGRectMake(0, 0, 70, 20);
-    NSString *titleString = @"Hackfoldr";
-    [self.settingButton setTitle:titleString forState:UIControlStateNormal];
+    self.settingButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    self.settingButton.frame = CGRectMake(0, 0, 20, 20);
 }
 
 - (void)viewWillAppear:(BOOL)animated
