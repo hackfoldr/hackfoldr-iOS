@@ -64,7 +64,7 @@
 
     // Update hackfoldr page cell
     if (indexPath.section == 0 && indexPath.row == 1) {
-        NSString *updateButtonTitle = NSLocalizedStringFromTable(@"Chagen page", @"Hackfoldr", @"update hackfoldr button text");
+        NSString *updateButtonTitle = NSLocalizedStringFromTable(@"Change page", @"Hackfoldr", @"update hackfoldr button text");
         cell.textLabel.text = updateButtonTitle;
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
     }
