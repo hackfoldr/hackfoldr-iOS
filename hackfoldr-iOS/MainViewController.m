@@ -9,14 +9,13 @@
 #import "MainViewController.h"
 
 // Model & Client
+#import "NSUserDefaults+DefaultHackfoldrPage.h"
 #import "HackfoldrClient.h"
 #import "HackfoldrPage.h"
 // ViewController
 #import "TOWebViewController+HackfoldrField.h"
 #import "ListFieldViewController.h"
 #import "SettingViewController.h"
-
-static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
 @interface MainViewController () <UITableViewDelegate>
 @property (nonatomic, strong) TOWebViewController *webViewController;
@@ -58,6 +57,10 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
     }
 
     self.view.backgroundColor = [UIColor colorWithRed:0.490 green:0.781 blue:0.225 alpha:1.000];
+
+#if DEBUG
+    [[NSUserDefaults standardUserDefaults] removeDefaultHackfolderPage];
+#endif
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,7 +70,7 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 
 - (NSString *)hackfoldrPageKey
 {
-    NSString *pageKey = [[NSUserDefaults standardUserDefaults] objectForKey:kDefaultHackfoldrPage];
+    NSString *pageKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
 
     if (!pageKey || pageKey.length == 0) {
         NSString *defaultPage = @"hackfoldr-iOS";
@@ -75,7 +78,7 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
         defaultPage = @"kuansim";
 #endif
 
-        [[NSUserDefaults standardUserDefaults] setObject:defaultPage forKey:kDefaultHackfoldrPage];
+        [[NSUserDefaults standardUserDefaults] setDefaultHackfoldrPage:defaultPage];
         [[NSUserDefaults standardUserDefaults] synchronize];
         pageKey = defaultPage;
     }
