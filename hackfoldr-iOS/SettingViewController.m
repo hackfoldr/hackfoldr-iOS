@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.title = NSLocalizedStringFromTable(@"Change Hackfoldr Page", @"Hackfoldr", @"Title of SettingView");
     self.view.backgroundColor = [UIColor whiteColor];
 
     self.pageListView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];

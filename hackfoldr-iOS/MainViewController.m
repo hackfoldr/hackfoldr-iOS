@@ -129,7 +129,8 @@ static NSString *kDefaultHackfoldrPage = @"Default Hackfolder Page";
 {
     [self dismissViewControllerAnimated:YES completion:^{
         UIViewController *settingViewController = [[SettingViewController alloc] init];
-        [self presentViewController:settingViewController animated:YES completion:nil];
+        UINavigationController *navigationForSetting = [[UINavigationController alloc] initWithRootViewController:settingViewController];
+        [self presentViewController:navigationForSetting animated:YES completion:nil];
     }];
 }
 
