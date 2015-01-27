@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		84FEEA5C40A246A495BB0AA2 /* libPods-hackfoldr-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BF3E8BC95B4A9183627B72 /* libPods-hackfoldr-iOSTests.a */; };
-		882E652A19B2D5920054E522 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 882E652919B2D5920054E522 /* ListViewController.m */; };
+		882E652A19B2D5920054E522 /* ListFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 882E652919B2D5920054E522 /* ListFieldViewController.m */; };
 		8832CDF819E91F6200D9E4B2 /* sample.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8832CDF719E91F6200D9E4B2 /* sample.csv */; };
+		8832CDFB19E9475A00D9E4B2 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8832CDFA19E9475A00D9E4B2 /* SettingViewController.m */; };
 		E71D192A1956CE5500B57207 /* HackfoldrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D19291956CE5500B57207 /* HackfoldrClient.m */; };
 		E71D192D1956CFB600B57207 /* HackfoldrField.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D192C1956CFB600B57207 /* HackfoldrField.m */; };
 		E71D19321956DE0300B57207 /* AFCSVParserResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D19311956DE0300B57207 /* AFCSVParserResponseSerializer.m */; };
@@ -20,9 +21,7 @@
 		E7EB66C619554E290069FD71 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E7EB66C419554E290069FD71 /* InfoPlist.strings */; };
 		E7EB66C819554E290069FD71 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB66C719554E290069FD71 /* main.m */; };
 		E7EB66CC19554E290069FD71 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB66CB19554E290069FD71 /* AppDelegate.m */; };
-		E7EB66CF19554E290069FD71 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7EB66CD19554E290069FD71 /* Main_iPhone.storyboard */; };
-		E7EB66D219554E290069FD71 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7EB66D019554E290069FD71 /* Main_iPad.storyboard */; };
-		E7EB66D519554E290069FD71 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB66D419554E290069FD71 /* ViewController.m */; };
+		E7EB66D519554E290069FD71 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB66D419554E290069FD71 /* MainViewController.m */; };
 		E7EB66D719554E290069FD71 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7EB66D619554E290069FD71 /* Images.xcassets */; };
 		E7EB66DE19554E290069FD71 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7EB66DD19554E290069FD71 /* XCTest.framework */; };
 		E7EB66DF19554E290069FD71 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7EB66BB19554E290069FD71 /* Foundation.framework */; };
@@ -50,9 +49,11 @@
 		522D20859EE8892A57507769 /* Pods-hackfoldr-iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hackfoldr-iOSTests/Pods-hackfoldr-iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		592911384328487494648D2E /* libPods-hackfoldr-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hackfoldr-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CCF71AC7BC4CF830F234ACB /* Pods-hackfoldr-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		882E652819B2D5920054E522 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListViewController.h; path = "hackfoldr-iOS/ListViewController.h"; sourceTree = "<group>"; };
-		882E652919B2D5920054E522 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListViewController.m; path = "hackfoldr-iOS/ListViewController.m"; sourceTree = "<group>"; };
+		882E652819B2D5920054E522 /* ListFieldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListFieldViewController.h; path = "hackfoldr-iOS/ListFieldViewController.h"; sourceTree = "<group>"; };
+		882E652919B2D5920054E522 /* ListFieldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListFieldViewController.m; path = "hackfoldr-iOS/ListFieldViewController.m"; sourceTree = "<group>"; };
 		8832CDF719E91F6200D9E4B2 /* sample.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sample.csv; path = TestData/sample.csv; sourceTree = "<group>"; };
+		8832CDF919E9475A00D9E4B2 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingViewController.h; path = "hackfoldr-iOS/SettingViewController.h"; sourceTree = "<group>"; };
+		8832CDFA19E9475A00D9E4B2 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingViewController.m; path = "hackfoldr-iOS/SettingViewController.m"; sourceTree = "<group>"; };
 		D9B6887CD0441DC6A72CAC63 /* Pods-hackfoldr-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		E71D19281956CE5500B57207 /* HackfoldrClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HackfoldrClient.h; path = "hackfoldr-iOS/HackfoldrClient.h"; sourceTree = "<group>"; };
 		E71D19291956CE5500B57207 /* HackfoldrClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfoldrClient.m; path = "hackfoldr-iOS/HackfoldrClient.m"; sourceTree = "<group>"; };
@@ -72,10 +73,8 @@
 		E7EB66C919554E290069FD71 /* hackfoldr-iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hackfoldr-iOS-Prefix.pch"; sourceTree = "<group>"; };
 		E7EB66CA19554E290069FD71 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E7EB66CB19554E290069FD71 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E7EB66CE19554E290069FD71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		E7EB66D119554E290069FD71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		E7EB66D319554E290069FD71 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = "hackfoldr-iOS/ViewController.h"; sourceTree = "<group>"; };
-		E7EB66D419554E290069FD71 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = "hackfoldr-iOS/ViewController.m"; sourceTree = "<group>"; };
+		E7EB66D319554E290069FD71 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = "hackfoldr-iOS/MainViewController.h"; sourceTree = "<group>"; };
+		E7EB66D419554E290069FD71 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = "hackfoldr-iOS/MainViewController.m"; sourceTree = "<group>"; };
 		E7EB66D619554E290069FD71 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E7EB66DC19554E290069FD71 /* hackfoldr-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "hackfoldr-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7EB66DD19554E290069FD71 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -150,12 +149,14 @@
 		E7B1DD871959AFE700768FFA /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				882E652819B2D5920054E522 /* ListViewController.h */,
-				882E652919B2D5920054E522 /* ListViewController.m */,
+				882E652819B2D5920054E522 /* ListFieldViewController.h */,
+				882E652919B2D5920054E522 /* ListFieldViewController.m */,
+				E7EB66D319554E290069FD71 /* MainViewController.h */,
+				E7EB66D419554E290069FD71 /* MainViewController.m */,
+				8832CDF919E9475A00D9E4B2 /* SettingViewController.h */,
+				8832CDFA19E9475A00D9E4B2 /* SettingViewController.m */,
 				E7B1DD88195AEE7D00768FFA /* TOWebViewController+HackfoldrField.h */,
 				E7B1DD89195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m */,
-				E7EB66D319554E290069FD71 /* ViewController.h */,
-				E7EB66D419554E290069FD71 /* ViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -169,8 +170,8 @@
 				E7EB66C119554E290069FD71 /* hackfoldr-iOS */,
 				E7EB66E319554E290069FD71 /* hackfoldr-iOSTests */,
 				E71D192E1956DAF800B57207 /* Models */,
-				E7EB66B919554E290069FD71 /* Products */,
 				61E95886120C8CA58C6FE18A /* Pods */,
+				E7EB66B919554E290069FD71 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,8 +203,6 @@
 			children = (
 				E7EB66CA19554E290069FD71 /* AppDelegate.h */,
 				E7EB66CB19554E290069FD71 /* AppDelegate.m */,
-				E7EB66CD19554E290069FD71 /* Main_iPhone.storyboard */,
-				E7EB66D019554E290069FD71 /* Main_iPad.storyboard */,
 				E7EB66D619554E290069FD71 /* Images.xcassets */,
 				E7EB66C219554E290069FD71 /* Supporting Files */,
 			);
@@ -323,9 +322,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7EB66D219554E290069FD71 /* Main_iPad.storyboard in Resources */,
 				E7EB66D719554E290069FD71 /* Images.xcassets in Resources */,
-				E7EB66CF19554E290069FD71 /* Main_iPhone.storyboard in Resources */,
 				E7EB66C619554E290069FD71 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,15 +406,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7EB66D519554E290069FD71 /* ViewController.m in Sources */,
+				E7EB66D519554E290069FD71 /* MainViewController.m in Sources */,
 				E71D19321956DE0300B57207 /* AFCSVParserResponseSerializer.m in Sources */,
-				882E652A19B2D5920054E522 /* ListViewController.m in Sources */,
+				882E652A19B2D5920054E522 /* ListFieldViewController.m in Sources */,
 				E7B1DD8A195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m in Sources */,
 				E7EB66CC19554E290069FD71 /* AppDelegate.m in Sources */,
 				E71D192A1956CE5500B57207 /* HackfoldrClient.m in Sources */,
 				E71D192D1956CFB600B57207 /* HackfoldrField.m in Sources */,
 				E7F9558719570D4E0098661E /* HackfoldrPage.m in Sources */,
 				E7EB66C819554E290069FD71 /* main.m in Sources */,
+				8832CDFB19E9475A00D9E4B2 /* SettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,22 +444,6 @@
 				E7EB66C519554E290069FD71 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		E7EB66CD19554E290069FD71 /* Main_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E7EB66CE19554E290069FD71 /* Base */,
-			);
-			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		E7EB66D019554E290069FD71 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E7EB66D119554E290069FD71 /* Base */,
-			);
-			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		E7EB66E619554E290069FD71 /* InfoPlist.strings */ = {

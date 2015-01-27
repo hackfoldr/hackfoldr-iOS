@@ -7,7 +7,6 @@ target "hackfoldr-iOS" do
   pod 'Bolts', '~> 1.0.0'
   pod 'CHCSVParser', '~> 2.0.7'
 
-  pod 'JASidePanels', '~> 1.3.2'
   pod 'TOWebViewController'
 end
 
@@ -16,7 +15,6 @@ target "hackfoldr-iOSTests" do
   pod 'Bolts', '~> 1.0.0'
   pod 'CHCSVParser', '~> 2.0.7'
 
-  pod 'JASidePanels', '~> 1.3.2'
   pod 'TOWebViewController'
 
   pod 'OHHTTPStubs'
