@@ -51,6 +51,8 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     return self;
 }
 
+#pragma mark - Setter and Getter
+
 - (BOOL)isEmpty
 {
     if (!self.urlString && !self.name && !self.actions) {
@@ -70,17 +72,30 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     cleanString = [cleanString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     _urlString = cleanString;
 
-    if (!aURLString || aURLString.length == 0) {
-        return;
-    }
-
-    // While first string is space, this HackfoldrField is subItem
-    self.isSubItem = [[aURLString substringWithRange:NSMakeRange(0, 1)] isEqualToString:@" "];
+    [self setIsSubItemWithURLString:aURLString];
 }
 
 - (NSString *)urlString
 {
     return _urlString;
+}
+
+- (void)setIsSubItemWithURLString:(NSString *)aURLString
+{
+    if (!aURLString || aURLString.length == 0) {
+        return;
+    }
+
+    // While first string is space, this HackfoldrField is subItem
+    [aURLString enumerateSubstringsInRange:NSMakeRange(0, aURLString.length)
+                                   options:NSStringEnumerationByComposedCharacterSequences
+                                usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop)
+    {
+        if ([substring isEqualToString:@" "]) {
+            self.isSubItem = YES;
+            *stop = YES;
+        }
+    }];
 }
 
 - (NSString *)description
@@ -98,7 +113,7 @@ typedef NS_ENUM(NSUInteger, FieldType) {
         [description appendFormat:@"actions: %@ ", self.actions];
     }
 
-    [description appendFormat:@"isSubItem: %@", self.actions ? @"YES" : @"NO"];
+    [description appendFormat:@"isSubItem: %@", self.isSubItem ? @"YES" : @"NO"];
 
     return description;
 }
