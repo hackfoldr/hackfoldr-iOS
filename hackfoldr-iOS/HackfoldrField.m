@@ -21,9 +21,16 @@ typedef NS_ENUM(NSUInteger, FieldType) {
 
 @implementation HackfoldrField
 
+- (instancetype)init {
+    if (self = [super init]) {
+        _subFields = [NSMutableArray array];
+    }
+    return self;
+}
+
 - (instancetype)initWithFieldArray:(NSArray *)fields
 {
-    self = [super init];
+    self = [self init];
     if (!self) {
         return nil;
     }
@@ -113,7 +120,11 @@ typedef NS_ENUM(NSUInteger, FieldType) {
         [description appendFormat:@"actions: %@ ", self.actions];
     }
 
-    [description appendFormat:@"isSubItem: %@", self.isSubItem ? @"YES" : @"NO"];
+    [description appendFormat:@"isSubItem: %@ ", self.isSubItem ? @"YES" : @"NO"];
+
+    if (self.subFields.count > 0) {
+        [description appendFormat:@"subFields: %@ ", self.subFields];
+    }
 
     return description;
 }

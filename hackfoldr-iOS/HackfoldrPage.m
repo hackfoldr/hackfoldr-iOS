@@ -24,7 +24,7 @@
         return nil;
     }
 
-    [self findTitleWithArray:fieldArray];
+    [self updateWithArray:fieldArray];
 
     return self;
 }
@@ -34,13 +34,14 @@
     return self.fields;
 }
 
-- (void)findTitleWithArray:(NSArray *)fieldArray
+- (void)updateWithArray:(NSArray *)fieldArray
 {
     if (!fieldArray || fieldArray.count == 0) {
         return;
     }
 
-    NSMutableArray *cellsWithoutTitleField = [NSMutableArray array];
+    NSMutableArray *sectionFields = [NSMutableArray array];
+    __block HackfoldrField *sectionField = nil;
 
     [fieldArray enumerateObjectsUsingBlock:^(NSArray *fields, NSUInteger idx, BOOL *stop) {
         HackfoldrField *field = [[HackfoldrField alloc] initWithFieldArray:fields];
@@ -51,11 +52,32 @@
         }
         // other row
         if (!field.isEmpty) {
-            [cellsWithoutTitleField addObject:field];
+            if (field.isSubItem == NO) {
+                // add last |sectionField|
+                if (sectionField) {
+                    [sectionFields addObject:sectionField];
+                }
+
+                // Create new section field
+                // When field have |urlString|, just put into a new section
+                if (field.urlString.length == 0) {
+                    sectionField = field;
+                } else {
+                    sectionField = [[HackfoldrField alloc] init];
+                    [sectionField.subFields addObject:field];
+                }
+            } else {
+                // add |field| to subFields
+                [sectionField.subFields addObject:field];
+            }
         }
     }];
+    // Check every section is been add or not
+    if (sectionField) {
+        [sectionFields addObject:sectionField];
+    }
 
-    self.fields = cellsWithoutTitleField;
+    self.fields = sectionFields;
 }
 
 - (NSString *)description
@@ -68,21 +90,35 @@
 
 #pragma mark - UITableViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.fields.count;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    HackfoldrField *sectionField = self.fields[section];
+    return sectionField.subFields.count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    HackfoldrField *sectionFeild = self.fields[section];
+    return sectionFeild.name;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *identifier = NSStringFromClass([self class]);
+    NSString *identifier = [NSStringFromClass([self class]) stringByAppendingString:@"Cell"];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
 
     // TODO: is folder show folder icon
-    cell.textLabel.text = ((HackfoldrField *)self.fields[indexPath.row]).name;
+    HackfoldrField *sectionField = self.fields[indexPath.section];
+    HackfoldrField *field = sectionField.subFields[indexPath.row];
+    cell.textLabel.text = field.name;
 
     return cell;
 }
