@@ -4,6 +4,7 @@ platform :ios, "7.0"
 
 target "hackfoldr-iOS" do
   pod 'AFNetworking', '~> 2.3.1'
+  pod 'AFNetworking/UIKit', '~> 2.3.1'
   pod 'Bolts', '~> 1.0.0'
   pod 'CHCSVParser', '~> 2.0.7'
 
