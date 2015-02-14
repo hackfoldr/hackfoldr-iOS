@@ -8,8 +8,11 @@
 
 #import "SettingViewController.h"
 
+#import "NSUserDefaults+DefaultHackfoldrPage.h"
+
 @interface SettingViewController () <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate>
 @property (nonatomic, strong) UITableView *pageListView;
+@property (nonatomic, strong) UITextView *hackfoldrPageTextView;
 @end
 
 @implementation SettingViewController
@@ -32,6 +35,8 @@
 }
 
 - (IBAction)updateHackfoldrPage:(id)sender {
+    NSLog(@"change hackfoldr page: %@", self.hackfoldrPageTextView.text);
+
     if (self.navigationController) {
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         return;
@@ -61,6 +66,7 @@
         UITextView *hackfoldrPageTextView = [[UITextView alloc] initWithFrame:cell.frame];
         hackfoldrPageTextView.delegate = self;
         [cell.contentView addSubview:hackfoldrPageTextView];
+        self.hackfoldrPageTextView = hackfoldrPageTextView;
     }
 
     // Update hackfoldr page cell
