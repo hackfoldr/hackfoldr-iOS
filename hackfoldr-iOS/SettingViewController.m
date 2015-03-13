@@ -35,7 +35,11 @@
 }
 
 - (IBAction)updateHackfoldrPage:(id)sender {
-    NSLog(@"change hackfoldr page: %@", self.hackfoldrPageTextView.text);
+    NSString *newHackfoldrPage = self.hackfoldrPageTextView.text;
+    if (newHackfoldrPage && newHackfoldrPage.length > 0) {
+        NSLog(@"change hackfoldr page: %@", newHackfoldrPage);
+        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:newHackfoldrPage];
+    }
 
     if (self.navigationController) {
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];

@@ -17,3 +17,13 @@
 - (void)removeDefaultHackfolderPage;
 
 @end
+
+@interface NSUserDefaults (CurrentHackfoldrPage)
+
+- (NSString *)stringOfCurrentHackfoldrPage;
+
+- (void)setCurrentHackfoldrPage:(NSString *)anString;
+
+- (void)removeCurrentHackfoldrPage;
+
+@end

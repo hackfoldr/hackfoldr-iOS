@@ -72,7 +72,7 @@
 
 - (NSString *)hackfoldrPageKey
 {
-    NSString *pageKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
+    NSString *pageKey = [[NSUserDefaults standardUserDefaults] stringOfCurrentHackfoldrPage];
 
     if (!pageKey || pageKey.length == 0) {
         NSString *defaultPage = @"hackfoldr-iOS";
@@ -82,7 +82,8 @@
 
         [[NSUserDefaults standardUserDefaults] setDefaultHackfoldrPage:defaultPage];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        pageKey = defaultPage;
+
+        pageKey = [[NSUserDefaults standardUserDefaults] stringOfCurrentHackfoldrPage];
     }
 
     return pageKey;
