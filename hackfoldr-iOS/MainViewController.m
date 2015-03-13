@@ -111,18 +111,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.listViewController.tableView) {
-        HackfoldrField *field = [HackfoldrClient sharedClient].lastPage.cells[indexPath.row];
-        NSString *urlString = field.urlString;
+        HackfoldrField *sectionOfField = [HackfoldrClient sharedClient].lastPage.cells[indexPath.section];
+        HackfoldrField *rowOfField = sectionOfField.subFields[indexPath.row];
+        NSString *urlString = rowOfField.urlString;
         NSLog(@"url: %@", urlString);
 
-        if (urlString && urlString.length == 0) {
+        if (!urlString || urlString.length == 0) {
+            // TODO: show nil message
             return;
         }
 
         [self dismissViewControllerAnimated:YES completion:^{
             [self presentViewController:self.webViewController animated:YES completion:^{
-                [self.webViewController loadWithField:field];
-                self.currentField = field;
+                [self.webViewController loadWithField:rowOfField];
+                self.currentField = rowOfField;
             }];
         }];
     }
