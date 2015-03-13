@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 
+#import "AppDelegate.h"
 // Model & Client
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
 #import "HackfoldrClient.h"
@@ -17,7 +18,7 @@
 #import "ListFieldViewController.h"
 #import "SettingViewController.h"
 
-@interface MainViewController () <UITableViewDelegate>
+@interface MainViewController () <UITableViewDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) ListFieldViewController *listViewController;
 @property (nonatomic, strong) HackfoldrField *currentField;
@@ -61,6 +62,7 @@
 #if DEBUG
     [[NSUserDefaults standardUserDefaults] removeDefaultHackfolderPage];
 #endif
+    [self mainNavigationController].delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -84,6 +86,11 @@
     }
 
     return pageKey;
+}
+
+- (UINavigationController *)mainNavigationController
+{
+    return (UINavigationController *)((AppDelegate *)[UIApplication sharedApplication].delegate).viewController;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -122,10 +129,10 @@
         }
 
         [self dismissViewControllerAnimated:YES completion:^{
-            [self presentViewController:self.webViewController animated:YES completion:^{
-                [self.webViewController loadWithField:rowOfField];
-                self.currentField = rowOfField;
-            }];
+            [self.webViewController loadWithField:rowOfField];
+            self.currentField = rowOfField;
+
+            [[self mainNavigationController] pushViewController:self.webViewController animated:YES];
         }];
     }
 }
@@ -137,6 +144,15 @@
         UINavigationController *navigationForSetting = [[UINavigationController alloc] initWithRootViewController:settingViewController];
         [self presentViewController:navigationForSetting animated:YES completion:nil];
     }];
+}
+
+#pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if (self == viewController) {
+        self.currentField = nil;
+    }
 }
 
 #pragma mark - Actions
