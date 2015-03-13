@@ -23,6 +23,7 @@
 @property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) ListFieldViewController *listViewController;
 @property (nonatomic, strong) HackfoldrField *currentField;
+@property (nonatomic, strong) UIImageView *backgroundImageView;
 @end
 
 @implementation MainViewController
@@ -45,17 +46,13 @@
     self.webViewController.showPageTitles = NO;
 
     UIImage *backgroundImage = [[UIImage imageNamed:@"hackfoldr-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
-    backgroundImageView.tintColor = [UIColor colorWithRed:0.888 green:0.953 blue:0.826 alpha:1.000];
-    backgroundImageView.backgroundColor = [UIColor clearColor];
-    CGFloat imageSize = 176.f;
-    backgroundImageView.frame = CGRectMake(CGRectGetWidth(self.view.frame)/2.f - imageSize/2.f,
-                                           CGRectGetHeight(self.view.frame)/2.f - imageSize/2.f,
-                                           imageSize,
-                                           imageSize);
+    self.backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
+    self.backgroundImageView.tintColor = [UIColor colorWithRed:0.888 green:0.953 blue:0.826 alpha:1.000];
+    self.backgroundImageView.backgroundColor = [UIColor clearColor];
+    [self updateBackgroundImageWithSize:self.view.frame.size];
 
-    if (backgroundImageView) {
-        [self.view addSubview:backgroundImageView];
+    if (self.backgroundImageView) {
+        [self.view addSubview:self.backgroundImageView];
     }
 
     self.view.backgroundColor = [UIColor colorWithRed:0.490 green:0.781 blue:0.225 alpha:1.000];
@@ -70,6 +67,8 @@
 {
     [super didReceiveMemoryWarning];
 }
+
+#pragma mark - Setter & Getter
 
 - (NSString *)hackfoldrPageKey
 {
@@ -95,6 +94,17 @@
     return (UINavigationController *)((AppDelegate *)[UIApplication sharedApplication].delegate).viewController;
 }
 
+- (void)updateBackgroundImageWithSize:(CGSize)size
+{
+    CGFloat imageSize = 176.f;
+    self.backgroundImageView.frame = CGRectMake(size.width/2.f - imageSize/2.f,
+                                                size.height/2.f - imageSize/2.f,
+                                                imageSize,
+                                                imageSize);
+}
+
+#pragma mark - View Flow
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -111,6 +121,13 @@
         }
         return nil;
     }];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
+    [self updateBackgroundImageWithSize:size];
 }
 
 #pragma mark - UITableViewDelegate
