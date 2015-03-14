@@ -11,13 +11,6 @@
 #import "AFCSVParserResponseSerializer.h"
 #import "HackfoldrPage.h"
 
-@interface HackfoldrTaskCompletionSource : BFTaskCompletionSource
-
-+ (HackfoldrTaskCompletionSource *)taskCompletionSource;
-@property (strong, nonatomic) NSURLSessionTask *connectionTask;
-
-@end
-
 @implementation HackfoldrTaskCompletionSource
 
 + (HackfoldrTaskCompletionSource *)taskCompletionSource
@@ -69,22 +62,27 @@
     return self;
 }
 
-- (BFTask *)_taskWithPath:(NSString *)inPath parameters:(NSDictionary *)parameters
+- (HackfoldrTaskCompletionSource *)_taskCompletionWithPath:(NSString *)inPath
 {
-	HackfoldrTaskCompletionSource *source = [HackfoldrTaskCompletionSource taskCompletionSource];
-	source.connectionTask = [self GET:inPath parameters:parameters success:^(NSURLSessionDataTask *task, id csvFieldArray) {
+    HackfoldrTaskCompletionSource *source = [HackfoldrTaskCompletionSource taskCompletionSource];
+    source.connectionTask = [self GET:inPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
         HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:csvFieldArray];
         _lastPage = page;
         [source setResult:page];
-	} failure:^(NSURLSessionDataTask *task, NSError *error) {
-		[source setError:error];
-	}];
-	return source.task;
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [source setError:error];
+    }];
+    return source;
+}
+
+- (HackfoldrTaskCompletionSource *)taskCompletionPagaDataAtPath:(NSString *)inPath
+{
+    return [self _taskCompletionWithPath:[NSString stringWithFormat:@"%@/csv", inPath]];
 }
 
 - (BFTask *)pagaDataAtPath:(NSString *)inPath
 {
-    return [self _taskWithPath:[NSString stringWithFormat:@"%@/csv", inPath] parameters:nil];
+    return [self taskCompletionPagaDataAtPath:inPath].task;
 }
 
 @end

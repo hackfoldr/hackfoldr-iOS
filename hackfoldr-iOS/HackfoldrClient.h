@@ -11,9 +11,19 @@
 
 @class HackfoldrPage;
 
+@interface HackfoldrTaskCompletionSource : BFTaskCompletionSource
+
++ (HackfoldrTaskCompletionSource *)taskCompletionSource;
+@property (strong, nonatomic) NSURLSessionTask *connectionTask;
+
+@end
+
+
 @interface HackfoldrClient : AFHTTPSessionManager
 
 + (instancetype)sharedClient;
+
+- (HackfoldrTaskCompletionSource *)taskCompletionPagaDataAtPath:(NSString *)inPath;
 
 - (BFTask *)pagaDataAtPath:(NSString *)inPath;
 
