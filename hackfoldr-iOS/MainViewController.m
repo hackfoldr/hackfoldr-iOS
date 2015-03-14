@@ -17,6 +17,7 @@
 #import "TOWebViewController+HackfoldrField.h"
 #import "ListFieldViewController.h"
 #import "SettingViewController.h"
+#import "UIAlertView+AFNetworking.h"
 
 @interface MainViewController () <UITableViewDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong) TOWebViewController *webViewController;
@@ -98,11 +99,9 @@
 {
     [super viewDidAppear:animated];
 
-    [[[HackfoldrClient sharedClient] pagaDataAtPath:self.hackfoldrPageKey] continueWithBlock:^id(BFTask *task) {
-        if (task.error) {
-            NSLog(@"error:%@", task.error);
-        }
-
+    HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:self.hackfoldrPageKey];
+    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask delegate:nil];
+    [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
         NSLog(@"%@", task.result);
         self.listViewController.tableView.dataSource = [HackfoldrClient sharedClient].lastPage;
 

@@ -9,6 +9,9 @@
 #import "SettingViewController.h"
 
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
+#import "HackfoldrClient.h"
+
+#import "UIAlertView+AFNetworking.h"
 
 @interface SettingViewController () <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate>
 @property (nonatomic, strong) UITableView *pageListView;
@@ -37,8 +40,14 @@
 - (IBAction)updateHackfoldrPage:(id)sender {
     NSString *newHackfoldrPage = self.hackfoldrPageTextView.text;
     if (newHackfoldrPage && newHackfoldrPage.length > 0) {
-        NSLog(@"change hackfoldr page: %@", newHackfoldrPage);
-        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:newHackfoldrPage];
+        // Check |newHackfoldrPage| is existed
+        HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:newHackfoldrPage];
+        [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask delegate:nil];
+        [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
+            NSLog(@"change hackfoldr page: %@", newHackfoldrPage);
+            [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:newHackfoldrPage];
+            return nil;
+        }];
     }
 
     if (self.navigationController) {
