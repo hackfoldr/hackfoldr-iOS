@@ -25,8 +25,6 @@
 
 - (HackfoldrTaskCompletionSource *)taskCompletionPagaDataAtPath:(NSString *)inPath;
 
-- (BFTask *)pagaDataAtPath:(NSString *)inPath;
-
 @property (nonatomic, strong) HackfoldrPage *lastPage;
 
 @end

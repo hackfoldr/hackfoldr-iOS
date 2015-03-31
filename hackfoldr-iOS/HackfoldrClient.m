@@ -87,9 +87,4 @@
     return [self _taskCompletionWithPath:inPath];
 }
 
-- (BFTask *)pagaDataAtPath:(NSString *)inPath
-{
-    return [self taskCompletionPagaDataAtPath:inPath].task;
-}
-
 @end
