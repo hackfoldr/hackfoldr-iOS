@@ -67,11 +67,20 @@
     return self;
 }
 
-- (HackfoldrTaskCompletionSource *)_taskCompletionWithPath:(NSString *)inPath
+
+- (HackfoldrTaskCompletionSource *)_taskCompletionWithPath:(NSString *)inPath isJSON:(BOOL)isJSON
 {
-    self.responseSerializer = [[self class] CSVSerializer];
     HackfoldrTaskCompletionSource *source = [HackfoldrTaskCompletionSource taskCompletionSource];
-    NSString *requestPath = [NSString stringWithFormat:@"_/%@/csv", inPath];
+    NSString *requestPath = nil;
+    if (isJSON) {
+        // JSON parser
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
+        requestPath = [NSString stringWithFormat:@"%@.csv.json", inPath];
+    } else {
+        // CSV parser
+        self.responseSerializer = [[self class] CSVSerializer];
+        requestPath = [NSString stringWithFormat:@"_/%@/csv", inPath];
+    }
     source.connectionTask = [self GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
         HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:csvFieldArray];
         _lastPage = page;
@@ -84,7 +93,12 @@
 
 - (HackfoldrTaskCompletionSource *)taskCompletionPagaDataAtPath:(NSString *)inPath
 {
-    return [self _taskCompletionWithPath:inPath];
+    return [self _taskCompletionWithPath:inPath isJSON:NO];
+}
+
+- (HackfoldrTaskCompletionSource *)taskCompletionPagaDataWithJSONAtPath:(NSString *)inPath
+{
+    return [self _taskCompletionWithPath:inPath isJSON:YES];
 }
 
 @end

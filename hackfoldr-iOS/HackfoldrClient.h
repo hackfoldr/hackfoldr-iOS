@@ -25,6 +25,8 @@
 
 - (HackfoldrTaskCompletionSource *)taskCompletionPagaDataAtPath:(NSString *)inPath;
 
+- (HackfoldrTaskCompletionSource *)taskCompletionPagaDataWithJSONAtPath:(NSString *)inPath;
+
 @property (nonatomic, strong) HackfoldrPage *lastPage;
 
 @end
