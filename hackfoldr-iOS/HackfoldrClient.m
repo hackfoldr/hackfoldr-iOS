@@ -45,7 +45,7 @@
     static dispatch_once_t onceToken;
     static HackfoldrClient *shareClient;
     dispatch_once(&onceToken, ^{
-        shareClient = [[HackfoldrClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://ethercalc.org/_/"]];
+        shareClient = [[HackfoldrClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://ethercalc.org/"]];
     });
     return shareClient;
 }
@@ -65,7 +65,8 @@
 - (HackfoldrTaskCompletionSource *)_taskCompletionWithPath:(NSString *)inPath
 {
     HackfoldrTaskCompletionSource *source = [HackfoldrTaskCompletionSource taskCompletionSource];
-    source.connectionTask = [self GET:inPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
+    NSString *requestPath = [NSString stringWithFormat:@"_/%@/csv", inPath];
+    source.connectionTask = [self GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
         HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:csvFieldArray];
         _lastPage = page;
         [source setResult:page];
@@ -77,7 +78,7 @@
 
 - (HackfoldrTaskCompletionSource *)taskCompletionPagaDataAtPath:(NSString *)inPath
 {
-    return [self _taskCompletionWithPath:[NSString stringWithFormat:@"%@/csv", inPath]];
+    return [self _taskCompletionWithPath:inPath];
 }
 
 - (BFTask *)pagaDataAtPath:(NSString *)inPath
