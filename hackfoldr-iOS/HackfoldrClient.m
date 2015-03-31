@@ -50,20 +50,26 @@
     return shareClient;
 }
 
++ (AFCSVParserResponseSerializer *)CSVSerializer
+{
+    AFCSVParserResponseSerializer *serializer = [AFCSVParserResponseSerializer serializer];
+    serializer.usedEncoding = NSUTF8StringEncoding;
+    return serializer;
+}
+
 - (instancetype)initWithBaseURL:(NSURL *)url
 {
     self = [super initWithBaseURL:url];
     if (self) {
         self.requestSerializer = [AFHTTPRequestSerializer serializer];
-        AFCSVParserResponseSerializer *serializer = [AFCSVParserResponseSerializer serializer];
-        serializer.usedEncoding = NSUTF8StringEncoding;
-		self.responseSerializer = serializer;
+        self.responseSerializer = [[self class] CSVSerializer];
     }
     return self;
 }
 
 - (HackfoldrTaskCompletionSource *)_taskCompletionWithPath:(NSString *)inPath
 {
+    self.responseSerializer = [[self class] CSVSerializer];
     HackfoldrTaskCompletionSource *source = [HackfoldrTaskCompletionSource taskCompletionSource];
     NSString *requestPath = [NSString stringWithFormat:@"_/%@/csv", inPath];
     source.connectionTask = [self GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
