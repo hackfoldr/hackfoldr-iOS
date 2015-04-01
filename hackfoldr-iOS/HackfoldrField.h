@@ -16,6 +16,7 @@
 @property (nonatomic, copy) NSString *actions;
 
 @property (nonatomic, assign) BOOL isSubItem;
+@property (nonatomic, assign) BOOL isCommentLine;
 
 @property (nonatomic, strong) NSMutableArray *subFields;
 

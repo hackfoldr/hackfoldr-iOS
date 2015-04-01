@@ -54,8 +54,32 @@ typedef NS_ENUM(NSUInteger, FieldType) {
                 break;
         }
     }];
+    // hackfoldr 2.0 rule
+    self.isCommentLine = [self isCommentLineWithFieldArray:fields];
 
     return self;
+}
+
+- (BOOL)isCommentLineWithFieldArray:(NSArray *)fields
+{
+    __block BOOL isComment = NO;
+    [fields enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isKindOfClass:[NSString class]]) {
+            NSString *field = obj;
+            [field enumerateSubstringsInRange:NSMakeRange(0, field.length)
+                                      options:NSStringEnumerationByComposedCharacterSequences
+                                   usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop)
+            {
+                // only read first one
+                *stop = YES;
+
+                if ([substring isEqualToString:@"#"]) {
+                    isComment = YES;
+                }
+            }];
+        }
+    }];
+    return isComment;
 }
 
 #pragma mark - Setter and Getter
@@ -102,6 +126,11 @@ typedef NS_ENUM(NSUInteger, FieldType) {
             self.isSubItem = YES;
             *stop = YES;
         }
+        // hackfoldr 2.0 rule
+        if ([substring isEqualToString:@"<"]) {
+            self.isSubItem = NO;
+            *stop = YES;
+        }
     }];
 }
 
@@ -121,6 +150,7 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     }
 
     [description appendFormat:@"isSubItem: %@ ", self.isSubItem ? @"YES" : @"NO"];
+    [description appendFormat:@"isCommentLine: %@", self.isCommentLine ? @"YES" : @"NO"];
 
     if (self.subFields.count > 0) {
         [description appendFormat:@"subFields: %@ ", self.subFields];

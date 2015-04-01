@@ -42,34 +42,39 @@
 
     NSMutableArray *sectionFields = [NSMutableArray array];
     __block HackfoldrField *sectionField = nil;
-
+    __block BOOL isFindTitle = NO;
     [fieldArray enumerateObjectsUsingBlock:^(NSArray *fields, NSUInteger idx, BOOL *stop) {
         HackfoldrField *field = [[HackfoldrField alloc] initWithFieldArray:fields];
-        // first row is title row
-        if (idx == 0) {
-            self.pageTitle = field.name;
+
+        if (field.isEmpty || field.isCommentLine) {
             return;
         }
-        // other row
-        if (!field.isEmpty) {
-            if (field.isSubItem == NO) {
-                // add last |sectionField|
-                if (sectionField) {
-                    [sectionFields addObject:sectionField];
-                }
 
-                // Create new section field
-                // When field have |urlString|, just put into a new section
-                if (field.urlString.length == 0) {
-                    sectionField = field;
-                } else {
-                    sectionField = [[HackfoldrField alloc] init];
-                    [sectionField.subFields addObject:field];
-                }
+        // find first row isn't comment line and not empty
+        if (!isFindTitle) {
+            self.pageTitle = field.name;
+            isFindTitle = YES;
+            return;
+        }
+
+        // other row
+        if (field.isSubItem == NO) {
+            // add last |sectionField|
+            if (sectionField) {
+                [sectionFields addObject:sectionField];
+            }
+
+            // Create new section field
+            // When field have |urlString|, just put into a new section
+            if (field.urlString.length == 0) {
+                sectionField = field;
             } else {
-                // add |field| to subFields
+                sectionField = [[HackfoldrField alloc] init];
                 [sectionField.subFields addObject:field];
             }
+        } else {
+            // add |field| to subFields
+            [sectionField.subFields addObject:field];
         }
     }];
     // Check every section is been add or not
