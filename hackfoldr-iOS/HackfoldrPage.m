@@ -120,7 +120,6 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
 
-    // TODO: is folder show folder icon
     HackfoldrField *sectionField = self.fields[indexPath.section];
     HackfoldrField *field = sectionField.subFields[indexPath.row];
     cell.textLabel.text = field.name;
