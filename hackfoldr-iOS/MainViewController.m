@@ -109,6 +109,18 @@
 {
     [super viewDidAppear:animated];
 
+    HackfoldrTaskCompletionSource *jsonCompletionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataWithJSONAtPath:self.hackfoldrPageKey];
+    [jsonCompletionSource.task continueWithBlock:^id(BFTask *task) {
+        NSLog(@"%@", task.result);
+        self.listViewController.tableView.dataSource = [HackfoldrClient sharedClient].lastPage;
+        [self.listViewController.tableView reloadData];
+        if (!self.currentField) {
+            [self showListViewController];
+        }
+        return nil;
+    }];
+    return;
+
     HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:self.hackfoldrPageKey];
     [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask delegate:nil];
     [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
