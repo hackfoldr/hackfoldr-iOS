@@ -73,6 +73,10 @@
                 [sectionField.subFields addObject:field];
             }
         } else {
+            // section could be nil
+            if (!sectionField) {
+                sectionField = [[HackfoldrField alloc] init];
+            }
             // add |field| to subFields
             [sectionField.subFields addObject:field];
         }
