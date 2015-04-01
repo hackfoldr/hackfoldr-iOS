@@ -117,6 +117,8 @@ typedef NS_ENUM(NSUInteger, FieldType) {
         return;
     }
 
+    // hackfoldr 2.0 rule, default is subItem
+    self.isSubItem = YES;
     // While first string is space, this HackfoldrField is subItem
     [aURLString enumerateSubstringsInRange:NSMakeRange(0, aURLString.length)
                                    options:NSStringEnumerationByComposedCharacterSequences
