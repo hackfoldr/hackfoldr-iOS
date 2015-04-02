@@ -218,7 +218,7 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     }
 
     [description appendFormat:@"isSubItem: %@ ", self.isSubItem ? @"YES" : @"NO"];
-    [description appendFormat:@"isCommentLine: %@", self.isCommentLine ? @"YES" : @"NO"];
+    [description appendFormat:@"isCommentLine: %@ ", self.isCommentLine ? @"YES" : @"NO"];
 
     if (self.subFields.count > 0) {
         [description appendFormat:@"subFields: %@ ", self.subFields];
