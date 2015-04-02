@@ -167,17 +167,6 @@
     [UIAlertView showAlertViewForTaskWithErrorOnCompletion:jsonCompletionSource.connectionTask delegate:nil];
     [jsonCompletionSource.task continueWithBlock:^id(BFTask *task) {
         NSLog(@"json result:%@", task.result);
-
-        // try to request on csv api
-        if (task.error && task.error.code == 404) {
-            HackfoldrTaskCompletionSource *csvCompletionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:self.hackfoldrPageKey];
-            [UIAlertView showAlertViewForTaskWithErrorOnCompletion:jsonCompletionSource.connectionTask delegate:nil];
-            [csvCompletionSource.task continueWithSuccessBlock:^id(BFTask *task) {
-                NSLog(@"csv result:%@", task.result);
-                return nil;
-            }];
-            return csvCompletionSource.task;
-        }
         return nil;
     }];
 
