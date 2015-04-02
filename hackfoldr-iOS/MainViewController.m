@@ -163,7 +163,7 @@
 
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
 {
-    HackfoldrTaskCompletionSource *jsonCompletionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataWithJSONAtPath:self.hackfoldrPageKey];
+    HackfoldrTaskCompletionSource *jsonCompletionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:self.hackfoldrPageKey];
     [UIAlertView showAlertViewForTaskWithErrorOnCompletion:jsonCompletionSource.connectionTask delegate:nil];
     [jsonCompletionSource.task continueWithBlock:^id(BFTask *task) {
         NSLog(@"json result:%@", task.result);
