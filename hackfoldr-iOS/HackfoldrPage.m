@@ -49,6 +49,7 @@
         if (field.isEmpty || field.isCommentLine) {
             return;
         }
+        field.index = idx;
 
         // find first row isn't comment line and not empty
         if (!isFindTitle) {
@@ -93,7 +94,7 @@
 {
     NSMutableString *description = [NSMutableString string];
     [description appendFormat:@"pageTitle: %@\n", self.pageTitle];
-    [description appendFormat:@"cells: %@", self.fields];
+//    [description appendFormat:@"cells: %@", self.fields];
     return description;
 }
 
@@ -127,6 +128,8 @@
     HackfoldrField *sectionField = self.fields[indexPath.section];
     HackfoldrField *field = sectionField.subFields[indexPath.row];
     cell.textLabel.text = field.name;
+
+    cell.accessoryType = field.urlString.length > 0 ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
 
     // Default color is white
     cell.backgroundColor = [UIColor whiteColor];
