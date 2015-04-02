@@ -17,6 +17,7 @@ typedef NS_ENUM(NSUInteger, FieldType) {
 
 @interface HackfoldrField () {
     NSString *_urlString;
+    NSString *_labelString;
 }
 @end
 
@@ -140,6 +141,67 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     }];
 }
 
+- (void)setLabelString:(NSString *)labelString
+{
+    if (labelString.length == 0) {
+        _labelString = labelString;
+        return;
+    }
+
+    __block NSString *labelColorString = nil;
+    __block NSMutableString *realLabelString = [NSMutableString string];
+    // Separate by space
+    // ex: red LabelString
+    [[[labelString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]
+      filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] enumerateObjectsUsingBlock:^(NSString *subString, NSUInteger idx, BOOL *stop)
+    {
+        if (idx == 0) {
+            labelColorString = subString;
+        } else {
+            [realLabelString appendString:subString];
+        }
+    }];
+
+    if ([self updateLabelColorByString:labelColorString]) {
+        _labelString = realLabelString;
+        return;
+    }
+
+    // Separate by :
+    // ex: LabelString:important
+    [[[labelString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@":"]]
+      filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] enumerateObjectsUsingBlock:^(NSString *subString, NSUInteger idx, BOOL *stop)
+     {
+         if (idx == 0) {
+             [realLabelString appendString:subString];
+         } else {
+             labelColorString = subString;
+         }
+     }];
+
+    if ([self updateLabelColorByString:labelColorString]) {
+        _labelString = realLabelString;
+        return;
+    }
+    _labelString = labelString;
+}
+
+- (NSString *)labelString
+{
+    return _labelString;
+}
+
+- (BOOL)updateLabelColorByString:(NSString *)colorString
+{
+    NSLog(@"colorString:%@", colorString);
+    NSDictionary *colorTable = @{ @"blue" : [UIColor blueColor],
+                                 };
+    self.labelColor = colorTable[colorString];
+    return (self.labelColor != nil);
+}
+
+#pragma mark - DEBUG
+
 - (NSString *)description
 {
     NSMutableString *description = [NSMutableString string];
@@ -160,6 +222,14 @@ typedef NS_ENUM(NSUInteger, FieldType) {
 
     if (self.subFields.count > 0) {
         [description appendFormat:@"subFields: %@ ", self.subFields];
+    }
+
+    if (self.labelString) {
+        [description appendFormat:@"labelString: %@ ", self.labelString];
+    }
+
+    if (self.labelColor) {
+        [description appendFormat:@"labelColor: %@ ", self.labelColor];
     }
 
     return description;
