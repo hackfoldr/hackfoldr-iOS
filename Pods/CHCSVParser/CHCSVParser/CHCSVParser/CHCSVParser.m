@@ -2,7 +2,7 @@
 //  CHCSVParser.m
 //  CHCSVParser
 /**
- Copyright (c) 2012 Dave DeLong
+ Copyright (c) 2014 Dave DeLong
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -25,29 +25,19 @@
 
 #import "CHCSVParser.h"
 
+#if !__has_feature(objc_arc)
+#error CHCSVParser requires ARC.  If the rest of your project is non-ARC, add the "-fobjc-arc" compiler flag for this file.
+#endif
+
 NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
 
 #define CHUNK_SIZE 512
 #define DOUBLE_QUOTE '"'
 #define COMMA ','
 #define OCTOTHORPE '#'
+#define EQUAL '='
 #define BACKSLASH '\\'
-
-#if __has_feature(objc_arc)
-
-#define CHCSV_HAS_ARC 1
-#define CHCSV_RETAIN(_o) (_o)
-#define CHCSV_RELEASE(_o)
-#define CHCSV_AUTORELEASE(_o) (_o)
-
-#else
-
-#define CHCSV_HAS_ARC 0
-#define CHCSV_RETAIN(_o) [(_o) retain]
-#define CHCSV_RELEASE(_o) [(_o) release]
-#define CHCSV_AUTORELEASE(_o) [(_o) autorelease]
-
-#endif
+#define NULLCHAR '\0'
 
 @interface CHCSVParser ()
 @property (assign) NSUInteger totalBytesRead;
@@ -75,15 +65,21 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
 }
 
 - (id)initWithCSVString:(NSString *)csv {
-    NSStringEncoding encoding = [csv fastestEncoding];
-    NSInputStream *stream = [NSInputStream inputStreamWithData:[csv dataUsingEncoding:encoding]];
-    return [self initWithInputStream:stream usedEncoding:&encoding delimiter:COMMA];
+    return [self initWithDelimitedString:csv delimiter:COMMA];
 }
 
-- (id)initWithContentsOfCSVFile:(NSString *)csvFilePath {
-    NSInputStream *stream = [NSInputStream inputStreamWithFileAtPath:csvFilePath];
-    NSStringEncoding encoding = 0;
-    return [self initWithInputStream:stream usedEncoding:&encoding delimiter:COMMA];
+- (instancetype)initWithDelimitedString:(NSString *)string delimiter:(unichar)delimiter {
+    NSInputStream *stream = [NSInputStream inputStreamWithData:[string dataUsingEncoding:NSUTF8StringEncoding]];
+    return [self initWithInputStream:stream usedEncoding:NULL delimiter:delimiter];
+}
+
+- (instancetype)initWithContentsOfCSVURL:(NSURL *)csvURL {
+    return [self initWithContentsOfDelimitedURL:csvURL delimiter:COMMA];
+}
+
+- (instancetype)initWithContentsOfDelimitedURL:(NSURL *)URL delimiter:(unichar)delimiter {
+    NSInputStream *stream = [NSInputStream inputStreamWithURL:URL];
+    return [self initWithInputStream:stream usedEncoding:NULL delimiter:delimiter];
 }
 
 - (id)initWithInputStream:(NSInputStream *)stream usedEncoding:(NSStringEncoding *)encoding delimiter:(unichar)delimiter {
@@ -91,11 +87,10 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
     NSParameterAssert(delimiter);
     NSAssert([[NSCharacterSet newlineCharacterSet] characterIsMember:delimiter] == NO, @"The field delimiter may not be a newline");
     NSAssert(delimiter != DOUBLE_QUOTE, @"The field delimiter may not be a double quote");
-    NSAssert(delimiter != OCTOTHORPE, @"The field delimiter may not be an octothorpe");
     
     self = [super init];
     if (self) {
-        _stream = CHCSV_RETAIN(stream);
+        _stream = stream;
         [_stream open];
         
         _stringBuffer = [[NSMutableData alloc] init];
@@ -108,12 +103,13 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
         _recognizesBackslashesAsEscapes = NO;
         _sanitizesFields = NO;
         _sanitizedField = [[NSMutableString alloc] init];
+        _trimsWhitespace = NO;
+        _recognizesLeadingEqualSign = NO;
         
         NSMutableCharacterSet *m = [[NSCharacterSet newlineCharacterSet] mutableCopy];
         NSString *invalid = [NSString stringWithFormat:@"%c%C", DOUBLE_QUOTE, _delimiter];
         [m addCharactersInString:invalid];
-        _validFieldCharacters = CHCSV_RETAIN([m invertedSet]);
-        CHCSV_RELEASE(m);
+        _validFieldCharacters = [m invertedSet];
         
         if (encoding == NULL || *encoding == 0) {
             // we need to determine the encoding
@@ -130,14 +126,29 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
 
 - (void)dealloc {
     [_stream close];
-#if !CHCSV_HAS_ARC
-    [_stream release];
-    [_stringBuffer release];
-    [_string release];
-    [_sanitizedField release];
-    [_validFieldCharacters release];
-    [super dealloc];
-#endif
+}
+
+#pragma mark -
+
+- (void)setRecognizesBackslashesAsEscapes:(BOOL)recognizesBackslashesAsEscapes {
+    _recognizesBackslashesAsEscapes = recognizesBackslashesAsEscapes;
+    if (_delimiter == BACKSLASH && _recognizesBackslashesAsEscapes) {
+        [NSException raise:NSInternalInconsistencyException format:@"Cannot recognize backslashes as escapes when using '\\' as the delimiter"];
+    }
+}
+
+- (void)setRecognizesComments:(BOOL)recognizesComments {
+    _recognizesComments = recognizesComments;
+    if (_delimiter == OCTOTHORPE && _recognizesComments) {
+        [NSException raise:NSInternalInconsistencyException format:@"Cannot recognize comments when using '#' as the delimiter"];
+    }
+}
+
+- (void)setRecognizesLeadingEqualSign:(BOOL)recognizesLeadingEqualSign {
+    _recognizesLeadingEqualSign = recognizesLeadingEqualSign;
+    if (_delimiter == EQUAL && _recognizesLeadingEqualSign) {
+        [NSException raise:NSInternalInconsistencyException format:@"Cannot recognize leading equal sign when using '=' as the delimiter"];
+    }
 }
 
 #pragma mark -
@@ -175,7 +186,7 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
             NSString *bufferAsUTF8 = nil;
             
             for (NSInteger triedLength = 0; triedLength < 4; ++triedLength) {
-                bufferAsUTF8 = CHCSV_AUTORELEASE([[NSString alloc] initWithBytes:bytes length:readLength-triedLength encoding:NSUTF8StringEncoding]);
+                bufferAsUTF8 = [[NSString alloc] initWithBytes:bytes length:readLength-triedLength encoding:NSUTF8StringEncoding];
                 if (bufferAsUTF8 != nil) {
                     break;
                 }
@@ -221,7 +232,6 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
                 readLength--;
             } else {
                 [_string appendString:readString];
-                CHCSV_RELEASE(readString);
                 break;
             }
         };
@@ -237,7 +247,7 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
 
 - (unichar)_peekCharacter {
     [self _loadMoreIfNecessary];
-    if (_nextIndex >= [_string length]) { return '\0'; }
+    if (_nextIndex >= [_string length]) { return NULLCHAR; }
     
     return [_string characterAtIndex:_nextIndex];
 }
@@ -245,7 +255,7 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
 - (unichar)_peekPeekCharacter {
     [self _loadMoreIfNecessary];
     NSUInteger nextNextIndex = _nextIndex+1;
-    if (nextNextIndex >= [_string length]) { return '\0'; }
+    if (nextNextIndex >= [_string length]) { return NULLCHAR; }
     
     return [_string characterAtIndex:nextNextIndex];
 }
@@ -253,17 +263,19 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
 #pragma mark -
 
 - (void)parse {
-    [self _beginDocument];
-    
-    _currentRecord = 0;
-    while ([self _parseRecord]) {
-        ; // yep;
-    }
-    
-    if (_error != nil) {
-        [self _error];
-    } else {
-        [self _endDocument];
+    @autoreleasepool {
+        [self _beginDocument];
+        
+        _currentRecord = 0;
+        while ([self _parseRecord]) {
+            ; // yep;
+        }
+        
+        if (_error != nil) {
+            [self _error];
+        } else {
+            [self _endDocument];
+        }
     }
 }
 
@@ -276,19 +288,23 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
         [self _parseComment];
     }
     
-    [self _beginRecord];
-    while (1) {
-        if (![self _parseField]) {
-            break;
+    if ([self _peekCharacter] != NULLCHAR) {
+        @autoreleasepool {
+            [self _beginRecord];
+            while (1) {
+                if (![self _parseField]) {
+                    break;
+                }
+                if (![self _parseDelimiter]) {
+                    break;
+                }
+            }
+            [self _endRecord];
         }
-        if (![self _parseDelimiter]) {
-            break;
-        }
-    }    
-    BOOL followedByNewline = [self _parseNewline];
-    [self _endRecord];
+    }
     
-    return (followedByNewline && _error == nil);
+    BOOL followedByNewline = [self _parseNewline];
+    return (followedByNewline && _error == nil && [self _peekCharacter] != NULLCHAR);
 }
 
 - (BOOL)_parseNewline {
@@ -315,7 +331,7 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
             if (next == BACKSLASH && _recognizesBackslashesAsEscapes) {
                 isBackslashEscaped = YES;
                 [self _advance];
-            } else if ([newlines characterIsMember:next] == NO) {
+            } else if ([newlines characterIsMember:next] == NO && next != NULLCHAR) {
                 [self _advance];
             } else {
                 // it's a newline
@@ -333,11 +349,14 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
 
 - (void)_parseFieldWhitespace {
     NSCharacterSet *whitespace = [NSCharacterSet whitespaceCharacterSet];
-    while ([self _peekCharacter] != '\0' &&
+    while ([self _peekCharacter] != NULLCHAR &&
            [whitespace characterIsMember:[self _peekCharacter]] &&
            [self _peekCharacter] != _delimiter) {
-        // if we're sanitizing fields, then these characters would be stripped (because they're not appended to _sanitizedField)
-        // if we're not sanitizing fields, then they'll be included in the -substringWithRange:
+        
+        if (_trimsWhitespace == NO) {
+            [_sanitizedField appendFormat:@"%C", [self _peekCharacter]];
+            // if we're sanitizing fields, then these characters would be stripped (because they're not appended to _sanitizedField)
+        }
         [self _advance];
     }
 }
@@ -347,13 +366,21 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
     
     BOOL parsedField = NO;
     [self _beginField];
+    
     // consume leading whitespace
     [self _parseFieldWhitespace];
     
     if ([self _peekCharacter] == DOUBLE_QUOTE) {
         parsedField = [self _parseEscapedField];
+    } else if (_recognizesLeadingEqualSign && [self _peekCharacter] == EQUAL && [self _peekPeekCharacter] == DOUBLE_QUOTE) {
+        [self _advance]; // consume the equal sign
+        parsedField = [self _parseEscapedField];
     } else {
         parsedField = [self _parseUnescapedField];
+        if (_trimsWhitespace) {
+            NSString *trimmedString = [_sanitizedField stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            [_sanitizedField setString:trimmedString];
+        }
     }
     
     if (parsedField) {
@@ -371,7 +398,7 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
     BOOL isBackslashEscaped = NO;
     while (1) {
         unichar next = [self _peekCharacter];
-        if (next == '\0') { break; }
+        if (next == NULLCHAR) { break; }
         
         if (isBackslashEscaped == NO) {
             if (next == BACKSLASH && _recognizesBackslashesAsEscapes) {
@@ -407,20 +434,21 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
 
 - (BOOL)_parseUnescapedField {
     
+    NSCharacterSet *newlines = [NSCharacterSet newlineCharacterSet];
     BOOL isBackslashEscaped = NO;
     while (1) {
         unichar next = [self _peekCharacter];
-        if (next == '\0') { break; }
+        if (next == NULLCHAR) { break; }
         
         if (isBackslashEscaped == NO) {
             if (next == BACKSLASH && _recognizesBackslashesAsEscapes) {
                 isBackslashEscaped = YES;
                 [self _advance];
-            } else if ([_validFieldCharacters characterIsMember:next]) {
+            } else if ([newlines characterIsMember:next] == YES || next == _delimiter) {
+                break;
+            } else {
                 [_sanitizedField appendFormat:@"%C", next];
                 [self _advance];
-            } else {
-                break;
             }
         } else {
             isBackslashEscaped = NO;
@@ -438,7 +466,7 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
         [self _advance];
         return YES;
     }
-    if (next != '\0' && [[NSCharacterSet newlineCharacterSet] characterIsMember:next] == NO) {
+    if (next != NULLCHAR && [[NSCharacterSet newlineCharacterSet] characterIsMember:next] == NO) {
         NSString *description = [NSString stringWithFormat:@"Unexpected delimiter. Expected '%C' (0x%X), but got '%C' (0x%X)", _delimiter, _delimiter, [self _peekCharacter], [self _peekCharacter]];
         _error = [[NSError alloc] initWithDomain:CHCSVErrorDomain code:CHCSVErrorCodeInvalidFormat userInfo:@{NSLocalizedDescriptionKey : description}];
     }
@@ -489,10 +517,12 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
     NSString *field = nil;
     
     if (_sanitizesFields) {
-        field = CHCSV_AUTORELEASE([_sanitizedField copy]);
-        field = [field stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        field = [_sanitizedField copy];
     } else {
         field = [_string substringWithRange:_fieldRange];
+        if (_trimsWhitespace) {
+            field = [field stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        }
     }
     
     if ([_delegate respondsToSelector:@selector(parser:didReadField:atIndex:)]) {
@@ -552,7 +582,7 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
 - (instancetype)initWithOutputStream:(NSOutputStream *)stream encoding:(NSStringEncoding)encoding delimiter:(unichar)delimiter {
     self = [super init];
     if (self) {
-        _stream = CHCSV_RETAIN(stream);
+        _stream = stream;
         _streamEncoding = encoding;
         
         if ([_stream streamStatus] == NSStreamStatusNotOpen) {
@@ -563,36 +593,28 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
         NSData *aa = [@"aa" dataUsingEncoding:_streamEncoding];
         if ([a length] * 2 != [aa length]) {
             NSUInteger characterLength = [aa length] - [a length];
-            _bom = CHCSV_RETAIN([a subdataWithRange:NSMakeRange(0, [a length] - characterLength)]);
+            _bom = [a subdataWithRange:NSMakeRange(0, [a length] - characterLength)];
             [self _writeData:_bom];
         }
         
         NSString *delimiterString = [NSString stringWithFormat:@"%C", delimiter];
         NSData *delimiterData = [delimiterString dataUsingEncoding:_streamEncoding];
         if ([_bom length] > 0) {
-            _delimiter = CHCSV_RETAIN([delimiterData subdataWithRange:NSMakeRange([_bom length], [delimiterData length] - [_bom length])]);
+            _delimiter = [delimiterData subdataWithRange:NSMakeRange([_bom length], [delimiterData length] - [_bom length])];
         } else {
-            _delimiter = CHCSV_RETAIN(delimiterData);
+            _delimiter = delimiterData;
         }
         
         NSMutableCharacterSet *illegalCharacters = [[NSCharacterSet newlineCharacterSet] mutableCopy];
         [illegalCharacters addCharactersInString:delimiterString];
         [illegalCharacters addCharactersInString:@"\""];
         _illegalCharacters = [illegalCharacters copy];
-        CHCSV_RELEASE(illegalCharacters);
     }
     return self;
 }
 
 - (void)dealloc {
     [self closeStream];
-    
-#if !CHCSV_HAS_ARC
-    [_delimiter release];
-    [_bom release];
-    [_illegalCharacters release];
-    [super dealloc];
-#endif
 }
 
 - (void)_writeData:(NSData *)data {
@@ -661,7 +683,6 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
 
 - (void)closeStream {
     [_stream close];
-    CHCSV_RELEASE(_stream);
     _stream = nil;
 }
 
@@ -671,74 +692,112 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
 
 @interface _CHCSVAggregator : NSObject <CHCSVParserDelegate>
 
-@property (readonly) NSArray *lines;
-@property (readonly) NSError *error;
+@property (strong) NSMutableArray *lines;
+@property (strong) NSError *error;
+
+@property (strong) NSMutableArray *currentLine;
 
 @end
 
-@implementation _CHCSVAggregator {
-    NSMutableArray *_lines;
-    NSMutableArray *_currentLine;
-}
-
-#if !CHCSV_HAS_ARC
-- (void)dealloc {
-    [_currentLine release];
-    [_lines release];
-    [_error release];
-    [super dealloc];
-}
-#endif
+@implementation _CHCSVAggregator
 
 - (void)parserDidBeginDocument:(CHCSVParser *)parser {
-    _lines = [[NSMutableArray alloc] init];
+    self.lines = [[NSMutableArray alloc] init];
 }
 
 - (void)parser:(CHCSVParser *)parser didBeginLine:(NSUInteger)recordNumber {
-    _currentLine = [[NSMutableArray alloc] init];
+    self.currentLine = [[NSMutableArray alloc] init];
 }
 
 - (void)parser:(CHCSVParser *)parser didEndLine:(NSUInteger)recordNumber {
-    [_lines addObject:_currentLine];
-    CHCSV_RELEASE(_currentLine);
-    _currentLine = nil;
+    [self.lines addObject:self.currentLine];
+    self.currentLine = nil;
 }
 
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)fieldIndex {
-    [_currentLine addObject:field];
+    [self.currentLine addObject:field];
 }
 
 - (void)parser:(CHCSVParser *)parser didFailWithError:(NSError *)error {
-    _error = CHCSV_RETAIN(error);
-    CHCSV_RELEASE(_lines);
-    _lines = nil;
+    self.error = error;
+    self.lines = nil;
 }
 
 @end
 
-@implementation NSArray (CHCSVAdditions)
+@interface _CHCSVKeyedAggregator : _CHCSVAggregator
 
-+ (instancetype)arrayWithContentsOfCSVFile:(NSString *)csvFilePath {
-    return [self arrayWithContentsOfCSVFile:csvFilePath options:0];
+@property (strong) NSArray *firstLine;
+
+@end
+
+@implementation _CHCSVKeyedAggregator
+
+- (void)parser:(CHCSVParser *)parser didEndLine:(NSUInteger)recordNumber {
+    if (self.firstLine == nil) {
+        self.firstLine = self.currentLine;
+    } else if (self.currentLine.count == self.firstLine.count) {
+        CHCSVOrderedDictionary *line = [[CHCSVOrderedDictionary alloc] initWithObjects:self.currentLine
+                                                                               forKeys:self.firstLine];
+        [self.lines addObject:line];
+    } else {
+        [parser cancelParsing];
+        self.error = [NSError errorWithDomain:CHCSVErrorDomain code:CHCSVErrorCodeIncorrectNumberOfFields userInfo:nil];
+    }
+    self.currentLine = nil;
 }
 
-+ (instancetype)arrayWithContentsOfCSVFile:(NSString *)csvFilePath options:(CHCSVParserOptions)options{
-    NSParameterAssert(csvFilePath);
-    _CHCSVAggregator *aggregator = [[_CHCSVAggregator alloc] init];
-    CHCSVParser *parser = [[CHCSVParser alloc] initWithContentsOfCSVFile:csvFilePath];
-    [parser setDelegate:aggregator];
+@end
+
+NSArray *_CHCSVParserParse(NSInputStream *inputStream, CHCSVParserOptions options, unichar delimiter, NSError *__autoreleasing *error);
+NSArray *_CHCSVParserParse(NSInputStream *inputStream, CHCSVParserOptions options, unichar delimiter, NSError *__autoreleasing *error) {
+    CHCSVParser *parser = [[CHCSVParser alloc] initWithInputStream:inputStream usedEncoding:nil delimiter:delimiter];
     
-    [parser setRecognizesBackslashesAsEscapes:!!(options & CHCSVParserOptionsRecognizesBackslashesAsEscapes)];
-    [parser setSanitizesFields:!!(options & CHCSVParserOptionsSanitizesFields)];
-    [parser setRecognizesComments:!!(options & CHCSVParserOptionsRecognizesComments)];
+    BOOL usesFirstLineAsKeys = !!(options & CHCSVParserOptionsUsesFirstLineAsKeys);
+    _CHCSVAggregator *aggregator = usesFirstLineAsKeys ? [[_CHCSVKeyedAggregator alloc] init] : [[_CHCSVAggregator alloc] init];
+    parser.delegate = aggregator;
+    
+    parser.recognizesBackslashesAsEscapes = !!(options & CHCSVParserOptionsRecognizesBackslashesAsEscapes);
+    parser.sanitizesFields = !!(options & CHCSVParserOptionsSanitizesFields);
+    parser.recognizesComments = !!(options & CHCSVParserOptionsRecognizesComments);
+    parser.trimsWhitespace = !!(options & CHCSVParserOptionsTrimsWhitespace);
+    parser.recognizesLeadingEqualSign = !!(options & CHCSVParserOptionsRecognizesLeadingEqualSign);
     
     [parser parse];
-    CHCSV_RELEASE(parser);
     
-    NSArray *final = CHCSV_AUTORELEASE(CHCSV_RETAIN([aggregator lines]));
-    CHCSV_RELEASE(aggregator);
+    if (aggregator.error != nil) {
+        if (error) {
+            *error = aggregator.error;
+        }
+        return nil;
+    } else {
+        return aggregator.lines;
+    }
+}
+
+@implementation NSArray (CHCSVAdditions)
+
++ (instancetype)arrayWithContentsOfCSVURL:(NSURL *)fileURL {
+    return [self arrayWithContentsOfDelimitedURL:fileURL options:0 delimiter:COMMA error:nil];
+}
+
++ (instancetype)arrayWithContentsOfDelimitedURL:(NSURL *)fileURL delimiter:(unichar)delimiter {
+    return [self arrayWithContentsOfDelimitedURL:fileURL options:0 delimiter:delimiter error:nil];
+}
+
++ (instancetype)arrayWithContentsOfCSVURL:(NSURL *)fileURL options:(CHCSVParserOptions)options {
+    return [self arrayWithContentsOfDelimitedURL:fileURL options:options delimiter:COMMA error:nil];
+}
+
++ (instancetype)arrayWithContentsOfDelimitedURL:(NSURL *)fileURL options:(CHCSVParserOptions)options delimiter:(unichar)delimiter {
+    return [self arrayWithContentsOfDelimitedURL:fileURL options:options delimiter:delimiter error:nil];
+}
+
++ (instancetype)arrayWithContentsOfDelimitedURL:(NSURL *)fileURL options:(CHCSVParserOptions)options delimiter:(unichar)delimiter error:(NSError *__autoreleasing *)error {
+    NSParameterAssert(fileURL);
+    NSInputStream *stream = [NSInputStream inputStreamWithURL:fileURL];
     
-    return final;
+    return _CHCSVParserParse(stream, options, delimiter, error);
 }
 
 - (NSString *)CSVString {
@@ -750,11 +809,9 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
         }
     }
     [writer closeStream];
-    CHCSV_RELEASE(writer);
     
     NSData *buffer = [output propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
-    NSString *string = [[NSString alloc] initWithData:buffer encoding:NSUTF8StringEncoding];
-    return CHCSV_AUTORELEASE(string);
+    return [[NSString alloc] initWithData:buffer encoding:NSUTF8StringEncoding];
 }
 
 @end
@@ -762,25 +819,162 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
 @implementation NSString (CHCSVAdditions)
 
 - (NSArray *)CSVComponents {
-    return [self CSVComponentsWithOptions:0];
+    return [self componentsSeparatedByDelimiter:COMMA options:0 error:nil];
 }
 
 - (NSArray *)CSVComponentsWithOptions:(CHCSVParserOptions)options {
-    _CHCSVAggregator *aggregator = [[_CHCSVAggregator alloc] init];
-    CHCSVParser *parser = [[CHCSVParser alloc] initWithCSVString:self];
-    [parser setDelegate:aggregator];
+    return [self componentsSeparatedByDelimiter:COMMA options:options error:nil];
+}
+
+- (NSArray *)componentsSeparatedByDelimiter:(unichar)delimiter {
+    return [self componentsSeparatedByDelimiter:delimiter options:0 error:nil];
+}
+
+- (NSArray *)componentsSeparatedByDelimiter:(unichar)delimiter options:(CHCSVParserOptions)options {
+    return [self componentsSeparatedByDelimiter:delimiter options:options error:nil];
+}
+
+- (NSArray *)componentsSeparatedByDelimiter:(unichar)delimiter options:(CHCSVParserOptions)options error:(NSError *__autoreleasing *)error {
+    NSData *csvData = [self dataUsingEncoding:NSUTF8StringEncoding];
+    NSInputStream *stream = [NSInputStream inputStreamWithData:csvData];
     
-    [parser setRecognizesBackslashesAsEscapes:!!(options & CHCSVParserOptionsRecognizesBackslashesAsEscapes)];
-    [parser setSanitizesFields:!!(options & CHCSVParserOptionsSanitizesFields)];
-    [parser setRecognizesComments:!!(options & CHCSVParserOptionsRecognizesComments)];
+    return _CHCSVParserParse(stream, options, delimiter, error);
+}
+
+@end
+
+@implementation CHCSVOrderedDictionary {
+    NSArray *_keys;
+    NSArray *_values;
+    NSDictionary *_dictionary;
+}
+
+- (instancetype)initWithObjects:(NSArray *)objects forKeys:(NSArray *)keys {
+    self = [super init];
+    if (self) {
+        _keys = keys.copy;
+        _values = objects.copy;
+        _dictionary = [NSDictionary dictionaryWithObjects:_values forKeys:_keys];
+    }
+    return self;
+}
+
+- (instancetype)initWithObjects:(const id [])objects forKeys:(const id<NSCopying> [])keys count:(NSUInteger)cnt {
+    return [self initWithObjects:[NSArray arrayWithObjects:objects count:cnt]
+                         forKeys:[NSArray arrayWithObjects:keys count:cnt]];
+}
+
+- (NSArray *)allKeys {
+    return _keys;
+}
+
+- (NSArray *)allValues {
+    return _values;
+}
+
+- (NSUInteger)count {
+    return _dictionary.count;
+}
+
+- (id)objectForKey:(id)aKey {
+    return [_dictionary objectForKey:aKey];
+}
+
+- (NSEnumerator *)keyEnumerator {
+    return _keys.objectEnumerator;
+}
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])buffer count:(NSUInteger)len {
+    return [_keys countByEnumeratingWithState:state objects:buffer count:len];
+}
+
+- (id)objectAtIndex:(NSUInteger)idx {
+    id key = [_keys objectAtIndex:idx];
+    return [self objectForKey:key];
+}
+
+- (id)objectAtIndexedSubscript:(NSUInteger)idx {
+    return [self objectAtIndex:idx];
+}
+
+- (NSUInteger)hash {
+    return _dictionary.hash;
+}
+
+- (BOOL)isEqual:(CHCSVOrderedDictionary *)object {
+    if ([super isEqual:object] && [object isKindOfClass:[CHCSVOrderedDictionary class]]) {
+        // we've determined that from a dictionary POV, they're equal
+        // now we need to test for key ordering
+        return [object->_keys isEqual:_keys];
+    }
     
-    [parser parse];
-    CHCSV_RELEASE(parser);
-    
-    NSArray *final = CHCSV_AUTORELEASE(CHCSV_RETAIN([aggregator lines]));
-    CHCSV_RELEASE(aggregator);
-    
-    return final;
+    return NO;
+}
+
+@end
+
+#pragma mark - Deprecated methods
+
+@implementation CHCSVParser (Deprecated)
+
+- (id)initWithCSVString:(NSString *)csv delimiter:(unichar)delimiter {
+    return [self initWithDelimitedString:csv delimiter:delimiter];
+}
+
+- (id)initWithContentsOfCSVFile:(NSString *)csvFilePath {
+    return [self initWithContentsOfCSVURL:[NSURL fileURLWithPath:csvFilePath]];
+}
+
+- (id)initWithContentsOfCSVFile:(NSString *)csvFilePath delimiter:(unichar)delimiter {
+    return [self initWithContentsOfDelimitedURL:[NSURL fileURLWithPath:csvFilePath] delimiter:delimiter];
+}
+
+- (void)setStripsLeadingAndTrailingWhitespace:(BOOL)stripsLeadingAndTrailingWhitespace {
+    self.trimsWhitespace = stripsLeadingAndTrailingWhitespace;
+}
+
+- (BOOL)stripsLeadingAndTrailingWhitespace {
+    return self.trimsWhitespace;
+}
+
+@end
+
+@implementation NSArray (CHCSVAdditions_Deprecated)
+
++ (instancetype)arrayWithContentsOfCSVFile:(NSString *)csvFilePath {
+    return [self arrayWithContentsOfDelimitedURL:[NSURL fileURLWithPath:csvFilePath] options:0 delimiter:COMMA error:nil];
+}
+
++ (instancetype)arrayWithContentsOfCSVFile:(NSString *)csvFilePath delimiter:(unichar)delimiter {
+    return [self arrayWithContentsOfDelimitedURL:[NSURL fileURLWithPath:csvFilePath] options:0 delimiter:delimiter error:nil];
+}
+
++ (instancetype)arrayWithContentsOfCSVFile:(NSString *)csvFilePath options:(CHCSVParserOptions)options {
+    return [self arrayWithContentsOfDelimitedURL:[NSURL fileURLWithPath:csvFilePath] options:options delimiter:COMMA error:nil];
+}
+
++ (instancetype)arrayWithContentsOfCSVFile:(NSString *)csvFilePath options:(CHCSVParserOptions)options delimiter:(unichar)delimiter {
+    return [self arrayWithContentsOfDelimitedURL:[NSURL fileURLWithPath:csvFilePath] options:options delimiter:delimiter error:nil];
+}
+
++ (instancetype)arrayWithContentsOfCSVFile:(NSString *)csvFilePath options:(CHCSVParserOptions)options delimiter:(unichar)delimiter error:(NSError *__autoreleasing *)error {
+    return [self arrayWithContentsOfDelimitedURL:[NSURL fileURLWithPath:csvFilePath] options:options delimiter:delimiter error:error];
+}
+
+@end
+
+@implementation NSString (CHCSVAdditions_Deprecated)
+
+- (NSArray *)CSVComponentsWithDelimiter:(unichar)delimiter {
+    return [self componentsSeparatedByDelimiter:delimiter options:0 error:nil];
+}
+
+- (NSArray *)CSVComponentsWithOptions:(CHCSVParserOptions)options delimiter:(unichar)delimiter {
+    return [self componentsSeparatedByDelimiter:delimiter options:options error:nil];
+}
+
+- (NSArray *)CSVComponentsWithOptions:(CHCSVParserOptions)options delimiter:(unichar)delimiter error:(NSError *__autoreleasing *)error {
+    return [self componentsSeparatedByDelimiter:delimiter options:options error:error];
 }
 
 @end

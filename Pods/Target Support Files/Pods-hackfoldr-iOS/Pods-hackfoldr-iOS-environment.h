@@ -6,6 +6,12 @@
 // project.
 
 
+// AFCSVParserResponseSerializer
+#define COCOAPODS_POD_AVAILABLE_AFCSVParserResponseSerializer
+#define COCOAPODS_VERSION_MAJOR_AFCSVParserResponseSerializer 0
+#define COCOAPODS_VERSION_MINOR_AFCSVParserResponseSerializer 1
+#define COCOAPODS_VERSION_PATCH_AFCSVParserResponseSerializer 0
+
 // AFNetworking
 #define COCOAPODS_POD_AVAILABLE_AFNetworking
 #define COCOAPODS_VERSION_MAJOR_AFNetworking 2
@@ -57,8 +63,8 @@
 // CHCSVParser
 #define COCOAPODS_POD_AVAILABLE_CHCSVParser
 #define COCOAPODS_VERSION_MAJOR_CHCSVParser 2
-#define COCOAPODS_VERSION_MINOR_CHCSVParser 0
-#define COCOAPODS_VERSION_PATCH_CHCSVParser 7
+#define COCOAPODS_VERSION_MINOR_CHCSVParser 1
+#define COCOAPODS_VERSION_PATCH_CHCSVParser 0
 
 // TOWebViewController
 #define COCOAPODS_POD_AVAILABLE_TOWebViewController

@@ -822,9 +822,6 @@ static const float kAfterInteractiveMaxProgressValue    = 0.9f;
     // If we're on iOS 6 or above, we can use the super-duper activity view controller :)
     if (NSClassFromString(@"UIActivityViewController"))
     {
-        // Check |self.url| before use it.
-        if (!self.url) return;
-
         NSArray *browserActivities = @[[TOActivitySafari new], [TOActivityChrome new]];
         UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:browserActivities];
         

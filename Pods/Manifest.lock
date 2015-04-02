@@ -1,4 +1,7 @@
 PODS:
+  - AFCSVParserResponseSerializer (0.1.0):
+    - AFNetworking (~> 2.3)
+    - CHCSVParser (~> 2.0)
   - AFNetworking (2.3.1):
     - AFNetworking/NSURLConnection (= 2.3.1)
     - AFNetworking/NSURLSession (= 2.3.1)
@@ -21,7 +24,7 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - Bolts (1.0.0)
-  - CHCSVParser (2.0.7)
+  - CHCSVParser (2.1.0)
   - OHHTTPStubs (3.1.6):
     - OHHTTPStubs/Core (= 3.1.6)
   - OHHTTPStubs/Core (3.1.6)
@@ -29,19 +32,20 @@ PODS:
   - TOWebViewController (2.0.14)
 
 DEPENDENCIES:
-  - AFNetworking (~> 2.3.1)
+  - AFCSVParserResponseSerializer
+  - AFNetworking (~> 2.3)
   - AFNetworking/UIKit (~> 2.3.1)
   - Bolts (~> 1.0.0)
-  - CHCSVParser (~> 2.0.7)
   - OHHTTPStubs
   - OHHTTPStubs/XCTestExpectation
   - TOWebViewController
 
 SPEC CHECKSUMS:
-  AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
-  Bolts: 0d6132ce6856f2eac784cfeb3fc3feceac15eae3
-  CHCSVParser: 0c75a766de2eabc4ff03639945a7ad4a724344d4
-  OHHTTPStubs: 6781373b69e0a67b27239799f11764d0fbefac55
-  TOWebViewController: d3eee5342e5f8508cc87107c96544f5dff01b802
+  AFCSVParserResponseSerializer: e7322f94756052a4d05048d45278b6a82fb5a946
+  AFNetworking: 05b9f6e3aa5ac45bc383b4bb108ef338080a26c7
+  Bolts: 7d4f57162547cc80743b05556dc26eb40bd44008
+  CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
+  OHHTTPStubs: b671969016b4c6f5ee3c26080c81114ba82e0710
+  TOWebViewController: 2cfd0032d781cabd88a0995fbca9692c11f0797e
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.36.3
