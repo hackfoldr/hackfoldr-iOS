@@ -121,12 +121,25 @@
     NSString *identifier = [NSStringFromClass([self class]) stringByAppendingString:@"Cell"];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
     }
 
     HackfoldrField *sectionField = self.fields[indexPath.section];
     HackfoldrField *field = sectionField.subFields[indexPath.row];
     cell.textLabel.text = field.name;
+
+    // Default color is white
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.detailTextLabel.backgroundColor = [UIColor whiteColor];
+    // Only setup when |field.labelString| have value
+    if (field.labelString.length > 0) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@" %@ ", field.labelString];
+        cell.detailTextLabel.textColor = [UIColor whiteColor];
+        cell.detailTextLabel.backgroundColor = field.labelColor;
+        [cell.detailTextLabel.layer setCornerRadius:3.f];
+        [cell.detailTextLabel.layer setMasksToBounds:YES];
+    }
+    NSLog(@"field:%@",field);
 
     return cell;
 }
