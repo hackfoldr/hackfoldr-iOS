@@ -8,6 +8,12 @@
 
 #import "HackfoldrField.h"
 
+//RGB color macro
+#define UIColorFromRGB(rgbValue) [UIColor \
+colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
+blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
 typedef NS_ENUM(NSUInteger, FieldType) {
     FieldType_URL = 0,
     FieldType_Title,
@@ -193,11 +199,31 @@ typedef NS_ENUM(NSUInteger, FieldType) {
 
 - (BOOL)updateLabelColorByString:(NSString *)colorString
 {
-    NSLog(@"colorString:%@", colorString);
-    NSDictionary *colorTable = @{ @"blue" : [UIColor blueColor],
+    UIColor *defaultColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.35f];
+    NSDictionary *colorTable = @{ @"black" : UIColorFromRGB(0x5C6166),
+                                  @"blue" : UIColorFromRGB(0x6ECFF5),
+                                  @"deep-blue" : UIColorFromRGB(0x006DCC),
+                                  @"deep-green" : UIColorFromRGB(0x5BB75B),
+                                  @"deep-purple" : UIColorFromRGB(0x564F8A),
+                                  @"gray" : defaultColor,
+                                  @"green" : UIColorFromRGB(0xA1CF64),
+                                  @"important" : UIColorFromRGB(0xD95C5C),
+                                  @"issue" : defaultColor,
+                                  @"orange" : UIColorFromRGB(0xF0AD4E),
+                                  @"pink" : UIColorFromRGB(0xF3A8AA),
+                                  @"purple" : UIColorFromRGB(0x9B96F7),
+                                  @"red" : UIColorFromRGB(0xD95C5C),
+                                  @"teal" : UIColorFromRGB(0x00B5AD),
+                                  @"warning" : UIColorFromRGB(0xF0AD4E),
+                                  @"yellow" : UIColorFromRGB(0xF0AD4E),
                                  };
     self.labelColor = colorTable[colorString];
-    return (self.labelColor != nil);
+    if (self.labelColor) {
+        return YES;
+    }
+
+    self.labelColor = defaultColor;
+    return NO;
 }
 
 #pragma mark - DEBUG
