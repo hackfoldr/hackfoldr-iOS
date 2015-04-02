@@ -14,9 +14,9 @@
 #import "HackfoldrClient.h"
 #import "HackfoldrPage.h"
 // ViewController
-#import "TOWebViewController+HackfoldrField.h"
 #import "ListFieldViewController.h"
-#import "SettingViewController.h"
+#import "QuickDialog.h"
+#import "TOWebViewController+HackfoldrField.h"
 #import "UIAlertView+AFNetworking.h"
 
 @interface MainViewController () <UITableViewDelegate, UINavigationControllerDelegate>
@@ -169,8 +169,37 @@
 - (void)settingAction:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:^{
-        UIViewController *settingViewController = [[SettingViewController alloc] init];
-        UINavigationController *navigationForSetting = [[UINavigationController alloc] initWithRootViewController:settingViewController];
+        QRootElement *settingRoot = [[QRootElement alloc] init];
+        settingRoot.title = NSLocalizedStringFromTable(@"Change Hackfoldr Page", @"Hackfoldr", @"Title of SettingView");
+        settingRoot.grouped = YES;
+
+        UINavigationController *navigationForSetting = [QuickDialogController controllerWithNavigationForRoot:settingRoot];
+
+        QSection *inputSection = [[QSection alloc] init];
+
+        QEntryElement *inputElement = [[QEntryElement alloc] init];
+        inputElement.placeholder = @"Hackfoldr key or URL";
+        [inputSection addElement:inputElement];
+
+        QButtonElement *sendButtonElement = [[QButtonElement alloc] init];
+        sendButtonElement.title = NSLocalizedStringFromTable(@"Change page", @"Hackfoldr", @"update hackfoldr button text");
+        sendButtonElement.onSelected = ^(void) {
+            NSString *newHackfoldrPage = inputElement.textValue;
+            if (newHackfoldrPage && newHackfoldrPage.length > 0) {
+                // Check |newHackfoldrPage| is existed
+                HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:newHackfoldrPage];
+                [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask delegate:nil];
+                [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
+                    NSLog(@"change hackfoldr page: %@", newHackfoldrPage);
+                    [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:newHackfoldrPage];
+                    return nil;
+                }];
+            }
+            [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
+        };
+        [inputSection addElement:sendButtonElement];
+        [settingRoot addSection:inputSection];
+
         [self presentViewController:navigationForSetting animated:YES completion:nil];
     }];
 }
