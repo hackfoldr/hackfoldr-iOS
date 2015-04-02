@@ -59,6 +59,7 @@
 
 #if DEBUG
     [[NSUserDefaults standardUserDefaults] removeDefaultHackfolderPage];
+    [[NSUserDefaults standardUserDefaults] removeCurrentHackfoldrPage];
 #endif
     [self mainNavigationController].delegate = self;
 }
@@ -109,30 +110,7 @@
 {
     [super viewDidAppear:animated];
 
-    HackfoldrTaskCompletionSource *jsonCompletionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataWithJSONAtPath:self.hackfoldrPageKey];
-    [jsonCompletionSource.task continueWithBlock:^id(BFTask *task) {
-        NSLog(@"%@", task.result);
-        self.listViewController.tableView.dataSource = [HackfoldrClient sharedClient].lastPage;
-        [self.listViewController.tableView reloadData];
-        if (!self.currentField) {
-            [self showListViewController];
-        }
-        return nil;
-    }];
-    return;
-
-    HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:self.hackfoldrPageKey];
-    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask delegate:nil];
-    [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
-        NSLog(@"%@", task.result);
-        self.listViewController.tableView.dataSource = [HackfoldrClient sharedClient].lastPage;
-
-        [self.listViewController.tableView reloadData];
-        if (!self.currentField) {
-            [self showListViewController];
-        }
-        return nil;
-    }];
+    [self updateHackfoldrPageTaskWithKey:self.hackfoldrPageKey];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -166,6 +144,56 @@
     }
 }
 
+#pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if (self == viewController) {
+        self.currentField = nil;
+    }
+}
+
+#pragma mark - Actions
+
+- (void)showListViewController {
+    UINavigationController *navigationControllerForListViewController =
+    [[UINavigationController alloc] initWithRootViewController:self.listViewController];
+    [self presentViewController:navigationControllerForListViewController animated:YES completion:nil];
+}
+
+- (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
+{
+    HackfoldrTaskCompletionSource *jsonCompletionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataWithJSONAtPath:self.hackfoldrPageKey];
+    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:jsonCompletionSource.connectionTask delegate:nil];
+    [jsonCompletionSource.task continueWithBlock:^id(BFTask *task) {
+        NSLog(@"json result:%@", task.result);
+
+        // try to request on csv api
+        if (task.error && task.error.code == 404) {
+            HackfoldrTaskCompletionSource *csvCompletionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:self.hackfoldrPageKey];
+            [UIAlertView showAlertViewForTaskWithErrorOnCompletion:jsonCompletionSource.connectionTask delegate:nil];
+            [csvCompletionSource.task continueWithSuccessBlock:^id(BFTask *task) {
+                NSLog(@"csv result:%@", task.result);
+                return nil;
+            }];
+            return csvCompletionSource.task;
+        }
+        return nil;
+    }];
+
+    // Reload tableView
+    [jsonCompletionSource.task continueWithSuccessBlock:^id(BFTask *task) {
+        self.listViewController.tableView.dataSource = [HackfoldrClient sharedClient].lastPage;
+
+        [self.listViewController.tableView reloadData];
+        if (!self.currentField) {
+            [self showListViewController];
+        }
+        return nil;
+    }];
+    return jsonCompletionSource;
+}
+
 - (void)settingAction:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:^{
@@ -186,10 +214,7 @@
         sendButtonElement.onSelected = ^(void) {
             NSString *newHackfoldrPage = inputElement.textValue;
             if (newHackfoldrPage && newHackfoldrPage.length > 0) {
-                // Check |newHackfoldrPage| is existed
-                HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:newHackfoldrPage];
-                [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask delegate:nil];
-                [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
+                [[self updateHackfoldrPageTaskWithKey:newHackfoldrPage].task continueWithSuccessBlock:^id(BFTask *task) {
                     NSLog(@"change hackfoldr page: %@", newHackfoldrPage);
                     [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:newHackfoldrPage];
                     return nil;
@@ -202,23 +227,6 @@
 
         [self presentViewController:navigationForSetting animated:YES completion:nil];
     }];
-}
-
-#pragma mark - UINavigationControllerDelegate
-
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    if (self == viewController) {
-        self.currentField = nil;
-    }
-}
-
-#pragma mark - Actions
-
-- (void)showListViewController {
-    UINavigationController *navigationControllerForListViewController =
-    [[UINavigationController alloc] initWithRootViewController:self.listViewController];
-    [self presentViewController:navigationControllerForListViewController animated:YES completion:nil];
 }
 
 @end
