@@ -304,7 +304,6 @@
 				ORGANIZATIONNAME = org.superbil;
 				TargetAttributes = {
 					E7EB66B719554E290069FD71 = {
-						DevelopmentTeam = 67Y6DS58YP;
 					};
 					E7EB66DB19554E290069FD71 = {
 						TestTargetID = E7EB66B719554E290069FD71;
