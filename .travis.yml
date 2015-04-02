@@ -1,0 +1,4 @@
+language: objective-c
+
+script:
+  - xctool -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -configuration "DEBUG" CONFIGURATION_BUILD_DIR='~/build/' build
