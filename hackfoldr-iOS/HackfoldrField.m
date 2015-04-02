@@ -8,14 +8,22 @@
 
 #import "HackfoldrField.h"
 
+//RGB color macro
+#define UIColorFromRGB(rgbValue) [UIColor \
+colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
+blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
 typedef NS_ENUM(NSUInteger, FieldType) {
-    FieldType_URLString = 0,
-    FieldType_Name,
-    FieldType_Actions,
+    FieldType_URL = 0,
+    FieldType_Title,
+    FieldType_Foldrexpand,
+    FieldType_Label
 };
 
 @interface HackfoldrField () {
     NSString *_urlString;
+    NSString *_labelString;
 }
 @end
 
@@ -41,21 +49,48 @@ typedef NS_ENUM(NSUInteger, FieldType) {
 
     [fields enumerateObjectsUsingBlock:^(NSString *field, NSUInteger idx, BOOL *stop) {
         switch (idx) {
-            case FieldType_URLString:
+            case FieldType_URL:
                 self.urlString = field;
                 break;
-            case FieldType_Name:
+            case FieldType_Title:
                 self.name = field;
                 break;
-            case FieldType_Actions:
+            case FieldType_Foldrexpand:
                 self.actions = field;
+                break;
+            case FieldType_Label:
+                self.labelString = field;
                 break;
             default:
                 break;
         }
     }];
+    // hackfoldr 2.0 rule
+    self.isCommentLine = [self isCommentLineWithFieldArray:fields];
 
     return self;
+}
+
+- (BOOL)isCommentLineWithFieldArray:(NSArray *)fields
+{
+    __block BOOL isComment = NO;
+    [fields enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isKindOfClass:[NSString class]]) {
+            NSString *field = obj;
+            [field enumerateSubstringsInRange:NSMakeRange(0, field.length)
+                                      options:NSStringEnumerationByComposedCharacterSequences
+                                   usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop)
+            {
+                // only read first one
+                *stop = YES;
+
+                if ([substring isEqualToString:@"#"]) {
+                    isComment = YES;
+                }
+            }];
+        }
+    }];
+    return isComment;
 }
 
 #pragma mark - Setter and Getter
@@ -93,6 +128,8 @@ typedef NS_ENUM(NSUInteger, FieldType) {
         return;
     }
 
+    // hackfoldr 2.0 rule, default is subItem
+    self.isSubItem = YES;
     // While first string is space, this HackfoldrField is subItem
     [aURLString enumerateSubstringsInRange:NSMakeRange(0, aURLString.length)
                                    options:NSStringEnumerationByComposedCharacterSequences
@@ -102,8 +139,94 @@ typedef NS_ENUM(NSUInteger, FieldType) {
             self.isSubItem = YES;
             *stop = YES;
         }
+        // hackfoldr 2.0 rule
+        if ([substring isEqualToString:@"<"]) {
+            self.isSubItem = NO;
+            *stop = YES;
+        }
     }];
 }
+
+- (void)setLabelString:(NSString *)labelString
+{
+    if (labelString.length == 0) {
+        _labelString = labelString;
+        return;
+    }
+
+    __block NSString *labelColorString = nil;
+    __block NSMutableString *realLabelString = [NSMutableString string];
+    // Separate by space
+    // ex: red LabelString
+    [[[labelString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]
+      filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] enumerateObjectsUsingBlock:^(NSString *subString, NSUInteger idx, BOOL *stop)
+    {
+        if (idx == 0) {
+            labelColorString = subString;
+        } else {
+            [realLabelString appendString:subString];
+        }
+    }];
+
+    if ([self updateLabelColorByString:labelColorString]) {
+        _labelString = realLabelString;
+        return;
+    }
+
+    // Separate by :
+    // ex: LabelString:important
+    [[[labelString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@":"]]
+      filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] enumerateObjectsUsingBlock:^(NSString *subString, NSUInteger idx, BOOL *stop)
+     {
+         if (idx == 0) {
+             [realLabelString appendString:subString];
+         } else {
+             labelColorString = subString;
+         }
+     }];
+
+    if ([self updateLabelColorByString:labelColorString]) {
+        _labelString = realLabelString;
+        return;
+    }
+    _labelString = labelString;
+}
+
+- (NSString *)labelString
+{
+    return _labelString;
+}
+
+- (BOOL)updateLabelColorByString:(NSString *)colorString
+{
+    UIColor *defaultColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.35f];
+    NSDictionary *colorTable = @{ @"black" : UIColorFromRGB(0x5C6166),
+                                  @"blue" : UIColorFromRGB(0x6ECFF5),
+                                  @"deep-blue" : UIColorFromRGB(0x006DCC),
+                                  @"deep-green" : UIColorFromRGB(0x5BB75B),
+                                  @"deep-purple" : UIColorFromRGB(0x564F8A),
+                                  @"gray" : defaultColor,
+                                  @"green" : UIColorFromRGB(0xA1CF64),
+                                  @"important" : UIColorFromRGB(0xD95C5C),
+                                  @"issue" : defaultColor,
+                                  @"orange" : UIColorFromRGB(0xF0AD4E),
+                                  @"pink" : UIColorFromRGB(0xF3A8AA),
+                                  @"purple" : UIColorFromRGB(0x9B96F7),
+                                  @"red" : UIColorFromRGB(0xD95C5C),
+                                  @"teal" : UIColorFromRGB(0x00B5AD),
+                                  @"warning" : UIColorFromRGB(0xF0AD4E),
+                                  @"yellow" : UIColorFromRGB(0xF0AD4E),
+                                 };
+    self.labelColor = colorTable[colorString];
+    if (self.labelColor) {
+        return YES;
+    }
+
+    self.labelColor = defaultColor;
+    return NO;
+}
+
+#pragma mark - DEBUG
 
 - (NSString *)description
 {
@@ -121,9 +244,18 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     }
 
     [description appendFormat:@"isSubItem: %@ ", self.isSubItem ? @"YES" : @"NO"];
+    [description appendFormat:@"isCommentLine: %@ ", self.isCommentLine ? @"YES" : @"NO"];
 
     if (self.subFields.count > 0) {
         [description appendFormat:@"subFields: %@ ", self.subFields];
+    }
+
+    if (self.labelString) {
+        [description appendFormat:@"labelString: %@ ", self.labelString];
+    }
+
+    if (self.labelColor) {
+        [description appendFormat:@"labelColor: %@ ", self.labelColor];
     }
 
     return description;

@@ -15,7 +15,11 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *actions;
 
+@property (nonatomic, copy) NSString *labelString;
+@property (nonatomic, strong) UIColor *labelColor;
+
 @property (nonatomic, assign) BOOL isSubItem;
+@property (nonatomic, assign) BOOL isCommentLine;
 
 @property (nonatomic, strong) NSMutableArray *subFields;
 
