@@ -9,9 +9,10 @@
 #import "HackfoldrField.h"
 
 typedef NS_ENUM(NSUInteger, FieldType) {
-    FieldType_URLString = 0,
-    FieldType_Name,
-    FieldType_Actions,
+    FieldType_URL = 0,
+    FieldType_Title,
+    FieldType_Foldrexpand,
+    FieldType_Label
 };
 
 @interface HackfoldrField () {
@@ -41,14 +42,17 @@ typedef NS_ENUM(NSUInteger, FieldType) {
 
     [fields enumerateObjectsUsingBlock:^(NSString *field, NSUInteger idx, BOOL *stop) {
         switch (idx) {
-            case FieldType_URLString:
+            case FieldType_URL:
                 self.urlString = field;
                 break;
-            case FieldType_Name:
+            case FieldType_Title:
                 self.name = field;
                 break;
-            case FieldType_Actions:
+            case FieldType_Foldrexpand:
                 self.actions = field;
+                break;
+            case FieldType_Label:
+                self.labelString = field;
                 break;
             default:
                 break;

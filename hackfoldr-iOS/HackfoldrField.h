@@ -14,6 +14,7 @@
 @property (nonatomic, copy) NSString *urlString;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *actions;
+@property (nonatomic, copy) NSString *labelString;
 
 @property (nonatomic, assign) BOOL isSubItem;
 @property (nonatomic, assign) BOOL isCommentLine;
