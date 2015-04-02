@@ -2,39 +2,39 @@ PODS:
   - AFCSVParserResponseSerializer (0.1.0):
     - AFNetworking (~> 2.3)
     - CHCSVParser (~> 2.0)
-  - AFNetworking (2.3.1):
-    - AFNetworking/NSURLConnection (= 2.3.1)
-    - AFNetworking/NSURLSession (= 2.3.1)
-    - AFNetworking/Reachability (= 2.3.1)
-    - AFNetworking/Security (= 2.3.1)
-    - AFNetworking/Serialization (= 2.3.1)
-    - AFNetworking/UIKit (= 2.3.1)
-  - AFNetworking/NSURLConnection (2.3.1):
+  - AFNetworking (2.5.2):
+    - AFNetworking/NSURLConnection (= 2.5.2)
+    - AFNetworking/NSURLSession (= 2.5.2)
+    - AFNetworking/Reachability (= 2.5.2)
+    - AFNetworking/Security (= 2.5.2)
+    - AFNetworking/Serialization (= 2.5.2)
+    - AFNetworking/UIKit (= 2.5.2)
+  - AFNetworking/NSURLConnection (2.5.2):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.3.1):
+  - AFNetworking/NSURLSession (2.5.2):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.3.1)
-  - AFNetworking/Security (2.3.1)
-  - AFNetworking/Serialization (2.3.1)
-  - AFNetworking/UIKit (2.3.1):
+  - AFNetworking/Reachability (2.5.2)
+  - AFNetworking/Security (2.5.2)
+  - AFNetworking/Serialization (2.5.2)
+  - AFNetworking/UIKit (2.5.2):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - Bolts (1.0.0)
   - CHCSVParser (2.1.0)
-  - OHHTTPStubs (3.1.6):
-    - OHHTTPStubs/Core (= 3.1.6)
-  - OHHTTPStubs/Core (3.1.6)
-  - OHHTTPStubs/XCTestExpectation (3.1.6)
+  - OHHTTPStubs (3.1.11):
+    - OHHTTPStubs/Core (= 3.1.11)
+  - OHHTTPStubs/Core (3.1.11)
+  - OHHTTPStubs/XCTestExpectation (3.1.11)
   - TOWebViewController (2.0.14)
 
 DEPENDENCIES:
   - AFCSVParserResponseSerializer
   - AFNetworking (~> 2.3)
-  - AFNetworking/UIKit (~> 2.3.1)
+  - AFNetworking/UIKit
   - Bolts (~> 1.0.0)
   - OHHTTPStubs
   - OHHTTPStubs/XCTestExpectation
@@ -42,10 +42,10 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFCSVParserResponseSerializer: e7322f94756052a4d05048d45278b6a82fb5a946
-  AFNetworking: 05b9f6e3aa5ac45bc383b4bb108ef338080a26c7
+  AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
   Bolts: 7d4f57162547cc80743b05556dc26eb40bd44008
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
-  OHHTTPStubs: b671969016b4c6f5ee3c26080c81114ba82e0710
+  OHHTTPStubs: 5624a5d20d97d46d47e15a68ca8808b59ccf0512
   TOWebViewController: 2cfd0032d781cabd88a0995fbca9692c11f0797e
 
 COCOAPODS: 0.36.3
