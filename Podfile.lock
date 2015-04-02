@@ -29,6 +29,9 @@ PODS:
     - OHHTTPStubs/Core (= 3.1.11)
   - OHHTTPStubs/Core (3.1.11)
   - OHHTTPStubs/XCTestExpectation (3.1.11)
+  - QuickDialog (1.0):
+    - QuickDialog/Core (= 1.0)
+  - QuickDialog/Core (1.0)
   - TOWebViewController (2.0.14)
 
 DEPENDENCIES:
@@ -38,6 +41,7 @@ DEPENDENCIES:
   - Bolts (~> 1.0.0)
   - OHHTTPStubs
   - OHHTTPStubs/XCTestExpectation
+  - QuickDialog (~> 1.0)
   - TOWebViewController
 
 SPEC CHECKSUMS:
@@ -46,6 +50,7 @@ SPEC CHECKSUMS:
   Bolts: 7d4f57162547cc80743b05556dc26eb40bd44008
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
   OHHTTPStubs: 5624a5d20d97d46d47e15a68ca8808b59ccf0512
+  QuickDialog: ea2e68e0611ec012bcbd9d0e1d703d566a4c7355
   TOWebViewController: 2cfd0032d781cabd88a0995fbca9692c11f0797e
 
 COCOAPODS: 0.36.3

@@ -66,6 +66,18 @@
 #define COCOAPODS_VERSION_MINOR_CHCSVParser 1
 #define COCOAPODS_VERSION_PATCH_CHCSVParser 0
 
+// QuickDialog
+#define COCOAPODS_POD_AVAILABLE_QuickDialog
+#define COCOAPODS_VERSION_MAJOR_QuickDialog 1
+#define COCOAPODS_VERSION_MINOR_QuickDialog 0
+#define COCOAPODS_VERSION_PATCH_QuickDialog 0
+
+// QuickDialog/Core
+#define COCOAPODS_POD_AVAILABLE_QuickDialog_Core
+#define COCOAPODS_VERSION_MAJOR_QuickDialog_Core 1
+#define COCOAPODS_VERSION_MINOR_QuickDialog_Core 0
+#define COCOAPODS_VERSION_PATCH_QuickDialog_Core 0
+
 // TOWebViewController
 #define COCOAPODS_POD_AVAILABLE_TOWebViewController
 #define COCOAPODS_VERSION_MAJOR_TOWebViewController 2
