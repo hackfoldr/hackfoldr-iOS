@@ -303,8 +303,6 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = org.superbil;
 				TargetAttributes = {
-					E7EB66B719554E290069FD71 = {
-					};
 					E7EB66DB19554E290069FD71 = {
 						TestTargetID = E7EB66B719554E290069FD71;
 					};
@@ -548,8 +546,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "hackfoldr-iOS/hackfoldr-iOS-Prefix.pch";
 				INFOPLIST_FILE = "hackfoldr-iOS/hackfoldr-iOS-Info.plist";
@@ -566,8 +564,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "hackfoldr-iOS/hackfoldr-iOS-Prefix.pch";
 				INFOPLIST_FILE = "hackfoldr-iOS/hackfoldr-iOS-Info.plist";
