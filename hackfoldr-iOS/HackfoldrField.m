@@ -154,22 +154,20 @@ typedef NS_ENUM(NSUInteger, FieldType) {
         return;
     }
 
-    __block NSString *labelColorString = nil;
-    __block NSMutableString *realLabelString = [NSMutableString string];
+    NSString *labelColorString = nil;
+    NSMutableString *realLabelStringOfSpace = [NSMutableString string];
     // Separate by space
     // ex: red LabelString
-    [[[labelString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]
-      filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] enumerateObjectsUsingBlock:^(NSString *subString, NSUInteger idx, BOOL *stop)
-    {
-        if (idx == 0) {
-            labelColorString = subString;
-        } else {
-            [realLabelString appendString:subString];
-        }
-    }];
+    NSString *firstString = [labelString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].firstObject;
+    if (firstString) {
+        labelColorString = firstString;
+        NSString *subString = [labelString stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@ ", firstString]
+                                                                     withString:@""];
+        [realLabelStringOfSpace appendString:subString];
+    }
 
     if ([self updateLabelColorByString:labelColorString]) {
-        _labelString = realLabelString;
+        _labelString = realLabelStringOfSpace;
         return;
     }
 
