@@ -238,6 +238,14 @@
     [inputSection addElement:sendButtonElement];
     [settingRoot addSection:inputSection];
 
+    QSection *infoSection = [[QSection alloc] init];
+
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+    infoSection.footer = [NSString stringWithFormat:@"App Version: %@(%@)", version, build];
+
+    [settingRoot addSection:infoSection];
+
     [self presentViewController:navigationForSetting animated:YES completion:nil];
 }
 
