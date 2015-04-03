@@ -195,13 +195,19 @@
     UINavigationController *navigationForSetting = [[UINavigationController alloc] initWithRootViewController:dialogController];
 
     QSection *inputSection = [[QSection alloc] init];
+    inputSection.footer = @"You can input new hackfoldr page key and select Change Key to change it.";
+
+    QLabelElement *currentHackpageKey = [[QLabelElement alloc] init];
+    currentHackpageKey.title = @"Current key";
+    currentHackpageKey.value = [[NSUserDefaults standardUserDefaults] stringOfCurrentHackfoldrPage];
+    [inputSection addElement:currentHackpageKey];
 
     QEntryElement *inputElement = [[QEntryElement alloc] init];
     inputElement.placeholder = @"Hackfoldr key or URL";
     [inputSection addElement:inputElement];
 
     QButtonElement *sendButtonElement = [[QButtonElement alloc] init];
-    sendButtonElement.title = NSLocalizedStringFromTable(@"Change page", @"Hackfoldr", @"update hackfoldr button text");
+    sendButtonElement.title = NSLocalizedStringFromTable(@"Change Key", @"Hackfoldr", @"update hackfoldr button text");
     // Change page button clicked
     sendButtonElement.onSelected = ^(void) {
 
@@ -256,7 +262,7 @@
 
     QSection *restSection = [[QSection alloc] init];
     QButtonElement *restHackfoldrPageElement = [[QButtonElement alloc] init];
-    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Default Hackfoldr page", @"Hackfoldr", @"reset hackfoldr page");
+    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Default Hackfoldr Page", @"Hackfoldr", @"reset hackfoldr page");
     restHackfoldrPageElement.onSelected = ^(void) {
         // Set current HackfoldrPage to |DefaultHackfoldrPage|
         NSString *defaultHackfoldrKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
@@ -271,7 +277,7 @@
     QSection *infoSection = [[QSection alloc] init];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    infoSection.footer = [NSString stringWithFormat:@"App Version: %@(%@)", version, build];
+    infoSection.footer = [NSString stringWithFormat:@"App Version: %@ (%@)", version, build];
 
     [settingRoot addSection:infoSection];
 
