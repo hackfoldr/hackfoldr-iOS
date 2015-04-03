@@ -7,8 +7,9 @@ target "hackfoldr-iOS" do
   pod 'AFNetworking/UIKit'
   pod 'Bolts', '~> 1.0.0'
   pod 'AFCSVParserResponseSerializer'
-  pod 'QuickDialog', '~> 1.0'
+  pod 'MagicalRecord', '~> 2.2'
 
+  pod 'QuickDialog', '~> 1.0'
   pod 'TOWebViewController'
 end
 
