@@ -10,9 +10,11 @@
 
 #import "AppDelegate.h"
 // Model & Client
-#import "NSUserDefaults+DefaultHackfoldrPage.h"
+#import "CoreData+MagicalRecord.h"
 #import "HackfoldrClient.h"
+#import "HackfoldrHistory.h"
 #import "HackfoldrPage.h"
+#import "NSUserDefaults+DefaultHackfoldrPage.h"
 // ViewController
 #import "ListFieldViewController.h"
 #import "QuickDialog.h"
@@ -272,11 +274,26 @@
     [restSection addElement:restHackfoldrPageElement];
     [settingRoot addSection:restSection];
 
+    QSection *historySection = [[QSection alloc] init];
+    historySection.title = NSLocalizedStringFromTable(@"History", @"Hackfoldr", @"History section title at SettingView");
+    NSArray *histories = [HackfoldrHistory MR_findAllSortedBy:@"refreshDate" ascending:NO];
+    [histories enumerateObjectsUsingBlock:^(HackfoldrHistory *history, NSUInteger idx, BOOL *stop) {
+        QButtonElement *buttonElement = [[QButtonElement alloc] init];
+        buttonElement.title = hisotry.title;
+        buttonElement.onSelected = ^() {
+            [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:hisotry.hackfoldrKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            // hide self
+            [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
+        };
+        [historySection addElement:buttonElement];
+    }];
+    [settingRoot addSection:historySection];
+
     QSection *infoSection = [[QSection alloc] init];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
     infoSection.footer = [NSString stringWithFormat:@"App Version: %@ (%@)", version, build];
-
     [settingRoot addSection:infoSection];
 
     [self presentViewController:navigationForSetting animated:YES completion:nil];
@@ -287,7 +304,19 @@
     HackfoldrTaskCompletionSource *jsonCompletionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:hackfoldrKey];
 
     [jsonCompletionSource.task continueWithBlock:^id(BFTask *task) {
-        NSLog(@"json result:%@", task.result);
+        if (task.error) {
+            return task;
+        }
+        HackfoldrPage *page = task.result;
+        NSLog(@"result:%@", page);
+
+        // Save history to core data
+        HackfoldrHistory *newHistory = [HackfoldrHistory MR_createEntity];
+        newHistory.createDate = [NSDate date];
+        newHistory.hackfoldrKey = hackfoldrKey;
+        newHistory.title = page.pageTitle;
+        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfWithCompletion:nil];
+
         return nil;
     }];
 

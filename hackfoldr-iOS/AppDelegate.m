@@ -8,12 +8,16 @@
 
 #import "AppDelegate.h"
 
+#import "CoreData+MagicalRecord.h"
 #import "MainViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // setup core data
+    [MagicalRecord setupCoreDataStack];
+
     self.viewController = [[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc] init]];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = self.viewController;
