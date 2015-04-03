@@ -71,6 +71,11 @@
     NSString *lableString = @"blue I am red";
     HackfoldrField *labelField = [[HackfoldrField alloc] initWithFieldArray:@[nameURL, @"label", actions, lableString]];
     XCTAssertTrue([labelField.labelString isEqualToString:@"I am red"]);
+
+    NSString *commentLabelString = @"lol:warning";
+    HackfoldrField *commentLabelField = [[HackfoldrField alloc] initWithFieldArray:@[nameURL, @"commentLabel", actions, commentLabelString]];
+    NSLog(@"%@",commentLabelField.labelString);
+    XCTAssertTrue([commentLabelField.labelString isEqualToString:@"lol"]);
 }
 
 - (void)testHackfoldrClient

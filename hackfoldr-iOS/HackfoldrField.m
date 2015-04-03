@@ -171,20 +171,20 @@ typedef NS_ENUM(NSUInteger, FieldType) {
         return;
     }
 
-    // Separate by :
+    // Separate by colon
     // ex: LabelString:important
-    [[[labelString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@":"]]
-      filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] enumerateObjectsUsingBlock:^(NSString *subString, NSUInteger idx, BOOL *stop)
-     {
-         if (idx == 0) {
-             [realLabelString appendString:subString];
-         } else {
-             labelColorString = subString;
-         }
-     }];
+    NSMutableString *realLabelStringOfColon = [NSMutableString string];
+    NSString *lastString = [labelString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@":"]].lastObject;
+
+    if (lastString) {
+        labelColorString = lastString;
+        NSString *subString = [labelString stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@":%@", lastString]
+                                                                     withString:@""];
+        [realLabelStringOfColon appendString:subString];
+    }
 
     if ([self updateLabelColorByString:labelColorString]) {
-        _labelString = realLabelString;
+        _labelString = realLabelStringOfColon;
         return;
     }
     _labelString = labelString;
