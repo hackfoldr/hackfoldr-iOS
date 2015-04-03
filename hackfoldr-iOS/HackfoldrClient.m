@@ -8,7 +8,6 @@
 
 #import "HackfoldrClient.h"
 
-#import "AFCSVParserResponseSerializer.h"
 #import "HackfoldrPage.h"
 
 @implementation HackfoldrTaskCompletionSource
@@ -48,13 +47,6 @@
         shareClient = [[HackfoldrClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://ethercalc.org/"]];
     });
     return shareClient;
-}
-
-+ (AFCSVParserResponseSerializer *)CSVSerializer
-{
-    AFCSVParserResponseSerializer *serializer = [AFCSVParserResponseSerializer serializer];
-    serializer.usedEncoding = NSUTF8StringEncoding;
-    return serializer;
 }
 
 - (instancetype)initWithBaseURL:(NSURL *)url
