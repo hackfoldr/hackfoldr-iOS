@@ -238,8 +238,21 @@
     [inputSection addElement:sendButtonElement];
     [settingRoot addSection:inputSection];
 
-    QSection *infoSection = [[QSection alloc] init];
+    QSection *restSection = [[QSection alloc] init];
+    QButtonElement *restHackfoldrPageElement = [[QButtonElement alloc] init];
+    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Default Hackfoldr page", @"Hackfoldr", @"reset hackfoldr page");
+    restHackfoldrPageElement.onSelected = ^(void) {
+        // Set current HackfoldrPage to |DefaultHackfoldrPage|
+        NSString *defaultHackfoldrKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
+        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:defaultHackfoldrKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        // hide self
+        [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
+    };
+    [restSection addElement:restHackfoldrPageElement];
+    [settingRoot addSection:restSection];
 
+    QSection *infoSection = [[QSection alloc] init];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
     infoSection.footer = [NSString stringWithFormat:@"App Version: %@(%@)", version, build];
