@@ -23,18 +23,18 @@
     [super setUp];
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        if ([request.URL.absoluteString rangeOfString:@"ethercalc.org/_/"].location != NSNotFound) {
+        if ([request.URL.absoluteString rangeOfString:@"ethercalc.org"].location != NSNotFound) {
             return YES;
         }
         return NO;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         NSLog(@"hook hackfoldr:%@", request);
-        NSString *csvDataString = OHPathForFileInBundle(@"sample.csv", nil);
-        NSData *csvData = [NSData dataWithContentsOfFile:csvDataString];
+        NSString *jsonCSVDataString = OHPathForFileInBundle(@"sample.csv.json", nil);
+        NSData *csvData = [NSData dataWithContentsOfFile:jsonCSVDataString];
 
         return [OHHTTPStubsResponse responseWithData:csvData
                                           statusCode:200
-                                             headers:@{@"Content-Type":@"text/csv"}];
+                                             headers:@{@"Content-Type":@"text/json"}];
     }];
 }
 
@@ -51,27 +51,29 @@
     NSString *name = @"Name ";
     NSString *actions = @"{target}";
     HackfoldrField *field = [[HackfoldrField alloc] initWithFieldArray:@[nameURL, name, actions]];
-
     XCTAssertTrue([field.urlString isEqualToString:nameURL], @"");
     XCTAssertTrue([field.name isEqualToString:name], @"");
     XCTAssertTrue([field.actions isEqualToString:actions], @"");
-    XCTAssertFalse(field.isSubItem, @"");
+    XCTAssertTrue(field.isSubItem, @"");
 
     NSString *subItemURL = @" http://www.g0v.tw";
-
     HackfoldrField *subField = [[HackfoldrField alloc] initWithFieldArray:@[subItemURL, name, actions]];
     NSString *subString = [subItemURL substringWithRange:NSMakeRange(1, subItemURL.length-1)];
     XCTAssertTrue([subField.urlString isEqualToString:subString], @"");
     XCTAssertTrue([subField.name isEqualToString:name], @"");
     XCTAssertTrue([subField.actions isEqualToString:actions], @"");
     XCTAssertTrue(subField.isSubItem, @"isSubItem must be YES");
+
+    NSString *commentURL = @"# yooo";
+    HackfoldrField *commentField = [[HackfoldrField alloc] initWithFieldArray:@[@"", commentURL, actions]];
+    XCTAssertTrue(commentField.isCommentLine);
 }
 
 - (void)testHackfoldrClient
 {
     XCTestExpectation *openHackfoldrExpectation = [self expectationWithDescription:@"open Hackfoldr"];
 
-    [[[HackfoldrClient sharedClient] pagaDataAtPath:@"testHackFoldr"] continueWithBlock:^id(BFTask *task) {
+    [[[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:@"testHackFoldr"].task continueWithBlock:^id(BFTask *task) {
         XCTAssertNil(task.error);
         NSLog(@"task %@ %@", task.error, task.result);
 

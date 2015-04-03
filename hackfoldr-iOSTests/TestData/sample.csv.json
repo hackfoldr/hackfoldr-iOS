@@ -1,0 +1,278 @@
+[
+  [
+    "#A1: if not marked as comment (start with #), better less than 40 characters, or will be parsed as a google spreadsheer id",
+    "#if you want to use google spreadsheet to save foldr data (usually when authorization is needed), fill in A1 with google spreadsheet id, and the same url will be redirected to gsheet.",
+    "",
+    ""
+  ],
+  [
+    "#url or item level. <: following links is level 0 (= top level)",
+    "#title",
+    "#option: hide/unsortable(foldr title), expand/collapse(subfoldr), blank(link)",
+    "#label: (color) content. color: gray/black/green/red/blue/orange/purple/teal/yellow/pink/deep-blue/deep-green/deep-purple/"
+  ],
+  [
+    "",
+    "",
+    "",
+    ""
+  ],
+  [
+    "",
+    "Hackfoldr 使用教學",
+    "",
+    ""
+  ],
+  [
+    "https://g0v.hackpad.com/Hackfoldr-2.0--jfLiSxnllO6",
+    "Hackfoldr 2.0 教學 - 儲存格語法",
+    "",
+    ""
+  ],
+  [
+    "https://g0v.hackpad.com/G7idRJqbG3I",
+    "Hackfoldr 2.0 教學 - 自行架站",
+    "",
+    ""
+  ],
+  [
+    "https://g0v.hackpad.com/0.jmm9642fog5vcxr",
+    "Hackfoldr 2.0 功能列表",
+    "",
+    ""
+  ],
+  [
+    "https://g0v.hackpad.com/Hackfoldr-2.0-7TMSpXasDWl",
+    "Hackfoldr 2.0 專案開發文件",
+    "",
+    ""
+  ],
+  [
+    "",
+    "",
+    "",
+    ""
+  ],
+  [
+    "",
+    "功能示範區",
+    "expand",
+    ""
+  ],
+  [
+    "",
+    "",
+    "",
+    ""
+  ],
+  [
+    "lalala",
+    "#",
+    "i am marked as comment",
+    ""
+  ],
+  [
+    "http://logbot.g0v.tw/channel/g0v.tw/today",
+    "測試 link item",
+    "blank",
+    "deep-green label"
+  ],
+  [
+    "http://logbot.g0v.tw/channel/g0v.tw/today",
+    "測試 link item",
+    "",
+    "teal label"
+  ],
+  [
+    "",
+    "",
+    "",
+    ""
+  ],
+  [
+    "http://g0v.tw",
+    "測試 link item 測試 link item 測試 link item ",
+    "",
+    "green label"
+  ],
+  [
+    "http://logbot.g0v.tw/channel/g0v.tw/today",
+    "測試 link item 測試 link item 測試 link item ",
+    "blank",
+    "black label"
+  ],
+  [
+    "http://g0v.tw",
+    "測試 link item 測試 link item 測試 link item ",
+    "",
+    "故事告訴我們 label 不可以太長"
+  ],
+  [
+    "http://logbot.g0v.tw/channel/g0v.tw/today",
+    "測試 link item",
+    "",
+    "blue redmine"
+  ],
+  [
+    "http://logbot.g0v.tw/channel/g0v.tw/today",
+    "測試 link item",
+    "",
+    "green blue island"
+  ],
+  [
+    "http://logbot.g0v.tw/channel/g0v.tw/today",
+    "測試 link item",
+    "",
+    "yellow green island"
+  ],
+  [
+    "http://logbot.g0v.tw/channel/g0v.tw/today",
+    "測試 link item",
+    "",
+    "pink red green blue"
+  ],
+  [
+    "http://logbot.g0v.tw/channel/g0v.tw/today",
+    "測試 link item",
+    "",
+    "purple legendary weapons"
+  ],
+  [
+    "http://logbot.g0v.tw/channel/g0v.tw/today",
+    "測試 link item",
+    "",
+    "lol:warning"
+  ],
+  [
+    "http://logbot.g0v.tw/channel/g0v.tw/today",
+    "測試 link item",
+    "",
+    "nice:important"
+  ],
+  [
+    "http://logbot.g0v.tw/channel/g0v.tw/today",
+    "測試 link item",
+    "",
+    "oops:issue"
+  ],
+  [
+    "https://www.youtube.com/watch?v=WCX1XQ0S9Yk",
+    "測試 link item",
+    "",
+    "green gxv:important"
+  ],
+  [
+    "https://www.flickr.com/photos/othree/sets/72157646878582219",
+    "活動紀錄 flickr 相簿",
+    "",
+    ""
+  ],
+  [
+    "",
+    "",
+    "",
+    ""
+  ],
+  [
+    "",
+    "",
+    "",
+    ""
+  ],
+  [
+    "",
+    "Code for Kaohsiung 暫存區 (等 mikimoto 搬好家後再刪掉)",
+    "collapse",
+    ""
+  ],
+  [
+    "",
+    "",
+    "",
+    ""
+  ],
+  [
+    "",
+    "進行中",
+    "expand",
+    ""
+  ],
+  [
+    "https://codeforkaohsiung.hackpad.com/-Open-Data--76L9xyVlmvN",
+    "高雄市戶政資料 Open Data 化",
+    "",
+    "進行中:important"
+  ],
+  [
+    "",
+    "",
+    "",
+    ""
+  ],
+  [
+    "",
+    "討論中",
+    "expand",
+    ""
+  ],
+  [
+    "https://codeforkaohsiung.hackpad.com/t9Zs76X0xzb",
+    "CityDashBoard for Kaohsiung",
+    "",
+    "green 孵化中"
+  ],
+  [
+    "https://codeforkaohsiung.hackpad.com/0VzJsbx9FfW",
+    "我有新點子",
+    "",
+    "green 孵化中"
+  ],
+  [
+    "",
+    "",
+    "",
+    ""
+  ],
+  [
+    "",
+    "尋求協助或支援",
+    "collapse",
+    ""
+  ],
+  [
+    "https://g0v.hackpad.com/KjfdRZ08FZ3",
+    "議員投票指南",
+    "",
+    "g0v:important"
+  ],
+  [
+    "http://comap.clkao.org/comap/KHH/0989",
+    "全國投開票所鄉民 Geocode",
+    "",
+    "g0v:important"
+  ],
+  [
+    "",
+    "",
+    "",
+    ""
+  ],
+  [
+    "",
+    "",
+    "",
+    ""
+  ],
+  [
+    "https://github.com/codeforkaohsiung/",
+    "Code for Kaohsiung Github",
+    "",
+    ""
+  ],
+  [
+    "http://codeforkaohsiung.slack.com",
+    "Slack 交流頻道 (需邀請)",
+    "blank",
+    ""
+  ]
+]
