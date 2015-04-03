@@ -25,6 +25,9 @@ PODS:
     - AFNetworking/NSURLSession
   - Bolts (1.0.0)
   - CHCSVParser (2.1.0)
+  - MagicalRecord (2.2):
+    - MagicalRecord/Core (= 2.2)
+  - MagicalRecord/Core (2.2)
   - OHHTTPStubs (3.1.11):
     - OHHTTPStubs/Core (= 3.1.11)
   - OHHTTPStubs/Core (3.1.11)
@@ -39,6 +42,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.3)
   - AFNetworking/UIKit
   - Bolts (~> 1.0.0)
+  - MagicalRecord (~> 2.2)
   - OHHTTPStubs
   - OHHTTPStubs/XCTestExpectation
   - QuickDialog (~> 1.0)
@@ -49,6 +53,7 @@ SPEC CHECKSUMS:
   AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
   Bolts: 7d4f57162547cc80743b05556dc26eb40bd44008
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
+  MagicalRecord: f8a56bb87ab6552f20c4bb8681a1958a197ea3cd
   OHHTTPStubs: 5624a5d20d97d46d47e15a68ca8808b59ccf0512
   QuickDialog: ea2e68e0611ec012bcbd9d0e1d703d566a4c7355
   TOWebViewController: 2cfd0032d781cabd88a0995fbca9692c11f0797e
