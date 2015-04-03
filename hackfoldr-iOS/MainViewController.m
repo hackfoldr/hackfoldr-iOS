@@ -206,7 +206,23 @@
     sendButtonElement.onSelected = ^(void) {
 
         NSString *newHackfoldrPage = inputElement.textValue;
+
+        // Find hackfoldr page key, if prefix is http or https
+        if ([newHackfoldrPage hasPrefix:@"http"]) {
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".*hackfoldr.org/(.*)/"
+                                                                                   options:NSRegularExpressionAllowCommentsAndWhitespace
+                                                                                     error:NULL];
+            NSTextCheckingResult *match = [regex firstMatchInString:newHackfoldrPage
+                                                            options:NSMatchingReportCompletion
+                                                              range:NSMakeRange(0, newHackfoldrPage.length)];
+            if (match.range.location != NSNotFound) {
+                newHackfoldrPage = [newHackfoldrPage substringWithRange:[match rangeAtIndex:1]];
+            }
+        }
+
+        // Remove white space and new line
         newHackfoldrPage = [newHackfoldrPage stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        // Use escapes to encoding |newHackfoldrPage|
         newHackfoldrPage = [newHackfoldrPage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
         if (newHackfoldrPage && newHackfoldrPage.length > 0) {
