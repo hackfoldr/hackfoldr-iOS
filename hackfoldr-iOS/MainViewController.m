@@ -260,20 +260,6 @@
     [inputSection addElement:sendButtonElement];
     [settingRoot addSection:inputSection];
 
-    QSection *restSection = [[QSection alloc] init];
-    QButtonElement *restHackfoldrPageElement = [[QButtonElement alloc] init];
-    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Default Hackfoldr Page", @"Hackfoldr", @"reset hackfoldr page");
-    restHackfoldrPageElement.onSelected = ^(void) {
-        // Set current HackfoldrPage to |DefaultHackfoldrPage|
-        NSString *defaultHackfoldrKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
-        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:defaultHackfoldrKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        // hide self
-        [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
-    };
-    [restSection addElement:restHackfoldrPageElement];
-    [settingRoot addSection:restSection];
-
     QSection *historySection = [[QSection alloc] init];
     historySection.title = NSLocalizedStringFromTable(@"History", @"Hackfoldr", @"History section title at SettingView");
     NSArray *histories = [HackfoldrHistory MR_findAllSortedBy:@"refreshDate" ascending:NO];
@@ -289,6 +275,21 @@
         [historySection addElement:buttonElement];
     }];
     [settingRoot addSection:historySection];
+
+    QSection *restSection = [[QSection alloc] init];
+    restSection.title = NSLocalizedStringFromTable(@"Reset Actions", @"Hackfoldr", @"Reset hackfoldr actions at SettingView");
+    QButtonElement *restHackfoldrPageElement = [[QButtonElement alloc] init];
+    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Default Hackfoldr Page", @"Hackfoldr", @"Reset hackfoldr page");
+    restHackfoldrPageElement.onSelected = ^(void) {
+        // Set current HackfoldrPage to |DefaultHackfoldrPage|
+        NSString *defaultHackfoldrKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
+        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:defaultHackfoldrKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        // hide self
+        [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
+    };
+    [restSection addElement:restHackfoldrPageElement];
+    [settingRoot addSection:restSection];
 
     QSection *infoSection = [[QSection alloc] init];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
