@@ -62,10 +62,6 @@
 
     self.view.backgroundColor = [UIColor colorWithRed:0.490 green:0.781 blue:0.225 alpha:1.000];
 
-#if DEBUG
-    [[NSUserDefaults standardUserDefaults] removeDefaultHackfolderPage];
-    [[NSUserDefaults standardUserDefaults] removeCurrentHackfoldrPage];
-#endif
     [self mainNavigationController].delegate = self;
 }
 
