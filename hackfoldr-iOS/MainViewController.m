@@ -279,9 +279,9 @@
     NSArray *histories = [HackfoldrHistory MR_findAllSortedBy:@"refreshDate" ascending:NO];
     [histories enumerateObjectsUsingBlock:^(HackfoldrHistory *history, NSUInteger idx, BOOL *stop) {
         QButtonElement *buttonElement = [[QButtonElement alloc] init];
-        buttonElement.title = hisotry.title;
+        buttonElement.title = history.title;
         buttonElement.onSelected = ^() {
-            [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:hisotry.hackfoldrKey];
+            [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:history.hackfoldrKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
             // hide self
             [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
@@ -311,10 +311,18 @@
         NSLog(@"result:%@", page);
 
         // Save history to core data
-        HackfoldrHistory *newHistory = [HackfoldrHistory MR_createEntity];
-        newHistory.createDate = [NSDate date];
-        newHistory.hackfoldrKey = hackfoldrKey;
-        newHistory.title = page.pageTitle;
+        HackfoldrHistory *history = [HackfoldrHistory MR_findFirstByAttribute:@"hackfoldrKey" withValue:hackfoldrKey];
+        if (!history) {
+            history = [HackfoldrHistory MR_createEntity];
+            history.createDate = [NSDate date];
+            history.refreshDate = [NSDate date];
+            history.hackfoldrKey = hackfoldrKey;
+            history.title = page.pageTitle;
+        } else {
+            history.refreshDate = [NSDate date];
+            history.title = page.pageTitle;
+        }
+
         [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfWithCompletion:nil];
 
         return nil;
