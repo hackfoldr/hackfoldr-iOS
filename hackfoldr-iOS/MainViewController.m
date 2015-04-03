@@ -20,7 +20,6 @@
 #import "UIAlertView+AFNetworking.h"
 
 @interface MainViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
-@property (nonatomic, strong) TOWebViewController *webViewController;
 @property (nonatomic, strong) ListFieldViewController *listViewController;
 @property (nonatomic, strong) HackfoldrField *currentField;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
@@ -48,9 +47,6 @@
     [self.listViewController.settingButton addTarget:self
                                               action:@selector(settingAction:)
                                     forControlEvents:UIControlEventTouchUpInside];
-
-    self.webViewController = [[TOWebViewController alloc] init];
-    self.webViewController.showPageTitles = NO;
 
     UIImage *backgroundImage = [[UIImage imageNamed:@"hackfoldr-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
@@ -144,11 +140,13 @@
             return;
         }
 
+        TOWebViewController *webViewController = [[TOWebViewController alloc] init];
+        webViewController.showPageTitles = YES;
         [self dismissViewControllerAnimated:YES completion:^{
-            [self.webViewController loadWithField:rowOfField];
+            [webViewController loadWithField:rowOfField];
             self.currentField = rowOfField;
 
-            [[self mainNavigationController] pushViewController:self.webViewController animated:YES];
+            [[self mainNavigationController] pushViewController:webViewController animated:YES];
         }];
     }
 }
