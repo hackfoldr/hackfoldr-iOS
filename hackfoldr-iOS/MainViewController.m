@@ -118,7 +118,7 @@
     [super viewDidAppear:animated];
 
     if (self.isSettingUpdating == NO) {
-        [self updateHackfoldrPageTaskWithKey:self.hackfoldrPageKey];
+        [self reloadAction:self];
     }
 }
 
@@ -202,6 +202,7 @@
 
     QButtonElement *sendButtonElement = [[QButtonElement alloc] init];
     sendButtonElement.title = NSLocalizedStringFromTable(@"Change page", @"Hackfoldr", @"update hackfoldr button text");
+    // Change page button clicked
     sendButtonElement.onSelected = ^(void) {
 
         NSString *newHackfoldrPage = inputElement.textValue;
@@ -212,7 +213,15 @@
             self.isSettingUpdating = YES;
             [dialogController loading:YES];
 
-            [[[self updateHackfoldrPageTaskWithKey:newHackfoldrPage].task continueWithBlock:^id(BFTask *task) {
+            HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:newHackfoldrPage];
+
+            NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button at SettingView");
+            [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
+                                                          delegate:self
+                                                 cancelButtonTitle:dismissButtonTitle
+                                                 otherButtonTitles:nil];
+
+            [[completionSource.task continueWithBlock:^id(BFTask *task) {
                 self.isSettingUpdating = NO;
                 [dialogController loading:NO];
                 return task;
@@ -222,6 +231,8 @@
                 [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
                 return nil;
             }];
+        } else {
+            [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
         }
     };
     [inputSection addElement:sendButtonElement];
@@ -233,14 +244,6 @@
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
 {
     HackfoldrTaskCompletionSource *jsonCompletionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:hackfoldrKey];
-
-    NSString *cancelButtonTitle = NSLocalizedStringFromTable(@"Cancel", @"Hackfoldr", @"Alert Cancel button");
-    NSString *setupTitle = NSLocalizedStringFromTable(@"Setup Key", @"Hackfoldr", @"Alert Setup button");
-
-    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:jsonCompletionSource.connectionTask
-                                                  delegate:self
-                                         cancelButtonTitle:cancelButtonTitle
-                                         otherButtonTitles:setupTitle ,nil];
 
     [jsonCompletionSource.task continueWithBlock:^id(BFTask *task) {
         NSLog(@"json result:%@", task.result);
@@ -269,7 +272,15 @@
 
 - (void)reloadAction:(id)sender
 {
-    [self updateHackfoldrPageTaskWithKey:self.hackfoldrPageKey];
+    HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:self.hackfoldrPageKey];
+
+    NSString *cancelButtonTitle = NSLocalizedStringFromTable(@"Cancel", @"Hackfoldr", @"Alert Cancel button");
+    NSString *setupTitle = NSLocalizedStringFromTable(@"Setup Key", @"Hackfoldr", @"Alert Setup button");
+
+    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
+                                                  delegate:self
+                                         cancelButtonTitle:cancelButtonTitle
+                                         otherButtonTitles:setupTitle ,nil];
 }
 
 @end
