@@ -298,14 +298,7 @@
 
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
 {
-    HackfoldrTaskCompletionSource *completionSource = nil;
-
-    // check where the data come from, ethercalc or gsheet
-    if (hackfoldrKey.length < 40) {
-        completionSource = [[HackfoldrClient sharedClient] taskCompletionFromEthercalcWithKey:hackfoldrKey];
-    } else {
-        completionSource = [[HackfoldrClient sharedClient] taskCompletionFromGoogleSheetWithSheetKey:hackfoldrKey];
-    }
+    HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionWithKey:hackfoldrKey];
 
     [completionSource.task continueWithBlock:^id(BFTask *task) {
         if (task.error) {

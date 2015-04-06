@@ -82,7 +82,7 @@
 {
     XCTestExpectation *openHackfoldrExpectation = [self expectationWithDescription:@"open Hackfoldr"];
 
-    [[[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:@"testHackFoldr"].task continueWithBlock:^id(BFTask *task) {
+    [[[HackfoldrClient sharedClient] taskCompletionWithKey:@"testHackFoldr"].task continueWithBlock:^id(BFTask *task) {
         XCTAssertNil(task.error);
         NSLog(@"task %@ %@", task.error, task.result);
 

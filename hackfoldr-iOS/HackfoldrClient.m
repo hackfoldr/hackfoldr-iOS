@@ -108,4 +108,17 @@
     return source;
 }
 
+- (HackfoldrTaskCompletionSource *)taskCompletionWithKey:(NSString *)hackfoldrKey
+{
+    HackfoldrTaskCompletionSource *completionSource = nil;
+    // check where the data come from, ethercalc or gsheet
+    if (hackfoldrKey.length < 40) {
+        completionSource = [self taskCompletionFromEthercalcWithKey:hackfoldrKey];
+    } else {
+        completionSource = [self taskCompletionFromGoogleSheetWithSheetKey:hackfoldrKey];
+    }
+
+    return completionSource;
+}
+
 @end
