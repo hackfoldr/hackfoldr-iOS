@@ -110,11 +110,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [[[HackfoldrClient sharedClient] taskCompletionFromGoogleSheetWithSheetKey:@"176W720jq1zpjsOcsZTkSmwqhmm_hK4VFINK_aubF8sc"].task continueWithBlock:^id(BFTask *task) {
-        NSLog(@"gsheel page:%@", task.result);
-        return nil;
-    }];
-    return;
 
     if (self.isSettingUpdating == NO) {
         [self reloadAction:self];
@@ -303,9 +298,16 @@
 
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
 {
-    HackfoldrTaskCompletionSource *jsonCompletionSource = [[HackfoldrClient sharedClient] taskCompletionWithKey:hackfoldrKey];
+    HackfoldrTaskCompletionSource *completionSource = nil;
 
-    [jsonCompletionSource.task continueWithBlock:^id(BFTask *task) {
+    // check where the data come from, ethercalc or gsheet
+    if (hackfoldrKey.length < 40) {
+        completionSource = [[HackfoldrClient sharedClient] taskCompletionFromEthercalcWithKey:hackfoldrKey];
+    } else {
+        completionSource = [[HackfoldrClient sharedClient] taskCompletionFromGoogleSheetWithSheetKey:hackfoldrKey];
+    }
+
+    [completionSource.task continueWithBlock:^id(BFTask *task) {
         if (task.error) {
             return task;
         }
@@ -331,7 +333,7 @@
     }];
 
     // Reload tableView
-    [jsonCompletionSource.task continueWithSuccessBlock:^id(BFTask *task) {
+    [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
         self.listViewController.tableView.dataSource = [HackfoldrClient sharedClient].lastPage;
 
         [self.listViewController.tableView reloadData];
@@ -340,7 +342,7 @@
         }
         return nil;
     }];
-    return jsonCompletionSource;
+    return completionSource;
 }
 
 - (void)settingAction:(id)sender
