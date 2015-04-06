@@ -72,8 +72,8 @@
 {
     HackfoldrTaskCompletionSource *source = [HackfoldrTaskCompletionSource taskCompletionSource];
     NSString *requestPath = [NSString stringWithFormat:@"%@.csv.json", inPath];
-    source.connectionTask = [self GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
-        HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:csvFieldArray];
+    source.connectionTask = [self GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id fieldArray) {
+        HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:fieldArray];
         _lastPage = page;
         [source setResult:page];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -82,9 +82,9 @@
     return source;
 }
 
-- (HackfoldrTaskCompletionSource *)taskCompletionPagaDataAtPath:(NSString *)inPath
+- (HackfoldrTaskCompletionSource *)taskCompletionFromEthercalcWithKey:(NSString *)key
 {
-    return [self _taskCompletionWithPath:inPath];
+    return [self _taskCompletionWithPath:key];
 }
 
 - (HackfoldrTaskCompletionSource *)taskCompletionFromGoogleSheetWithSheetKey:(NSString *)keyID

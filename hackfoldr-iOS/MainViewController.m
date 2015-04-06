@@ -303,7 +303,7 @@
 
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
 {
-    HackfoldrTaskCompletionSource *jsonCompletionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:hackfoldrKey];
+    HackfoldrTaskCompletionSource *jsonCompletionSource = [[HackfoldrClient sharedClient] taskCompletionWithKey:hackfoldrKey];
 
     [jsonCompletionSource.task continueWithBlock:^id(BFTask *task) {
         if (task.error) {
