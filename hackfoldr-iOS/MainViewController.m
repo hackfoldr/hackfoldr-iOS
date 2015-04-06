@@ -110,6 +110,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [[[HackfoldrClient sharedClient] taskCompletionFromGoogleSheetWithSheetKey:@"176W720jq1zpjsOcsZTkSmwqhmm_hK4VFINK_aubF8sc"].task continueWithBlock:^id(BFTask *task) {
+        NSLog(@"gsheel page:%@", task.result);
+        return nil;
+    }];
+    return;
 
     if (self.isSettingUpdating == NO) {
         [self reloadAction:self];

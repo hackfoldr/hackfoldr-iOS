@@ -87,4 +87,25 @@
     return [self _taskCompletionWithPath:inPath];
 }
 
+- (HackfoldrTaskCompletionSource *)taskCompletionFromGoogleSheetWithSheetKey:(NSString *)keyID
+{
+    // example at https://docs.google.com/spreadsheets/d/176W720jq1zpjsOcsZTkSmwqhmm_hK4VFINK_aubF8sc/export?format=csv&gid=0
+    HackfoldrTaskCompletionSource *source = [HackfoldrTaskCompletionSource taskCompletionSource];
+
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://docs.google.com/"]];
+    manager.responseSerializer = [[self class] CSVSerializer];
+
+    NSString *requestPath = [NSString stringWithFormat:@"spreadsheets/d/%@/export?format=csv&gid=0", keyID];
+    [manager GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
+        HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:csvFieldArray];
+        _lastPage = page;
+        [source setResult:page];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"error:%@ %@", error, task.response);
+        [source setError:error];
+    }];
+
+    return source;
+}
+
 @end

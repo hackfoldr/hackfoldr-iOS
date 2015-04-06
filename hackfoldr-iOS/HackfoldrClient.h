@@ -25,6 +25,8 @@
 
 - (HackfoldrTaskCompletionSource *)taskCompletionPagaDataAtPath:(NSString *)inPath;
 
+- (HackfoldrTaskCompletionSource *)taskCompletionFromGoogleSheetWithSheetKey:(NSString *)keyID;
+
 @property (nonatomic, strong) HackfoldrPage *lastPage;
 
 @end
