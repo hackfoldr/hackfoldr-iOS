@@ -48,9 +48,8 @@
                           error:(NSError *__autoreleasing *)error
 {
     if (![self validateResponse:response data:data error:error]) {
-        if (!error) {
-            return nil;
-        }
+        // validate failed must send nil
+        return nil;
     }
 
     NSStringEncoding usedEncoding = self.usedEncoding ? self.usedEncoding : [NSString defaultCStringEncoding];

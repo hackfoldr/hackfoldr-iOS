@@ -10,8 +10,8 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
-* AFNetworking 2.3.+
-* CHCSVParser 2.0+
+* [AFNetworking](https://github.com/AFNetworking/AFNetworking/) 2.3.+
+* [CHCSVParser](https://github.com/davedelong/CHCSVParser) 2.0+
 
 ## Installation
 

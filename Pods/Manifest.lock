@@ -1,5 +1,5 @@
 PODS:
-  - AFCSVParserResponseSerializer (0.1.0):
+  - AFCSVParserResponseSerializer (0.1.1):
     - AFNetworking (~> 2.3)
     - CHCSVParser (~> 2.0)
   - AFNetworking (2.5.2):
@@ -49,7 +49,7 @@ DEPENDENCIES:
   - TOWebViewController
 
 SPEC CHECKSUMS:
-  AFCSVParserResponseSerializer: e7322f94756052a4d05048d45278b6a82fb5a946
+  AFCSVParserResponseSerializer: 057305eda68f4dc9d6c2603412cdd3de21d8ba44
   AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
   Bolts: 7d4f57162547cc80743b05556dc26eb40bd44008
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8

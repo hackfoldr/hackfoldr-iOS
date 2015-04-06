@@ -10,7 +10,7 @@
 #define COCOAPODS_POD_AVAILABLE_AFCSVParserResponseSerializer
 #define COCOAPODS_VERSION_MAJOR_AFCSVParserResponseSerializer 0
 #define COCOAPODS_VERSION_MINOR_AFCSVParserResponseSerializer 1
-#define COCOAPODS_VERSION_PATCH_AFCSVParserResponseSerializer 0
+#define COCOAPODS_VERSION_PATCH_AFCSVParserResponseSerializer 1
 
 // AFNetworking
 #define COCOAPODS_POD_AVAILABLE_AFNetworking
