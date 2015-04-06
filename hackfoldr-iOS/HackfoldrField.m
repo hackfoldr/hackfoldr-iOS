@@ -76,7 +76,7 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     __block BOOL isComment = NO;
     [fields enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         if ([obj isKindOfClass:[NSString class]]) {
-            NSString *field = obj;
+            NSString *field = [obj stringByReplacingOccurrencesOfString:@"\"" withString:@""];;
             [field enumerateSubstringsInRange:NSMakeRange(0, field.length)
                                       options:NSStringEnumerationByComposedCharacterSequences
                                    usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop)

@@ -68,6 +68,10 @@
     HackfoldrField *commentField = [[HackfoldrField alloc] initWithFieldArray:@[@"", commentURL, actions]];
     XCTAssertTrue(commentField.isCommentLine);
 
+    NSString *notCleanCommentURL = @"\"# not yoo\"";
+    HackfoldrField *notCleanCommentField = [[HackfoldrField alloc] initWithFieldArray:@[@"", notCleanCommentURL, actions]];
+    XCTAssertTrue(notCleanCommentField.isCommentLine);
+
     NSString *lableString = @"blue I am red";
     HackfoldrField *labelField = [[HackfoldrField alloc] initWithFieldArray:@[nameURL, @"label", actions, lableString]];
     XCTAssertTrue([labelField.labelString isEqualToString:@"I am red"]);
