@@ -8,6 +8,7 @@
 
 #import "HackfoldrClient.h"
 
+#import "AFCSVParserResponseSerializer.h"
 #import "HackfoldrPage.h"
 
 @implementation HackfoldrTaskCompletionSource
@@ -49,6 +50,13 @@
     return shareClient;
 }
 
++ (AFCSVParserResponseSerializer *)CSVSerializer
+{
+    AFCSVParserResponseSerializer *serializer = [AFCSVParserResponseSerializer serializer];
+    serializer.usedEncoding = NSUTF8StringEncoding;
+    return serializer;
+}
+
 - (instancetype)initWithBaseURL:(NSURL *)url
 {
     self = [super initWithBaseURL:url];
@@ -64,8 +72,8 @@
 {
     HackfoldrTaskCompletionSource *source = [HackfoldrTaskCompletionSource taskCompletionSource];
     NSString *requestPath = [NSString stringWithFormat:@"%@.csv.json", inPath];
-    source.connectionTask = [self GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
-        HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:csvFieldArray];
+    source.connectionTask = [self GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id fieldArray) {
+        HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:fieldArray];
         _lastPage = page;
         [source setResult:page];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -74,9 +82,43 @@
     return source;
 }
 
-- (HackfoldrTaskCompletionSource *)taskCompletionPagaDataAtPath:(NSString *)inPath
+- (HackfoldrTaskCompletionSource *)taskCompletionFromEthercalcWithKey:(NSString *)key
 {
-    return [self _taskCompletionWithPath:inPath];
+    return [self _taskCompletionWithPath:key];
+}
+
+- (HackfoldrTaskCompletionSource *)taskCompletionFromGoogleSheetWithSheetKey:(NSString *)keyID
+{
+    // example at https://docs.google.com/spreadsheets/d/176W720jq1zpjsOcsZTkSmwqhmm_hK4VFINK_aubF8sc/export?format=csv&gid=0
+    HackfoldrTaskCompletionSource *source = [HackfoldrTaskCompletionSource taskCompletionSource];
+
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://docs.google.com/"]];
+    manager.responseSerializer = [[self class] CSVSerializer];
+
+    NSString *requestPath = [NSString stringWithFormat:@"spreadsheets/d/%@/export?format=csv&gid=0", keyID];
+    [manager GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
+        HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:csvFieldArray];
+        _lastPage = page;
+        [source setResult:page];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"error:%@ %@", error, task.response);
+        [source setError:error];
+    }];
+
+    return source;
+}
+
+- (HackfoldrTaskCompletionSource *)taskCompletionWithKey:(NSString *)hackfoldrKey
+{
+    HackfoldrTaskCompletionSource *completionSource = nil;
+    // check where the data come from, ethercalc or gsheet
+    if (hackfoldrKey.length < 40) {
+        completionSource = [self taskCompletionFromEthercalcWithKey:hackfoldrKey];
+    } else {
+        completionSource = [self taskCompletionFromGoogleSheetWithSheetKey:hackfoldrKey];
+    }
+
+    return completionSource;
 }
 
 @end

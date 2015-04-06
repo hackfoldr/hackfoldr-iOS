@@ -23,7 +23,11 @@
 
 + (instancetype)sharedClient;
 
-- (HackfoldrTaskCompletionSource *)taskCompletionPagaDataAtPath:(NSString *)inPath;
+- (HackfoldrTaskCompletionSource *)taskCompletionFromEthercalcWithKey:(NSString *)key;
+
+- (HackfoldrTaskCompletionSource *)taskCompletionFromGoogleSheetWithSheetKey:(NSString *)keyID;
+
+- (HackfoldrTaskCompletionSource *)taskCompletionWithKey:(NSString *)hackfoldrKey;
 
 @property (nonatomic, strong) HackfoldrPage *lastPage;
 

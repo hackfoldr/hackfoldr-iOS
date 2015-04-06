@@ -298,9 +298,9 @@
 
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
 {
-    HackfoldrTaskCompletionSource *jsonCompletionSource = [[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:hackfoldrKey];
+    HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionWithKey:hackfoldrKey];
 
-    [jsonCompletionSource.task continueWithBlock:^id(BFTask *task) {
+    [completionSource.task continueWithBlock:^id(BFTask *task) {
         if (task.error) {
             return task;
         }
@@ -326,7 +326,7 @@
     }];
 
     // Reload tableView
-    [jsonCompletionSource.task continueWithSuccessBlock:^id(BFTask *task) {
+    [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
         self.listViewController.tableView.dataSource = [HackfoldrClient sharedClient].lastPage;
 
         [self.listViewController.tableView reloadData];
@@ -335,7 +335,7 @@
         }
         return nil;
     }];
-    return jsonCompletionSource;
+    return completionSource;
 }
 
 - (void)settingAction:(id)sender

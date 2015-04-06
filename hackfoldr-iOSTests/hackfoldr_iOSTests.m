@@ -68,6 +68,10 @@
     HackfoldrField *commentField = [[HackfoldrField alloc] initWithFieldArray:@[@"", commentURL, actions]];
     XCTAssertTrue(commentField.isCommentLine);
 
+    NSString *notCleanCommentURL = @"\"# not yoo\"";
+    HackfoldrField *notCleanCommentField = [[HackfoldrField alloc] initWithFieldArray:@[@"", notCleanCommentURL, actions]];
+    XCTAssertTrue(notCleanCommentField.isCommentLine);
+
     NSString *lableString = @"blue I am red";
     HackfoldrField *labelField = [[HackfoldrField alloc] initWithFieldArray:@[nameURL, @"label", actions, lableString]];
     XCTAssertTrue([labelField.labelString isEqualToString:@"I am red"]);
@@ -82,7 +86,7 @@
 {
     XCTestExpectation *openHackfoldrExpectation = [self expectationWithDescription:@"open Hackfoldr"];
 
-    [[[HackfoldrClient sharedClient] taskCompletionPagaDataAtPath:@"testHackFoldr"].task continueWithBlock:^id(BFTask *task) {
+    [[[HackfoldrClient sharedClient] taskCompletionWithKey:@"testHackFoldr"].task continueWithBlock:^id(BFTask *task) {
         XCTAssertNil(task.error);
         NSLog(@"task %@ %@", task.error, task.result);
 
