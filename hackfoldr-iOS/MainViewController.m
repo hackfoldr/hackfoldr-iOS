@@ -15,6 +15,7 @@
 #import "HackfoldrHistory.h"
 #import "HackfoldrPage.h"
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
+#import "UIImage+TOWebViewControllerIcons.h"
 // ViewController
 #import "ListFieldViewController.h"
 #import "QuickDialog.h"
@@ -36,7 +37,10 @@
 
     self.title = [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleName"];
 
-    UIButton *reloadButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    UIButton *reloadButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    reloadButton.frame = CGRectMake(0, 0, 31, 31);
+    UIImage *reloadImage = [UIImage TOWebViewControllerIcon_refreshButtonWithAttributes:nil];
+    [reloadButton setImage:reloadImage forState:UIControlStateNormal];
     [reloadButton addTarget:self
                      action:@selector(reloadAction:)
            forControlEvents:UIControlEventTouchUpInside];
