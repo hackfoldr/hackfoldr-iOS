@@ -18,6 +18,7 @@
 
     self.settingButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     self.settingButton.frame = CGRectMake(0, 0, 20, 20);
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.settingButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -26,10 +27,6 @@
 
     if ([self.tableView.dataSource isKindOfClass:[HackfoldrPage class]]) {
         self.title = ((HackfoldrPage *)self.tableView.dataSource).pageTitle;
-    }
-
-    if (self.navigationController) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.settingButton];
     }
 }
 
