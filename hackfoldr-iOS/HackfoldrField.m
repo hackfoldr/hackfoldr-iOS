@@ -125,7 +125,10 @@ typedef NS_ENUM(NSUInteger, FieldType) {
 
 - (void)setIsSubItemWithURLString:(NSString *)aURLString
 {
-    if (!aURLString || aURLString.length == 0) {
+    // |aURLString| must have 'http', otherwise that is not subItem
+    if (!aURLString ||
+        aURLString.length == 0 ||
+        [aURLString rangeOfString:@"http"].location == NSNotFound) {
         return;
     }
 
