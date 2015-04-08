@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hackfoldr/hackfoldr-iOS.svg?branch=develop)](https://travis-ci.org/hackfoldr/hackfoldr-iOS)
+
 # hackfoldr-iOS #
 
 This is a simple iOS client for [hackfoldr](https://github.com/hackfoldr/hackfoldr)
