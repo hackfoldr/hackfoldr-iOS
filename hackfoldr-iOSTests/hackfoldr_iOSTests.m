@@ -64,6 +64,13 @@
     XCTAssertTrue([subField.actions isEqualToString:actions], @"");
     XCTAssertTrue(subField.isSubItem, @"isSubItem must be YES");
 
+    // Hacfoldr 2.0 rule
+    NSString *topItemURL = @"< http://hackfoldr.org/";
+    HackfoldrField *topField = [[HackfoldrField alloc] initWithFieldArray:@[topItemURL, name, actions]];
+    NSString *subStringOfTopField = [topItemURL substringWithRange:NSMakeRange(2, topItemURL.length -2)];
+    XCTAssertFalse(topField.isSubItem);
+    XCTAssertTrue([topField.urlString isEqualToString:subStringOfTopField]);
+
     NSString *commentURL = @"# yooo";
     HackfoldrField *commentField = [[HackfoldrField alloc] initWithFieldArray:@[@"", commentURL, actions]];
     XCTAssertTrue(commentField.isCommentLine);

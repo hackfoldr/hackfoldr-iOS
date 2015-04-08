@@ -112,6 +112,7 @@ typedef NS_ENUM(NSUInteger, FieldType) {
 {
     NSString *cleanString = [aURLString stringByReplacingOccurrencesOfString:@" " withString:@""];
     cleanString = [cleanString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    cleanString = [cleanString stringByReplacingOccurrencesOfString:@"<" withString:@""];
     _urlString = cleanString;
 
     [self setIsSubItemWithURLString:aURLString];
