@@ -262,6 +262,7 @@
 				E7EB66B519554E290069FD71 /* Frameworks */,
 				E7EB66B619554E290069FD71 /* Resources */,
 				F8ECB66B724E4F56BFCD72D5 /* Copy Pods Resources */,
+				E7118A4D1AD4F301007608C0 /* Run Fabric Script */,
 			);
 			buildRules = (
 			);
@@ -376,6 +377,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackfoldr-iOSTests/Pods-hackfoldr-iOSTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		E7118A4D1AD4F301007608C0 /* Run Fabric Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Fabric Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Pods/Fabric/Fabric.framework/run aa4bea7059a82c8870fd136c48413ae4cd41082c 8bf8c504d73c8e8fe15042b587eb40714b703ad27c5d49aea6957560d9423780";
 		};
 		F62215F8E8C94E159E6864B0 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -546,6 +561,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "hackfoldr-iOS/hackfoldr-iOS-Prefix.pch";
 				INFOPLIST_FILE = "hackfoldr-iOS/hackfoldr-iOS-Info.plist";
@@ -564,6 +583,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "hackfoldr-iOS/hackfoldr-iOS-Prefix.pch";
 				INFOPLIST_FILE = "hackfoldr-iOS/hackfoldr-iOS-Info.plist";
