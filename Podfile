@@ -11,6 +11,10 @@ target "hackfoldr-iOS" do
 
   pod 'QuickDialog', '~> 1.0'
   pod 'TOWebViewController'
+
+  # Test use
+  pod 'Fabric', '~> 1.2.2'
+  pod 'Fabric/Crashlytics'
 end
 
 target "hackfoldr-iOSTests" do

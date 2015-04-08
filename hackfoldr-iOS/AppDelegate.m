@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 #import "CoreData+MagicalRecord.h"
 #import "MainViewController.h"
 
@@ -15,6 +18,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+#if DEBUG
+    [Fabric sharedSDK].debug = YES;
+#endif
+    [Fabric with:@[CrashlyticsKit]];
+
     // setup core data
     [MagicalRecord setupCoreDataStack];
 
