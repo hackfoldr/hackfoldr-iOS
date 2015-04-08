@@ -263,6 +263,7 @@
 				E7EB66B619554E290069FD71 /* Resources */,
 				F8ECB66B724E4F56BFCD72D5 /* Copy Pods Resources */,
 				E7118A4D1AD4F301007608C0 /* Run Fabric Script */,
+				E7118A521AD4FFB7007608C0 /* Update app bundle version */,
 			);
 			buildRules = (
 			);
@@ -391,6 +392,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Pods/Fabric/Fabric.framework/run aa4bea7059a82c8870fd136c48413ae4cd41082c 8bf8c504d73c8e8fe15042b587eb40714b703ad27c5d49aea6957560d9423780";
+		};
+		E7118A521AD4FFB7007608C0 /* Update app bundle version */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Update app bundle version";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "exec ./script/xcode-git-version.sh";
 		};
 		F62215F8E8C94E159E6864B0 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
