@@ -1,6 +1,4 @@
 language: objective-c
-xcode_project: hackfoldr-iOS.xcworkspace
-xcode_scheme: hackfoldr-iOS
 
 script:
-  - xctool -sdk iphonesimulator -configuration "DEBUG" CONFIGURATION_BUILD_DIR='~/build/' run-tests -parallelize
+  - xctool -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator -configuration "DEBUG" build
