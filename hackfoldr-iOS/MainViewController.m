@@ -195,19 +195,19 @@
     UINavigationController *navigationForSetting = [[UINavigationController alloc] initWithRootViewController:dialogController];
 
     QSection *inputSection = [[QSection alloc] init];
-    inputSection.footer = @"You can input new hackfoldr page key and select Change Key to change it.";
+    inputSection.footer = NSLocalizedStringFromTable(@"You can input new hackfoldr page key and select Change Key to change it.", @"Hackfoldr", @"Change key description at input section in SettingView.");
 
     QLabelElement *currentHackpageKey = [[QLabelElement alloc] init];
-    currentHackpageKey.title = @"Current key";
+    currentHackpageKey.title = NSLocalizedStringFromTable(@"Current key", @"Hackfoldr", @"Current key title in SettingView.");
     currentHackpageKey.value = [[NSUserDefaults standardUserDefaults] stringOfCurrentHackfoldrPage];
     [inputSection addElement:currentHackpageKey];
 
     QEntryElement *inputElement = [[QEntryElement alloc] init];
-    inputElement.placeholder = @"Hackfoldr key or URL";
+    inputElement.placeholder = NSLocalizedStringFromTable(@"Hackfoldr key or URL", @"Hackfoldr", @"Place holder string for input element in SettingView.");
     [inputSection addElement:inputElement];
 
     QButtonElement *sendButtonElement = [[QButtonElement alloc] init];
-    sendButtonElement.title = NSLocalizedStringFromTable(@"Change Key", @"Hackfoldr", @"update hackfoldr button text");
+    sendButtonElement.title = NSLocalizedStringFromTable(@"Change Key", @"Hackfoldr", @"Change hackfoldr key button title in SettingView.");
     // Change page button clicked
     sendButtonElement.onSelected = ^(void) {
 
@@ -237,7 +237,7 @@
 
             HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:newHackfoldrPage];
 
-            NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button at SettingView");
+            NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button title in SettingView");
             [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
                                                           delegate:self
                                                  cancelButtonTitle:dismissButtonTitle
@@ -261,7 +261,7 @@
     [settingRoot addSection:inputSection];
 
     QSection *historySection = [[QSection alloc] init];
-    historySection.title = NSLocalizedStringFromTable(@"History", @"Hackfoldr", @"History section title at SettingView");
+    historySection.title = NSLocalizedStringFromTable(@"History", @"Hackfoldr", @"History section title in SettingView");
     NSArray *histories = [HackfoldrHistory MR_findAllSortedBy:@"refreshDate" ascending:NO];
     [histories enumerateObjectsUsingBlock:^(HackfoldrHistory *history, NSUInteger idx, BOOL *stop) {
         QButtonElement *buttonElement = [[QButtonElement alloc] init];
@@ -277,9 +277,9 @@
     [settingRoot addSection:historySection];
 
     QSection *restSection = [[QSection alloc] init];
-    restSection.title = NSLocalizedStringFromTable(@"Reset Actions", @"Hackfoldr", @"Reset hackfoldr actions at SettingView");
+    restSection.title = NSLocalizedStringFromTable(@"Reset Actions", @"Hackfoldr", @"Reset hackfoldr actions in SettingView");
     QButtonElement *restHackfoldrPageElement = [[QButtonElement alloc] init];
-    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Default Hackfoldr Page", @"Hackfoldr", @"Reset hackfoldr page");
+    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Hacfoldr Help", @"Hackfoldr", @"Reset hackfoldr page button title in SettingView");
     restHackfoldrPageElement.onSelected = ^(void) {
         // Set current HackfoldrPage to |DefaultHackfoldrPage|
         NSString *defaultHackfoldrKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
