@@ -132,7 +132,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.listViewController.tableView) {
-        HackfoldrField *sectionOfField = [HackfoldrClient sharedClient].lastPage.cells[indexPath.section];
+        HackfoldrPage *dataSourcePage = tableView.dataSource;
+        HackfoldrField *sectionOfField = dataSourcePage.cells[indexPath.section];
         HackfoldrField *rowOfField = sectionOfField.subFields[indexPath.row];
         NSString *urlString = rowOfField.urlString;
         NSLog(@"url: %@", urlString);
@@ -331,7 +332,12 @@
 
     // Reload tableView
     [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
-        self.listViewController.tableView.dataSource = [HackfoldrClient sharedClient].lastPage;
+        HackfoldrPage *page = task.result;
+        if (page.rediredKey) {
+            return nil;
+        }
+
+        self.listViewController.tableView.dataSource = page;
 
         [self.listViewController.tableView reloadData];
         if (!self.currentField) {

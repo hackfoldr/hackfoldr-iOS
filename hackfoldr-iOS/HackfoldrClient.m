@@ -74,7 +74,9 @@
     NSString *requestPath = [NSString stringWithFormat:@"%@.csv.json", inPath];
     source.connectionTask = [self GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id fieldArray) {
         HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:fieldArray];
-        _lastPage = page;
+        if (!page.rediredKey) {
+            _lastPage = page;
+        }
         [source setResult:page];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [source setError:error];
