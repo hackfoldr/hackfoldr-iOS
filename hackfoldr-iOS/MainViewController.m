@@ -312,6 +312,13 @@
         HackfoldrPage *page = task.result;
         NSLog(@"result:%@", page);
 
+        if (page.rediredKey) {
+            NSLog(@"redired to:%@", page.rediredKey);
+            [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:page.rediredKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            return [[HackfoldrClient sharedClient] taskCompletionFromGoogleSheetWithSheetKey:page.rediredKey];
+        }
+
         // Save history to core data
         HackfoldrHistory *history = [HackfoldrHistory MR_findFirstByAttribute:@"hackfoldrKey" withValue:hackfoldrKey];
         if (!history) {
