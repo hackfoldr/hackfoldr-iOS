@@ -13,6 +13,7 @@
 @interface HackfoldrPage ()
 @property (nonatomic, strong) NSArray *fields;
 @property (nonatomic, strong, readwrite) NSString *pagetitle;
+@property (nonatomic, strong, readwrite) NSString *rediredKey;
 @end
 
 @implementation HackfoldrPage
@@ -37,6 +38,16 @@
 - (void)updateWithArray:(NSArray *)fieldArray
 {
     if (!fieldArray || fieldArray.count == 0) {
+        return;
+    }
+
+    // Check this page is redired page
+    NSString *a1String = ((NSArray *)fieldArray.firstObject).firstObject;
+    a1String = [a1String stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    // Check A1 is not comment field and length >= 40
+    if ([a1String hasPrefix:@"#"] == NO && a1String.length >= 40) {
+        self.rediredKey = a1String;
+        // because this is redired page, ignore other things
         return;
     }
 
@@ -94,6 +105,9 @@
 {
     NSMutableString *description = [NSMutableString string];
     [description appendFormat:@"pageTitle: %@\n", self.pageTitle];
+    if (self.rediredKey) {
+        [description appendFormat:@"rediredKey: %@", self.rediredKey];
+    }
 //    [description appendFormat:@"cells: %@", self.fields];
     return description;
 }
