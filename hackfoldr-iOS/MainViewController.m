@@ -145,12 +145,10 @@
 
         TOWebViewController *webViewController = [[TOWebViewController alloc] init];
         webViewController.showPageTitles = YES;
-        [self dismissViewControllerAnimated:YES completion:^{
-            [webViewController loadWithField:rowOfField];
-            self.currentField = rowOfField;
+        [webViewController loadWithField:rowOfField];
+        self.currentField = rowOfField;
 
-            [[self mainNavigationController] pushViewController:webViewController animated:YES];
-        }];
+        [self.navigationController pushViewController:webViewController animated:YES];
     }
 }
 
