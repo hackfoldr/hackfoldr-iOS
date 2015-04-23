@@ -97,7 +97,8 @@
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://docs.google.com/"]];
     manager.responseSerializer = [[self class] CSVSerializer];
 
-    NSString *requestPath = [NSString stringWithFormat:@"spreadsheets/d/%@/export?format=csv&gid=0", keyID];
+    NSString *requestKeyID = [keyID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *requestPath = [NSString stringWithFormat:@"spreadsheets/d/%@/export?format=csv&gid=0", requestKeyID];
     [manager GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
         HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:csvFieldArray];
         _lastPage = page;
