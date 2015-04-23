@@ -181,9 +181,7 @@
 #pragma mark - Actions
 
 - (void)showListViewController {
-    UINavigationController *navigationControllerForListViewController =
-    [[UINavigationController alloc] initWithRootViewController:self.listViewController];
-    [self presentViewController:navigationControllerForListViewController animated:YES completion:nil];
+    [self.navigationController pushViewController:self.listViewController animated:YES];
 }
 
 - (void)showSettingViewController
