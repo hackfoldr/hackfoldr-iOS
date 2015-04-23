@@ -175,7 +175,14 @@
 
 #pragma mark - Actions
 
-- (void)showListViewController {
+- (void)showListViewController
+{
+    for (UIViewController *vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[self.listViewController class]]) {
+            return;
+        }
+    }
+
     [self.navigationController pushViewController:self.listViewController animated:YES];
 }
 
