@@ -132,7 +132,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.listViewController.tableView) {
-        HackfoldrField *sectionOfField = [HackfoldrClient sharedClient].lastPage.cells[indexPath.section];
+        HackfoldrPage *dataSourcePage = tableView.dataSource;
+        HackfoldrField *sectionOfField = dataSourcePage.cells[indexPath.section];
         HackfoldrField *rowOfField = sectionOfField.subFields[indexPath.row];
         NSString *urlString = rowOfField.urlString;
         NSLog(@"url: %@", urlString);
@@ -311,6 +312,13 @@
         HackfoldrPage *page = task.result;
         NSLog(@"result:%@", page);
 
+        if (page.rediredKey) {
+            NSLog(@"redired to:%@", page.rediredKey);
+            [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:page.rediredKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            return [[HackfoldrClient sharedClient] taskCompletionFromGoogleSheetWithSheetKey:page.rediredKey];
+        }
+
         // Save history to core data
         HackfoldrHistory *history = [HackfoldrHistory MR_findFirstByAttribute:@"hackfoldrKey" withValue:hackfoldrKey];
         if (!history) {
@@ -331,7 +339,12 @@
 
     // Reload tableView
     [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
-        self.listViewController.tableView.dataSource = [HackfoldrClient sharedClient].lastPage;
+        HackfoldrPage *page = task.result;
+        if (page.rediredKey) {
+            return nil;
+        }
+
+        self.listViewController.tableView.dataSource = page;
 
         [self.listViewController.tableView reloadData];
         if (!self.currentField) {

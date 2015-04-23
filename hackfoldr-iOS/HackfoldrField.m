@@ -73,24 +73,18 @@ typedef NS_ENUM(NSUInteger, FieldType) {
 
 - (BOOL)isCommentLineWithFieldArray:(NSArray *)fields
 {
-    __block BOOL isComment = NO;
+    __block BOOL isCommentLine = NO;
     [fields enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         if ([obj isKindOfClass:[NSString class]]) {
             NSString *field = [obj stringByReplacingOccurrencesOfString:@"\"" withString:@""];;
-            [field enumerateSubstringsInRange:NSMakeRange(0, field.length)
-                                      options:NSStringEnumerationByComposedCharacterSequences
-                                   usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop)
-            {
-                // only read first one
+            // only read first one
+            if ([field hasPrefix:@"#"]) {
+                isCommentLine = YES;
                 *stop = YES;
-
-                if ([substring isEqualToString:@"#"]) {
-                    isComment = YES;
-                }
-            }];
+            }
         }
     }];
-    return isComment;
+    return isCommentLine;
 }
 
 #pragma mark - Setter and Getter
@@ -135,20 +129,12 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     // hackfoldr 2.0 rule, default is subItem
     self.isSubItem = YES;
     // While first string is space, this HackfoldrField is subItem
-    [aURLString enumerateSubstringsInRange:NSMakeRange(0, aURLString.length)
-                                   options:NSStringEnumerationByComposedCharacterSequences
-                                usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop)
-    {
-        if ([substring isEqualToString:@" "]) {
-            self.isSubItem = YES;
-            *stop = YES;
-        }
-        // hackfoldr 2.0 rule
-        if ([substring isEqualToString:@"<"]) {
-            self.isSubItem = NO;
-            *stop = YES;
-        }
-    }];
+    if ([aURLString hasPrefix:@" "]) {
+        self.isSubItem = YES;
+    }
+    if ([aURLString hasPrefix:@"<"]) {
+        self.isSubItem = NO;
+    }
 }
 
 - (void)setLabelString:(NSString *)labelString

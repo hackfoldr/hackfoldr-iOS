@@ -10,6 +10,7 @@
 
 #import "HackfoldrClient.h"
 #import "HackfoldrField.h"
+#import "HackfoldrPage.h"
 #import "OHHTTPStubs.h"
 
 @interface hackfoldr_iOSTests : XCTestCase
@@ -45,7 +46,18 @@
     [super tearDown];
 }
 
-- (void)testHackField
+- (void)testHackfoldrPage
+{
+    HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:@[@[@"abcdefg_is_key_length_must_bigger_than_40", @"A1"]]];
+    XCTAssertTrue(page.rediredKey!=nil);
+    XCTAssertTrue(page.rediredKey.length > 0);
+
+    NSString *comment = @"#A1: if not marked as comment (start with #), better less than 40 characters, or will be parsed as a google spreadsheer id";
+    HackfoldrPage *commentPage = [[HackfoldrPage alloc] initWithFieldArray:@[@[comment, @"A1 comment"]]];
+    XCTAssertNil(commentPage.rediredKey);
+}
+
+- (void)testHackfoldrField
 {
     NSString *nameURL = @"http://www.g0v.tw";
     NSString *name = @"Name ";

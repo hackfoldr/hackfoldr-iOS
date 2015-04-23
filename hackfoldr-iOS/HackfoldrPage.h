@@ -17,4 +17,10 @@
 /// Objcect in NSArray is |HackfoldrField|
 @property (nonatomic, strong, readonly) NSArray *cells;
 
+/**
+ * rediredKey is redired key from A1
+ * This is Hackfoldr 2.0 rule
+ */
+@property (nonatomic, strong, readonly) NSString *rediredKey;
+
 @end
