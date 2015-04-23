@@ -204,30 +204,19 @@
     // Change page button clicked
     sendButtonElement.onSelected = ^(void) {
 
-        NSString *newHackfoldrPage = inputElement.textValue;
-
-        // Find hackfoldr page key, if prefix is http or https
-        if ([newHackfoldrPage hasPrefix:@"http"]) {
-            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".*hackfoldr.org/(.*)/"
-                                                                                   options:NSRegularExpressionAllowCommentsAndWhitespace
-                                                                                     error:NULL];
-            NSTextCheckingResult *match = [regex firstMatchInString:newHackfoldrPage
-                                                            options:NSMatchingReportCompletion
-                                                              range:NSMakeRange(0, newHackfoldrPage.length)];
-            if (match.range.location != NSNotFound) {
-                newHackfoldrPage = [newHackfoldrPage substringWithRange:[match rangeAtIndex:1]];
+        BFTaskCompletionSource *cleanKeyCompletionSource = [self validatorHackfoldrKeyForSettingViewWithHackfoldrKey:inputElement.textValue];
+        [cleanKeyCompletionSource.task continueWithBlock:^id(BFTask *task) {
+            if (task.error) {
+                // hide self
+                [dialogController popToPreviousRootElement];
+                return nil;
             }
-        }
 
-        // Remove white space and new line
-        newHackfoldrPage = [newHackfoldrPage stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        // Use escapes to encoding |newHackfoldrPage|
-        newHackfoldrPage = [newHackfoldrPage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-        if (newHackfoldrPage && newHackfoldrPage.length > 0) {
             [dialogController loading:YES];
 
-            HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:newHackfoldrPage];
+            NSString *key = task.result;
+
+            HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:key];
 
             NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button title in SettingView");
             [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
@@ -239,17 +228,16 @@
                 [dialogController loading:NO];
                 return task;
             }] continueWithSuccessBlock:^id(BFTask *task) {
-                NSLog(@"change hackfoldr page: %@", newHackfoldrPage);
-                [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:newHackfoldrPage];
+                NSLog(@"change hackfoldr page: %@", key);
+                [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:key];
                 [self.listViewController.tableView reloadData];
                 // hide self
                 [dialogController popToPreviousRootElement];
                 return nil;
             }];
-        } else {
-            // hide self
-            [dialogController popToPreviousRootElement];
-        }
+
+            return nil;;
+        }];
     };
     [inputSection addElement:sendButtonElement];
     [settingRoot addSection:inputSection];
@@ -303,6 +291,39 @@
         UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:dialogController];
         [self presentViewController:controller animated:YES completion:nil];
     }
+}
+
+- (BFTaskCompletionSource *)validatorHackfoldrKeyForSettingViewWithHackfoldrKey:(NSString *)newHackfoldrKey
+{
+    BFTaskCompletionSource *completion = [BFTaskCompletionSource taskCompletionSource];
+
+    // Find hackfoldr page key, if prefix is http or https
+    if ([newHackfoldrKey hasPrefix:@"http"]) {
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".*hackfoldr.org/(.*)/"
+                                                                               options:NSRegularExpressionAllowCommentsAndWhitespace
+                                                                                 error:NULL];
+        NSTextCheckingResult *match = [regex firstMatchInString:newHackfoldrKey
+                                                        options:NSMatchingReportCompletion
+                                                          range:NSMakeRange(0, newHackfoldrKey.length)];
+        if (match.range.location != NSNotFound) {
+            newHackfoldrKey = [newHackfoldrKey substringWithRange:[match rangeAtIndex:1]];
+        }
+    }
+
+    // Remove white space and new line
+    newHackfoldrKey = [newHackfoldrKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    // Use escapes to encoding |newHackfoldrPage|
+    newHackfoldrKey = [newHackfoldrKey stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    if (newHackfoldrKey && newHackfoldrKey.length > 0) {
+        [completion setResult:newHackfoldrKey];
+    } else {
+        [completion setError:[NSError errorWithDomain:@"SettingView"
+                                                 code:1
+                                             userInfo:nil]];
+    }
+
+    return completion;
 }
 
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
