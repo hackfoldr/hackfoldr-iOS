@@ -211,30 +211,8 @@
                 [dialogController popToPreviousRootElement];
                 return nil;
             }
-
-            [dialogController loading:YES];
-
-            NSString *key = task.result;
-
-            HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:key];
-
-            NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button title in SettingView");
-            [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
-                                                          delegate:self
-                                                 cancelButtonTitle:dismissButtonTitle
-                                                 otherButtonTitles:nil];
-
-            [[completionSource.task continueWithBlock:^id(BFTask *task) {
-                [dialogController loading:NO];
-                return task;
-            }] continueWithSuccessBlock:^id(BFTask *task) {
-                NSLog(@"change hackfoldr page: %@", key);
-                [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:key];
-                [self.listViewController.tableView reloadData];
-                // hide self
-                [dialogController popToPreviousRootElement];
-                return nil;
-            }];
+            // Update hackfoldr page
+            [self updateHackfoldrPageWithDialogController:dialogController key:task.result];
 
             return nil;;
         }];
@@ -249,16 +227,8 @@
         QButtonElement *buttonElement = [[QButtonElement alloc] init];
         buttonElement.title = history.title;
         buttonElement.onSelected = ^() {
-            [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:history.hackfoldrKey];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-
-            HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:history.hackfoldrKey];
-
-            [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
-                // hide self
-                [dialogController popToPreviousRootElement];
-                return nil;
-            }];
+            // Update hackfoldr page
+            [self updateHackfoldrPageWithDialogController:dialogController key:history.hackfoldrKey];
         };
         [historySection addElement:buttonElement];
     }];
@@ -324,6 +294,34 @@
     }
 
     return completion;
+}
+
+- (void)updateHackfoldrPageWithDialogController:(QuickDialogController *)dialogController key:(NSString *)key
+{
+    HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:key];
+
+    NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button title in SettingView");
+    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
+                                                  delegate:self
+                                         cancelButtonTitle:dismissButtonTitle
+                                         otherButtonTitles:nil];
+
+    [dialogController loading:YES];
+
+    [[completionSource.task continueWithBlock:^id(BFTask *task) {
+        [dialogController loading:NO];
+        return task;
+    }] continueWithSuccessBlock:^id(BFTask *task) {
+        NSLog(@"change hackfoldr page: %@", key);
+
+        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
+        [self.listViewController.tableView reloadData];
+        // hide self
+        [dialogController popToPreviousRootElement];
+        return nil;
+    }];
 }
 
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
