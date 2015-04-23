@@ -25,7 +25,7 @@
 {
     [super viewWillAppear:animated];
 
-    if ([self.tableView.dataSource isKindOfClass:[HackfoldrPage class]]) {
+    if (self.tableView.dataSource && [self.tableView.dataSource isKindOfClass:[HackfoldrPage class]]) {
         self.title = ((HackfoldrPage *)self.tableView.dataSource).pageTitle;
     }
 }
