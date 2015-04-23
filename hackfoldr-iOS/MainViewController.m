@@ -26,7 +26,6 @@
 @property (nonatomic, strong) ListFieldViewController *listViewController;
 @property (nonatomic, strong) HackfoldrField *currentField;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
-@property (nonatomic, assign) BOOL isSettingUpdating;
 @end
 
 @implementation MainViewController
@@ -115,9 +114,7 @@
 {
     [super viewDidAppear:animated];
 
-    if (self.isSettingUpdating == NO) {
-        [self reloadAction:self];
-    }
+    [self reloadAction:self];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -228,7 +225,6 @@
         newHackfoldrPage = [newHackfoldrPage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
         if (newHackfoldrPage && newHackfoldrPage.length > 0) {
-            self.isSettingUpdating = YES;
             [dialogController loading:YES];
 
             HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:newHackfoldrPage];
@@ -240,7 +236,6 @@
                                                  otherButtonTitles:nil];
 
             [[completionSource.task continueWithBlock:^id(BFTask *task) {
-                self.isSettingUpdating = NO;
                 [dialogController loading:NO];
                 return task;
             }] continueWithSuccessBlock:^id(BFTask *task) {
