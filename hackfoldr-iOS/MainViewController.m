@@ -26,7 +26,6 @@
 @property (nonatomic, strong) ListFieldViewController *listViewController;
 @property (nonatomic, strong) HackfoldrField *currentField;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
-@property (nonatomic, assign) BOOL isSettingUpdating;
 @end
 
 @implementation MainViewController
@@ -115,9 +114,7 @@
 {
     [super viewDidAppear:animated];
 
-    if (self.isSettingUpdating == NO) {
-        [self reloadAction:self];
-    }
+    [self reloadAction:self];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -145,12 +142,10 @@
 
         TOWebViewController *webViewController = [[TOWebViewController alloc] init];
         webViewController.showPageTitles = YES;
-        [self dismissViewControllerAnimated:YES completion:^{
-            [webViewController loadWithField:rowOfField];
-            self.currentField = rowOfField;
+        [webViewController loadWithField:rowOfField];
+        self.currentField = rowOfField;
 
-            [[self mainNavigationController] pushViewController:webViewController animated:YES];
-        }];
+        [self.navigationController pushViewController:webViewController animated:YES];
     }
 }
 
@@ -181,9 +176,7 @@
 #pragma mark - Actions
 
 - (void)showListViewController {
-    UINavigationController *navigationControllerForListViewController =
-    [[UINavigationController alloc] initWithRootViewController:self.listViewController];
-    [self presentViewController:navigationControllerForListViewController animated:YES completion:nil];
+    [self.navigationController pushViewController:self.listViewController animated:YES];
 }
 
 - (void)showSettingViewController
@@ -193,7 +186,6 @@
     settingRoot.grouped = YES;
 
     QuickDialogController *dialogController = [QuickDialogController controllerForRoot:settingRoot];
-    UINavigationController *navigationForSetting = [[UINavigationController alloc] initWithRootViewController:dialogController];
 
     QSection *inputSection = [[QSection alloc] init];
     inputSection.footer = NSLocalizedStringFromTable(@"You can input new hackfoldr page key and select Change Key to change it.", @"Hackfoldr", @"Change key description at input section in SettingView.");
@@ -212,51 +204,18 @@
     // Change page button clicked
     sendButtonElement.onSelected = ^(void) {
 
-        NSString *newHackfoldrPage = inputElement.textValue;
-
-        // Find hackfoldr page key, if prefix is http or https
-        if ([newHackfoldrPage hasPrefix:@"http"]) {
-            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".*hackfoldr.org/(.*)/"
-                                                                                   options:NSRegularExpressionAllowCommentsAndWhitespace
-                                                                                     error:NULL];
-            NSTextCheckingResult *match = [regex firstMatchInString:newHackfoldrPage
-                                                            options:NSMatchingReportCompletion
-                                                              range:NSMakeRange(0, newHackfoldrPage.length)];
-            if (match.range.location != NSNotFound) {
-                newHackfoldrPage = [newHackfoldrPage substringWithRange:[match rangeAtIndex:1]];
-            }
-        }
-
-        // Remove white space and new line
-        newHackfoldrPage = [newHackfoldrPage stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        // Use escapes to encoding |newHackfoldrPage|
-        newHackfoldrPage = [newHackfoldrPage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-        if (newHackfoldrPage && newHackfoldrPage.length > 0) {
-            self.isSettingUpdating = YES;
-            [dialogController loading:YES];
-
-            HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:newHackfoldrPage];
-
-            NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button title in SettingView");
-            [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
-                                                          delegate:self
-                                                 cancelButtonTitle:dismissButtonTitle
-                                                 otherButtonTitles:nil];
-
-            [[completionSource.task continueWithBlock:^id(BFTask *task) {
-                self.isSettingUpdating = NO;
-                [dialogController loading:NO];
-                return task;
-            }] continueWithSuccessBlock:^id(BFTask *task) {
-                NSLog(@"change hackfoldr page: %@", newHackfoldrPage);
-                [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:newHackfoldrPage];
-                [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
+        BFTaskCompletionSource *cleanKeyCompletionSource = [self validatorHackfoldrKeyForSettingViewWithHackfoldrKey:inputElement.textValue];
+        [cleanKeyCompletionSource.task continueWithBlock:^id(BFTask *task) {
+            if (task.error) {
+                // hide self
+                [dialogController popToPreviousRootElement];
                 return nil;
-            }];
-        } else {
-            [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
-        }
+            }
+            // Update hackfoldr page
+            [self updateHackfoldrPageWithDialogController:dialogController key:task.result];
+
+            return nil;;
+        }];
     };
     [inputSection addElement:sendButtonElement];
     [settingRoot addSection:inputSection];
@@ -268,10 +227,8 @@
         QButtonElement *buttonElement = [[QButtonElement alloc] init];
         buttonElement.title = history.title;
         buttonElement.onSelected = ^() {
-            [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:history.hackfoldrKey];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            // hide self
-            [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
+            // Update hackfoldr page
+            [self updateHackfoldrPageWithDialogController:dialogController key:history.hackfoldrKey];
         };
         [historySection addElement:buttonElement];
     }];
@@ -287,7 +244,7 @@
         [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:defaultHackfoldrKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
         // hide self
-        [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
+        [dialogController popToPreviousRootElement];
     };
     [restSection addElement:restHackfoldrPageElement];
     [settingRoot addSection:restSection];
@@ -298,7 +255,73 @@
     infoSection.footer = [NSString stringWithFormat:@"App Version: %@ (%@)", version, build];
     [settingRoot addSection:infoSection];
 
-    [self presentViewController:navigationForSetting animated:YES completion:nil];
+    if (self.listViewController.navigationController) {
+        [self.listViewController.navigationController pushViewController:dialogController animated:YES];
+    } else {
+        UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:dialogController];
+        [self presentViewController:controller animated:YES completion:nil];
+    }
+}
+
+- (BFTaskCompletionSource *)validatorHackfoldrKeyForSettingViewWithHackfoldrKey:(NSString *)newHackfoldrKey
+{
+    BFTaskCompletionSource *completion = [BFTaskCompletionSource taskCompletionSource];
+
+    // Find hackfoldr page key, if prefix is http or https
+    if ([newHackfoldrKey hasPrefix:@"http"]) {
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".*hackfoldr.org/(.*)/"
+                                                                               options:NSRegularExpressionAllowCommentsAndWhitespace
+                                                                                 error:NULL];
+        NSTextCheckingResult *match = [regex firstMatchInString:newHackfoldrKey
+                                                        options:NSMatchingReportCompletion
+                                                          range:NSMakeRange(0, newHackfoldrKey.length)];
+        if (match.range.location != NSNotFound) {
+            newHackfoldrKey = [newHackfoldrKey substringWithRange:[match rangeAtIndex:1]];
+        }
+    }
+
+    // Remove white space and new line
+    newHackfoldrKey = [newHackfoldrKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    // Use escapes to encoding |newHackfoldrPage|
+    newHackfoldrKey = [newHackfoldrKey stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    if (newHackfoldrKey && newHackfoldrKey.length > 0) {
+        [completion setResult:newHackfoldrKey];
+    } else {
+        [completion setError:[NSError errorWithDomain:@"SettingView"
+                                                 code:1
+                                             userInfo:nil]];
+    }
+
+    return completion;
+}
+
+- (void)updateHackfoldrPageWithDialogController:(QuickDialogController *)dialogController key:(NSString *)key
+{
+    HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:key];
+
+    NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button title in SettingView");
+    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
+                                                  delegate:self
+                                         cancelButtonTitle:dismissButtonTitle
+                                         otherButtonTitles:nil];
+
+    [dialogController loading:YES];
+
+    [[completionSource.task continueWithBlock:^id(BFTask *task) {
+        [dialogController loading:NO];
+        return task;
+    }] continueWithSuccessBlock:^id(BFTask *task) {
+        NSLog(@"change hackfoldr page: %@", key);
+
+        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
+        [self.listViewController.tableView reloadData];
+        // hide self
+        [dialogController popToPreviousRootElement];
+        return nil;
+    }];
 }
 
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
@@ -357,9 +380,7 @@
 
 - (void)settingAction:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [self showSettingViewController];
-    }];
+    [self showSettingViewController];
 }
 
 - (void)reloadAction:(id)sender
