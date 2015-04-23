@@ -191,7 +191,6 @@
     settingRoot.grouped = YES;
 
     QuickDialogController *dialogController = [QuickDialogController controllerForRoot:settingRoot];
-    UINavigationController *navigationForSetting = [[UINavigationController alloc] initWithRootViewController:dialogController];
 
     QSection *inputSection = [[QSection alloc] init];
     inputSection.footer = NSLocalizedStringFromTable(@"You can input new hackfoldr page key and select Change Key to change it.", @"Hackfoldr", @"Change key description at input section in SettingView.");
@@ -249,11 +248,14 @@
             }] continueWithSuccessBlock:^id(BFTask *task) {
                 NSLog(@"change hackfoldr page: %@", newHackfoldrPage);
                 [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:newHackfoldrPage];
-                [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
+                [self.listViewController.tableView reloadData];
+                // hide self
+                [dialogController popToPreviousRootElement];
                 return nil;
             }];
         } else {
-            [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
+            // hide self
+            [dialogController popToPreviousRootElement];
         }
     };
     [inputSection addElement:sendButtonElement];
@@ -268,8 +270,14 @@
         buttonElement.onSelected = ^() {
             [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:history.hackfoldrKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            // hide self
-            [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
+
+            HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:history.hackfoldrKey];
+
+            [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
+                // hide self
+                [dialogController popToPreviousRootElement];
+                return nil;
+            }];
         };
         [historySection addElement:buttonElement];
     }];
@@ -285,7 +293,7 @@
         [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:defaultHackfoldrKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
         // hide self
-        [navigationForSetting dismissViewControllerAnimated:YES completion:nil];
+        [dialogController popToPreviousRootElement];
     };
     [restSection addElement:restHackfoldrPageElement];
     [settingRoot addSection:restSection];
@@ -296,7 +304,12 @@
     infoSection.footer = [NSString stringWithFormat:@"App Version: %@ (%@)", version, build];
     [settingRoot addSection:infoSection];
 
-    [self presentViewController:navigationForSetting animated:YES completion:nil];
+    if (self.listViewController.navigationController) {
+        [self.listViewController.navigationController pushViewController:dialogController animated:YES];
+    } else {
+        UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:dialogController];
+        [self presentViewController:controller animated:YES completion:nil];
+    }
 }
 
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
@@ -355,9 +368,7 @@
 
 - (void)settingAction:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [self showSettingViewController];
-    }];
+    [self showSettingViewController];
 }
 
 - (void)reloadAction:(id)sender
