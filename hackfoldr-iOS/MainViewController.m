@@ -81,9 +81,6 @@
 
     if (!pageKey || pageKey.length == 0) {
         NSString *defaultPage = @"hackfoldr-iOS";
-#if DEBUG
-        defaultPage = @"welcome-to-hackfoldr";
-#endif
 
         [[NSUserDefaults standardUserDefaults] setDefaultHackfoldrPage:defaultPage];
         [[NSUserDefaults standardUserDefaults] synchronize];
