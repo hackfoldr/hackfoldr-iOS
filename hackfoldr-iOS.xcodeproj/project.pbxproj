@@ -12,6 +12,7 @@
 		E70F906D1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.m in Sources */ = {isa = PBXBuildFile; fileRef = E70F906C1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.m */; };
 		E71D192A1956CE5500B57207 /* HackfoldrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D19291956CE5500B57207 /* HackfoldrClient.m */; };
 		E71D192D1956CFB600B57207 /* HackfoldrField.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D192C1956CFB600B57207 /* HackfoldrField.m */; };
+		E755907A1AEAB595007337B1 /* Hackfoldr.strings in Resources */ = {isa = PBXBuildFile; fileRef = E75590781AEAB595007337B1 /* Hackfoldr.strings */; };
 		E79424AE1ACEEDCF00558AE9 /* HackoldrModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E79424AC1ACEEDCF00558AE9 /* HackoldrModel.xcdatamodeld */; };
 		E79424B11ACEEF6400558AE9 /* HackfoldrHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = E79424B01ACEEF6400558AE9 /* HackfoldrHistory.m */; };
 		E79424B31ACF015300558AE9 /* sample.csv.json in Resources */ = {isa = PBXBuildFile; fileRef = E79424B21ACF015300558AE9 /* sample.csv.json */; };
@@ -59,6 +60,8 @@
 		E71D19291956CE5500B57207 /* HackfoldrClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfoldrClient.m; path = "hackfoldr-iOS/HackfoldrClient.m"; sourceTree = "<group>"; };
 		E71D192B1956CFB600B57207 /* HackfoldrField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HackfoldrField.h; path = "hackfoldr-iOS/HackfoldrField.h"; sourceTree = "<group>"; };
 		E71D192C1956CFB600B57207 /* HackfoldrField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfoldrField.m; path = "hackfoldr-iOS/HackfoldrField.m"; sourceTree = "<group>"; };
+		E75590791AEAB595007337B1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Hackfoldr.strings"; sourceTree = "<group>"; };
+		E755907B1AEAB5A0007337B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Hackfoldr.strings; sourceTree = "<group>"; };
 		E79424AD1ACEEDCF00558AE9 /* HackoldrModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HackoldrModel.xcdatamodel; sourceTree = "<group>"; };
 		E79424AF1ACEEF6400558AE9 /* HackfoldrHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HackfoldrHistory.h; path = "hackfoldr-iOS/HackfoldrHistory.h"; sourceTree = "<group>"; };
 		E79424B01ACEEF6400558AE9 /* HackfoldrHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfoldrHistory.m; path = "hackfoldr-iOS/HackfoldrHistory.m"; sourceTree = "<group>"; };
@@ -224,9 +227,10 @@
 			isa = PBXGroup;
 			children = (
 				E7EB66C319554E290069FD71 /* hackfoldr-iOS-Info.plist */,
+				E7EB66C919554E290069FD71 /* hackfoldr-iOS-Prefix.pch */,
+				E75590781AEAB595007337B1 /* Hackfoldr.strings */,
 				E7EB66C419554E290069FD71 /* InfoPlist.strings */,
 				E7EB66C719554E290069FD71 /* main.m */,
-				E7EB66C919554E290069FD71 /* hackfoldr-iOS-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -314,6 +318,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = E7EB66AF19554E290069FD71;
 			productRefGroup = E7EB66B919554E290069FD71 /* Products */;
@@ -333,6 +338,7 @@
 			files = (
 				E7EB66D719554E290069FD71 /* Images.xcassets in Resources */,
 				E7EB66C619554E290069FD71 /* InfoPlist.strings in Resources */,
+				E755907A1AEAB595007337B1 /* Hackfoldr.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +468,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		E75590781AEAB595007337B1 /* Hackfoldr.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E75590791AEAB595007337B1 /* zh-Hant */,
+				E755907B1AEAB5A0007337B1 /* en */,
+			);
+			name = Hackfoldr.strings;
+			sourceTree = "<group>";
+		};
 		E7EB66C419554E290069FD71 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

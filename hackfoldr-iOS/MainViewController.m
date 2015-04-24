@@ -190,7 +190,7 @@
     }
 
     QRootElement *settingRoot = [[QRootElement alloc] init];
-    settingRoot.title = NSLocalizedStringFromTable(@"Change Hackfoldr Page", @"Hackfoldr", @"Title of SettingView");
+    settingRoot.title = NSLocalizedStringFromTable(@"Setting Hackfoldr Page", @"Hackfoldr", @"Title of SettingView");
     settingRoot.grouped = YES;
 
     QuickDialogController *dialogController = [QuickDialogController controllerForRoot:settingRoot];
@@ -245,7 +245,7 @@
     QSection *restSection = [[QSection alloc] init];
     restSection.title = NSLocalizedStringFromTable(@"Reset Actions", @"Hackfoldr", @"Reset hackfoldr actions in SettingView");
     QButtonElement *restHackfoldrPageElement = [[QButtonElement alloc] init];
-    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Hacfoldr Help", @"Hackfoldr", @"Reset hackfoldr page button title in SettingView");
+    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Hackfoldr Help", @"Hackfoldr", @"Reset hackfoldr page button title in SettingView");
     restHackfoldrPageElement.onSelected = ^(void) {
         // Set current HackfoldrPage to |DefaultHackfoldrPage|
         NSString *defaultHackfoldrKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
