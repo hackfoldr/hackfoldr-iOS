@@ -11,11 +11,17 @@
 - (instancetype)initWithFieldArray:(NSArray *)fields;
 
 @property (nonatomic, assign) NSUInteger index;
-@property (nonatomic, strong) NSString *urlString;
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *actions;
+@property (nonatomic, copy) NSString *urlString;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *actions;
+
+@property (nonatomic, copy) NSString *labelString;
+@property (nonatomic, strong) UIColor *labelColor;
 
 @property (nonatomic, assign) BOOL isSubItem;
+@property (nonatomic, assign) BOOL isCommentLine;
+
+@property (nonatomic, strong) NSMutableArray *subFields;
 
 - (BOOL)isEmpty;
 

@@ -8,7 +8,10 @@
 
 #import <XCTest/XCTest.h>
 
+#import "HackfoldrClient.h"
 #import "HackfoldrField.h"
+#import "HackfoldrPage.h"
+#import "OHHTTPStubs.h"
 
 @interface hackfoldr_iOSTests : XCTestCase
 
@@ -19,35 +22,98 @@
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        if ([request.URL.absoluteString rangeOfString:@"ethercalc.org"].location != NSNotFound) {
+            return YES;
+        }
+        return NO;
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        NSLog(@"hook hackfoldr:%@", request);
+        NSString *jsonCSVDataString = OHPathForFileInBundle(@"sample.csv.json", nil);
+        NSData *csvData = [NSData dataWithContentsOfFile:jsonCSVDataString];
+
+        return [OHHTTPStubsResponse responseWithData:csvData
+                                          statusCode:200
+                                             headers:@{@"Content-Type":@"text/json"}];
+    }];
 }
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [OHHTTPStubs removeAllStubs];
+
     [super tearDown];
 }
 
-- (void)testHackField
+- (void)testHackfoldrPage
+{
+    HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:@[@[@"abcdefg_is_key_length_must_bigger_than_40", @"A1"]]];
+    XCTAssertTrue(page.rediredKey!=nil);
+    XCTAssertTrue(page.rediredKey.length > 0);
+
+    NSString *comment = @"#A1: if not marked as comment (start with #), better less than 40 characters, or will be parsed as a google spreadsheer id";
+    HackfoldrPage *commentPage = [[HackfoldrPage alloc] initWithFieldArray:@[@[comment, @"A1 comment"]]];
+    XCTAssertNil(commentPage.rediredKey);
+}
+
+- (void)testHackfoldrField
 {
     NSString *nameURL = @"http://www.g0v.tw";
     NSString *name = @"Name ";
     NSString *actions = @"{target}";
     HackfoldrField *field = [[HackfoldrField alloc] initWithFieldArray:@[nameURL, name, actions]];
-
     XCTAssertTrue([field.urlString isEqualToString:nameURL], @"");
     XCTAssertTrue([field.name isEqualToString:name], @"");
     XCTAssertTrue([field.actions isEqualToString:actions], @"");
-    XCTAssertFalse(field.isSubItem, @"");
+    XCTAssertTrue(field.isSubItem, @"");
 
     NSString *subItemURL = @" http://www.g0v.tw";
-
     HackfoldrField *subField = [[HackfoldrField alloc] initWithFieldArray:@[subItemURL, name, actions]];
     NSString *subString = [subItemURL substringWithRange:NSMakeRange(1, subItemURL.length-1)];
     XCTAssertTrue([subField.urlString isEqualToString:subString], @"");
     XCTAssertTrue([subField.name isEqualToString:name], @"");
     XCTAssertTrue([subField.actions isEqualToString:actions], @"");
     XCTAssertTrue(subField.isSubItem, @"isSubItem must be YES");
+
+    // Hacfoldr 2.0 rule
+    NSString *topItemURL = @"< http://hackfoldr.org/";
+    HackfoldrField *topField = [[HackfoldrField alloc] initWithFieldArray:@[topItemURL, name, actions]];
+    NSString *subStringOfTopField = [topItemURL substringWithRange:NSMakeRange(2, topItemURL.length -2)];
+    XCTAssertFalse(topField.isSubItem);
+    XCTAssertTrue([topField.urlString isEqualToString:subStringOfTopField]);
+
+    NSString *commentURL = @"# yooo";
+    HackfoldrField *commentField = [[HackfoldrField alloc] initWithFieldArray:@[@"", commentURL, actions]];
+    XCTAssertTrue(commentField.isCommentLine);
+
+    NSString *notCleanCommentURL = @"\"# not yoo\"";
+    HackfoldrField *notCleanCommentField = [[HackfoldrField alloc] initWithFieldArray:@[@"", notCleanCommentURL, actions]];
+    XCTAssertTrue(notCleanCommentField.isCommentLine);
+
+    NSString *lableString = @"blue I am red";
+    HackfoldrField *labelField = [[HackfoldrField alloc] initWithFieldArray:@[nameURL, @"label", actions, lableString]];
+    XCTAssertTrue([labelField.labelString isEqualToString:@"I am red"]);
+
+    NSString *commentLabelString = @"lol:warning";
+    HackfoldrField *commentLabelField = [[HackfoldrField alloc] initWithFieldArray:@[nameURL, @"commentLabel", actions, commentLabelString]];
+    NSLog(@"%@",commentLabelField.labelString);
+    XCTAssertTrue([commentLabelField.labelString isEqualToString:@"lol"]);
+}
+
+- (void)testHackfoldrClient
+{
+    XCTestExpectation *openHackfoldrExpectation = [self expectationWithDescription:@"open Hackfoldr"];
+
+    [[[HackfoldrClient sharedClient] taskCompletionWithKey:@"testHackFoldr"].task continueWithBlock:^id(BFTask *task) {
+        XCTAssertNil(task.error);
+        NSLog(@"task %@ %@", task.error, task.result);
+
+        [openHackfoldrExpectation fulfill];;
+        return nil;
+    }];
+
+    [self waitForExpectationsWithTimeout:1000 handler:nil];
 }
 
 @end

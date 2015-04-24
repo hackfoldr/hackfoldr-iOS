@@ -6,69 +6,21 @@
 // project.
 
 
-// AFNetworking
-#define COCOAPODS_POD_AVAILABLE_AFNetworking
-#define COCOAPODS_VERSION_MAJOR_AFNetworking 2
-#define COCOAPODS_VERSION_MINOR_AFNetworking 3
-#define COCOAPODS_VERSION_PATCH_AFNetworking 1
+// OHHTTPStubs
+#define COCOAPODS_POD_AVAILABLE_OHHTTPStubs
+#define COCOAPODS_VERSION_MAJOR_OHHTTPStubs 3
+#define COCOAPODS_VERSION_MINOR_OHHTTPStubs 1
+#define COCOAPODS_VERSION_PATCH_OHHTTPStubs 11
 
-// AFNetworking/NSURLConnection
-#define COCOAPODS_POD_AVAILABLE_AFNetworking_NSURLConnection
-#define COCOAPODS_VERSION_MAJOR_AFNetworking_NSURLConnection 2
-#define COCOAPODS_VERSION_MINOR_AFNetworking_NSURLConnection 3
-#define COCOAPODS_VERSION_PATCH_AFNetworking_NSURLConnection 1
+// OHHTTPStubs/Core
+#define COCOAPODS_POD_AVAILABLE_OHHTTPStubs_Core
+#define COCOAPODS_VERSION_MAJOR_OHHTTPStubs_Core 3
+#define COCOAPODS_VERSION_MINOR_OHHTTPStubs_Core 1
+#define COCOAPODS_VERSION_PATCH_OHHTTPStubs_Core 11
 
-// AFNetworking/NSURLSession
-#define COCOAPODS_POD_AVAILABLE_AFNetworking_NSURLSession
-#define COCOAPODS_VERSION_MAJOR_AFNetworking_NSURLSession 2
-#define COCOAPODS_VERSION_MINOR_AFNetworking_NSURLSession 3
-#define COCOAPODS_VERSION_PATCH_AFNetworking_NSURLSession 1
-
-// AFNetworking/Reachability
-#define COCOAPODS_POD_AVAILABLE_AFNetworking_Reachability
-#define COCOAPODS_VERSION_MAJOR_AFNetworking_Reachability 2
-#define COCOAPODS_VERSION_MINOR_AFNetworking_Reachability 3
-#define COCOAPODS_VERSION_PATCH_AFNetworking_Reachability 1
-
-// AFNetworking/Security
-#define COCOAPODS_POD_AVAILABLE_AFNetworking_Security
-#define COCOAPODS_VERSION_MAJOR_AFNetworking_Security 2
-#define COCOAPODS_VERSION_MINOR_AFNetworking_Security 3
-#define COCOAPODS_VERSION_PATCH_AFNetworking_Security 1
-
-// AFNetworking/Serialization
-#define COCOAPODS_POD_AVAILABLE_AFNetworking_Serialization
-#define COCOAPODS_VERSION_MAJOR_AFNetworking_Serialization 2
-#define COCOAPODS_VERSION_MINOR_AFNetworking_Serialization 3
-#define COCOAPODS_VERSION_PATCH_AFNetworking_Serialization 1
-
-// AFNetworking/UIKit
-#define COCOAPODS_POD_AVAILABLE_AFNetworking_UIKit
-#define COCOAPODS_VERSION_MAJOR_AFNetworking_UIKit 2
-#define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 3
-#define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 1
-
-// Bolts
-#define COCOAPODS_POD_AVAILABLE_Bolts
-#define COCOAPODS_VERSION_MAJOR_Bolts 1
-#define COCOAPODS_VERSION_MINOR_Bolts 0
-#define COCOAPODS_VERSION_PATCH_Bolts 0
-
-// CHCSVParser
-#define COCOAPODS_POD_AVAILABLE_CHCSVParser
-#define COCOAPODS_VERSION_MAJOR_CHCSVParser 2
-#define COCOAPODS_VERSION_MINOR_CHCSVParser 0
-#define COCOAPODS_VERSION_PATCH_CHCSVParser 7
-
-// JASidePanels
-#define COCOAPODS_POD_AVAILABLE_JASidePanels
-#define COCOAPODS_VERSION_MAJOR_JASidePanels 1
-#define COCOAPODS_VERSION_MINOR_JASidePanels 3
-#define COCOAPODS_VERSION_PATCH_JASidePanels 2
-
-// TOWebViewController
-#define COCOAPODS_POD_AVAILABLE_TOWebViewController
-#define COCOAPODS_VERSION_MAJOR_TOWebViewController 2
-#define COCOAPODS_VERSION_MINOR_TOWebViewController 0
-#define COCOAPODS_VERSION_PATCH_TOWebViewController 14
+// OHHTTPStubs/XCTestExpectation
+#define COCOAPODS_POD_AVAILABLE_OHHTTPStubs_XCTestExpectation
+#define COCOAPODS_VERSION_MAJOR_OHHTTPStubs_XCTestExpectation 3
+#define COCOAPODS_VERSION_MINOR_OHHTTPStubs_XCTestExpectation 1
+#define COCOAPODS_VERSION_PATCH_OHHTTPStubs_XCTestExpectation 11
 

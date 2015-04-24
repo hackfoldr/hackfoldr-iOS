@@ -8,11 +8,29 @@
 
 #import "AppDelegate.h"
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
+#import "CoreData+MagicalRecord.h"
+#import "MainViewController.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+#if DEBUG
+    [Fabric sharedSDK].debug = YES;
+#endif
+    [Fabric with:@[CrashlyticsKit]];
+
+    // setup core data
+    [MagicalRecord setupCoreDataStack];
+
+    self.viewController = [[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc] init]];
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.rootViewController = self.viewController;
+    [self.window makeKeyAndVisible];
+
     return YES;
 }
 							

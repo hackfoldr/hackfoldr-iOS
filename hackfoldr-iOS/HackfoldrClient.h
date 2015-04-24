@@ -11,11 +11,23 @@
 
 @class HackfoldrPage;
 
+@interface HackfoldrTaskCompletionSource : BFTaskCompletionSource
+
++ (HackfoldrTaskCompletionSource *)taskCompletionSource;
+@property (strong, nonatomic) NSURLSessionTask *connectionTask;
+
+@end
+
+
 @interface HackfoldrClient : AFHTTPSessionManager
 
 + (instancetype)sharedClient;
 
-- (BFTask *)pagaDataAtPath:(NSString *)inPath;
+- (HackfoldrTaskCompletionSource *)taskCompletionFromEthercalcWithKey:(NSString *)key;
+
+- (HackfoldrTaskCompletionSource *)taskCompletionFromGoogleSheetWithSheetKey:(NSString *)keyID;
+
+- (HackfoldrTaskCompletionSource *)taskCompletionWithKey:(NSString *)hackfoldrKey;
 
 @property (nonatomic, strong) HackfoldrPage *lastPage;
 

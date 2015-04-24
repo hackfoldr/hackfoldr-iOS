@@ -5,15 +5,15 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>hackfoldr</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.superbil.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>org.g0v.hackfoldr</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>hackfoldr</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -22,12 +22,22 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>aa4bea7059a82c8870fd136c48413ae4cd41082c</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UIMainStoryboardFile</key>
-	<string>Main_iPhone</string>
-	<key>UIMainStoryboardFile~ipad</key>
-	<string>Main_iPad</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -39,6 +49,7 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
