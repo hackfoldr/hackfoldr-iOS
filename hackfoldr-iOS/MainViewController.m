@@ -177,6 +177,7 @@
 
 - (void)showListViewController
 {
+    // When List view is showed, don't show again
     for (UIViewController *vc in self.navigationController.viewControllers) {
         if ([vc isKindOfClass:[self.listViewController class]]) {
             return;
@@ -188,6 +189,13 @@
 
 - (void)showSettingViewController
 {
+    // When Setting view is showed, don't show again
+    for (QuickDialogController *vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[QuickDialogController class]]) {
+            return;
+        }
+    }
+
     QRootElement *settingRoot = [[QRootElement alloc] init];
     settingRoot.title = NSLocalizedStringFromTable(@"Change Hackfoldr Page", @"Hackfoldr", @"Title of SettingView");
     settingRoot.grouped = YES;
