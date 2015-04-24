@@ -81,9 +81,6 @@
 
     if (!pageKey || pageKey.length == 0) {
         NSString *defaultPage = @"hackfoldr-iOS";
-#if DEBUG
-        defaultPage = @"welcome-to-hackfoldr";
-#endif
 
         [[NSUserDefaults standardUserDefaults] setDefaultHackfoldrPage:defaultPage];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -175,12 +172,27 @@
 
 #pragma mark - Actions
 
-- (void)showListViewController {
+- (void)showListViewController
+{
+    // When List view is showed, don't show again
+    for (UIViewController *vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[self.listViewController class]]) {
+            return;
+        }
+    }
+
     [self.navigationController pushViewController:self.listViewController animated:YES];
 }
 
 - (void)showSettingViewController
 {
+    // When Setting view is showed, don't show again
+    for (QuickDialogController *vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[QuickDialogController class]]) {
+            return;
+        }
+    }
+
     QRootElement *settingRoot = [[QRootElement alloc] init];
     settingRoot.title = NSLocalizedStringFromTable(@"Change Hackfoldr Page", @"Hackfoldr", @"Title of SettingView");
     settingRoot.grouped = YES;
