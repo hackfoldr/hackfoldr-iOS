@@ -24,7 +24,6 @@
 
 @interface MainViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 @property (nonatomic, strong) ListFieldViewController *listViewController;
-@property (nonatomic, strong) HackfoldrField *currentField;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @end
 
@@ -140,7 +139,6 @@
         TOWebViewController *webViewController = [[TOWebViewController alloc] init];
         webViewController.showPageTitles = YES;
         [webViewController loadWithField:rowOfField];
-        self.currentField = rowOfField;
 
         [self.navigationController pushViewController:webViewController animated:YES];
     }
@@ -150,9 +148,7 @@
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    if (self == viewController) {
-        self.currentField = nil;
-    }
+
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -380,11 +376,9 @@
         }
 
         self.listViewController.tableView.dataSource = page;
-
         [self.listViewController.tableView reloadData];
-        if (!self.currentField) {
-            [self showListViewController];
-        }
+
+        [self showListViewController];
         return nil;
     }];
     return completionSource;
