@@ -10,11 +10,21 @@
 
 #import <Foundation/Foundation.h>
 
+/*!
+ Error domain used if there was multiple errors on <BFTask taskForCompletionOfAllTasks:>.
+ */
+extern NSString *const BFTaskErrorDomain;
+
+/*!
+ An exception that is thrown if there was multiple exceptions on <BFTask taskForCompletionOfAllTasks:>.
+ */
+extern NSString *const BFTaskMultipleExceptionsException;
+
 @class BFExecutor;
 @class BFTask;
 
 /*!
- A block that can act as a contination for a task.
+ A block that can act as a continuation for a task.
  */
 typedef id(^BFContinuationBlock)(BFTask *task);
 
@@ -27,63 +37,94 @@ typedef id(^BFContinuationBlock)(BFTask *task);
 
 /*!
  Creates a task that is already completed with the given result.
+ @param result The result for the task.
  */
-+ (BFTask *)taskWithResult:(id)result;
++ (instancetype)taskWithResult:(id)result;
 
 /*!
  Creates a task that is already completed with the given error.
+ @param error The error for the task.
  */
-+ (BFTask *)taskWithError:(NSError *)error;
++ (instancetype)taskWithError:(NSError *)error;
 
 /*!
  Creates a task that is already completed with the given exception.
+ @param exception The exception for the task.
  */
-+ (BFTask *)taskWithException:(NSException *)exception;
++ (instancetype)taskWithException:(NSException *)exception;
 
 /*!
  Creates a task that is already cancelled.
  */
-+ (BFTask *)cancelledTask;
++ (instancetype)cancelledTask;
 
 /*!
  Returns a task that will be completed (with result == nil) once
  all of the input tasks have completed.
+ @param tasks An `NSArray` of the tasks to use as an input.
  */
-+ (BFTask *)taskForCompletionOfAllTasks:(NSArray *)tasks;
++ (instancetype)taskForCompletionOfAllTasks:(NSArray *)tasks;
+
+/*!
+ Returns a task that will be completed once all of the input tasks have completed.
+ If all tasks complete successfully without being faulted or cancelled the result will be
+ an `NSArray` of all task results in the order they were provided.
+ @param tasks An `NSArray` of the tasks to use as an input.
+ */
++ (instancetype)taskForCompletionOfAllTasksWithResults:(NSArray *)tasks;
 
 /*!
  Returns a task that will be completed a certain amount of time in the future.
  @param millis The approximate number of milliseconds to wait before the
  task will be finished (with result == nil).
  */
-+ (BFTask *)taskWithDelay:(int)millis;
++ (instancetype)taskWithDelay:(int)millis;
+
+/*!
+ Returns a task that will be completed after the given block completes with
+ the specified executor.
+ @param executor A BFExecutor responsible for determining how the
+ continuation block will be run.
+ @param block The block to immediately schedule to run with the given executor.
+ @returns A task that will be completed after block has run.
+ If block returns a BFTask, then the task returned from
+ this method will not be completed until that task is completed.
+ */
++ (instancetype)taskFromExecutor:(BFExecutor *)executor
+                       withBlock:(id (^)())block;
 
 // Properties that will be set on the task once it is completed.
 
 /*!
  The result of a successful task.
  */
-- (id)result;
+@property (nonatomic, strong, readonly) id result;
+
 
 /*!
  The error of a failed task.
  */
-- (NSError *)error;
+@property (nonatomic, strong, readonly) NSError *error;
 
 /*!
  The exception of a failed task.
  */
-- (NSException *)exception;
+@property (nonatomic, strong, readonly) NSException *exception;
 
 /*!
  Whether this task has been cancelled.
  */
-- (BOOL)isCancelled;
+@property (nonatomic, assign, readonly, getter = isCancelled) BOOL cancelled;
+
+/*!
+ Whether this task has completed due to an error or exception.
+ */
+@property (nonatomic, assign, readonly, getter = isFaulted) BOOL faulted;
 
 /*!
  Whether this task has completed.
  */
-- (BOOL)isCompleted;
+@property (nonatomic, assign, readonly, getter = isCompleted) BOOL completed;
 
 /*!
  Enqueues the given block to be run once this task is complete.
@@ -96,7 +137,7 @@ typedef id(^BFContinuationBlock)(BFTask *task);
  If block returns a BFTask, then the task returned from
  this method will not be completed until that task is completed.
  */
-- (BFTask *)continueWithBlock:(BFContinuationBlock)block;
+- (instancetype)continueWithBlock:(BFContinuationBlock)block;
 
 /*!
  Enqueues the given block to be run once this task is complete.
@@ -107,8 +148,8 @@ typedef id(^BFContinuationBlock)(BFTask *task);
  If block returns a BFTask, then the task returned from
  this method will not be completed until that task is completed.
  */
-- (BFTask *)continueWithExecutor:(BFExecutor *)executor
-                       withBlock:(BFContinuationBlock)block;
+- (instancetype)continueWithExecutor:(BFExecutor *)executor
+                           withBlock:(BFContinuationBlock)block;
 
 /*!
  Identical to continueWithBlock:, except that the block is only run
@@ -120,7 +161,7 @@ typedef id(^BFContinuationBlock)(BFTask *task);
  If block returns a BFTask, then the task returned from
  this method will not be completed until that task is completed.
  */
-- (BFTask *)continueWithSuccessBlock:(BFContinuationBlock)block;
+- (instancetype)continueWithSuccessBlock:(BFContinuationBlock)block;
 
 /*!
  Identical to continueWithExecutor:withBlock:, except that the block
@@ -134,8 +175,8 @@ typedef id(^BFContinuationBlock)(BFTask *task);
  If block returns a BFTask, then the task returned from
  this method will not be completed until that task is completed.
  */
-- (BFTask *)continueWithExecutor:(BFExecutor *)executor
-                withSuccessBlock:(BFContinuationBlock)block;
+- (instancetype)continueWithExecutor:(BFExecutor *)executor
+                    withSuccessBlock:(BFContinuationBlock)block;
 
 /*!
  Waits until this operation is completed.

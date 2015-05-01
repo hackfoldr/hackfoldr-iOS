@@ -2,40 +2,45 @@ PODS:
   - AFCSVParserResponseSerializer (0.1.1):
     - AFNetworking (~> 2.3)
     - CHCSVParser (~> 2.0)
-  - AFNetworking (2.5.2):
-    - AFNetworking/NSURLConnection (= 2.5.2)
-    - AFNetworking/NSURLSession (= 2.5.2)
-    - AFNetworking/Reachability (= 2.5.2)
-    - AFNetworking/Security (= 2.5.2)
-    - AFNetworking/Serialization (= 2.5.2)
-    - AFNetworking/UIKit (= 2.5.2)
-  - AFNetworking/NSURLConnection (2.5.2):
+  - AFNetworking (2.5.3):
+    - AFNetworking/NSURLConnection (= 2.5.3)
+    - AFNetworking/NSURLSession (= 2.5.3)
+    - AFNetworking/Reachability (= 2.5.3)
+    - AFNetworking/Security (= 2.5.3)
+    - AFNetworking/Serialization (= 2.5.3)
+    - AFNetworking/UIKit (= 2.5.3)
+  - AFNetworking/NSURLConnection (2.5.3):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.5.2):
+  - AFNetworking/NSURLSession (2.5.3):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.5.2)
-  - AFNetworking/Security (2.5.2)
-  - AFNetworking/Serialization (2.5.2)
-  - AFNetworking/UIKit (2.5.2):
+  - AFNetworking/Reachability (2.5.3)
+  - AFNetworking/Security (2.5.3)
+  - AFNetworking/Serialization (2.5.3)
+  - AFNetworking/UIKit (2.5.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Bolts (1.0.0)
+  - Bolts (1.1.5):
+    - Bolts/AppLinks (= 1.1.5)
+    - Bolts/Tasks (= 1.1.5)
+  - Bolts/AppLinks (1.1.5):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.1.5)
   - CHCSVParser (2.1.0)
-  - Fabric (1.2.2):
-    - Fabric/Core (= 1.2.2)
-  - Fabric/Core (1.2.2)
-  - Fabric/Crashlytics (1.2.2)
+  - Fabric (1.2.3):
+    - Fabric/Core (= 1.2.3)
+  - Fabric/Core (1.2.3)
+  - Fabric/Crashlytics (1.2.3)
   - MagicalRecord (2.2):
     - MagicalRecord/Core (= 2.2)
   - MagicalRecord/Core (2.2)
-  - OHHTTPStubs (3.1.11):
-    - OHHTTPStubs/Core (= 3.1.11)
-  - OHHTTPStubs/Core (3.1.11)
-  - OHHTTPStubs/XCTestExpectation (3.1.11)
+  - OHHTTPStubs (3.1.12):
+    - OHHTTPStubs/Core (= 3.1.12)
+  - OHHTTPStubs/Core (3.1.12)
+  - OHHTTPStubs/XCTestExpectation (3.1.12)
   - QuickDialog (1.0):
     - QuickDialog/Core (= 1.0)
   - QuickDialog/Core (1.0)
@@ -45,7 +50,7 @@ DEPENDENCIES:
   - AFCSVParserResponseSerializer
   - AFNetworking (~> 2.3)
   - AFNetworking/UIKit
-  - Bolts (~> 1.0.0)
+  - Bolts (~> 1.0)
   - Fabric (~> 1.2.2)
   - Fabric/Crashlytics
   - MagicalRecord (~> 2.2)
@@ -56,13 +61,13 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFCSVParserResponseSerializer: 057305eda68f4dc9d6c2603412cdd3de21d8ba44
-  AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
-  Bolts: 7d4f57162547cc80743b05556dc26eb40bd44008
+  AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
+  Bolts: aac24961496d504aa56fc267cde95162a71bac39
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
-  Fabric: 8075987e461440ce3f7d38ccea1f3ed308fce199
+  Fabric: 8a5b89c2131962830d92bbc88d482e80665846b2
   MagicalRecord: f8a56bb87ab6552f20c4bb8681a1958a197ea3cd
-  OHHTTPStubs: 5624a5d20d97d46d47e15a68ca8808b59ccf0512
+  OHHTTPStubs: 8cf0cfe6f34f13fc88fdf5b2a1b2c2536e8c0261
   QuickDialog: ea2e68e0611ec012bcbd9d0e1d703d566a4c7355
   TOWebViewController: 2cfd0032d781cabd88a0995fbca9692c11f0797e
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.36.4
