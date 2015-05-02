@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.0 beta-3
+
+- 修正使用 redired A1 一定會 crash 的問題
+- 新增中文語系介面
+
 ## 1.0 beta-2
 
 - 修正 push list view 和 setting view 造成 crash 的問題
