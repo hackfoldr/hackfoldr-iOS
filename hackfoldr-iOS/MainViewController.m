@@ -333,11 +333,7 @@
 {
     HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionWithKey:hackfoldrKey];
 
-    [completionSource.task continueWithBlock:^id(BFTask *task) {
-        if (task.error) {
-            return task;
-        }
-
+    [[completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
         HackfoldrPage *page = task.result;
         NSLog(@"result:%@", page);
 
@@ -361,17 +357,15 @@
 
         [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfWithCompletion:nil];
 
-        return nil;
-    }];
-
-    // Reload tableView
-    [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
+        return task;
+    }] continueWithSuccessBlock:^id(BFTask *task) {
         HackfoldrPage *page = task.result;
         // Don't reload because this is redired page
         if (page.rediredKey) {
             return nil;
         }
 
+        // Reload tableView
         self.listViewController.tableView.dataSource = page;
         [self.listViewController.tableView reloadData];
 
