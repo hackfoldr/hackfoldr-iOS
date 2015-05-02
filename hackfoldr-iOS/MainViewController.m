@@ -125,7 +125,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.listViewController.tableView) {
-        HackfoldrPage *dataSourcePage = tableView.dataSource;
+        __weak HackfoldrPage *dataSourcePage = (HackfoldrPage *)tableView.dataSource;
         HackfoldrField *sectionOfField = dataSourcePage.cells[indexPath.section];
         HackfoldrField *rowOfField = sectionOfField.subFields[indexPath.row];
         NSString *urlString = rowOfField.urlString;
