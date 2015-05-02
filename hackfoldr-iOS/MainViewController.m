@@ -173,6 +173,7 @@
     // When List view is showed, don't show again
     for (UIViewController *vc in self.navigationController.viewControllers) {
         if ([vc isKindOfClass:[self.listViewController class]]) {
+            [self.navigationController popToViewController:self.listViewController animated:YES];
             return;
         }
     }
@@ -320,15 +321,11 @@
         [dialogController loading:NO];
         return task;
     }] continueWithSuccessBlock:^id(BFTask *task) {
-        NSLog(@"change hackfoldr page: %@", key);
+        NSLog(@"change hackfoldr page to: %@", key);
 
         [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:key];
         [[NSUserDefaults standardUserDefaults] synchronize];
-
-        [self.listViewController.tableView reloadData];
-        // hide self
-        [dialogController popToPreviousRootElement];
-        return nil;
+        return task;
     }];
 }
 
@@ -340,14 +337,13 @@
         if (task.error) {
             return task;
         }
+
         HackfoldrPage *page = task.result;
         NSLog(@"result:%@", page);
 
         if (page.rediredKey) {
             NSLog(@"redired to:%@", page.rediredKey);
-            [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:page.rediredKey];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            return [[HackfoldrClient sharedClient] taskCompletionFromGoogleSheetWithSheetKey:page.rediredKey];
+            return [self updateHackfoldrPageTaskWithKey:page.rediredKey].task;
         }
 
         // Save history to core data
@@ -371,6 +367,7 @@
     // Reload tableView
     [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
         HackfoldrPage *page = task.result;
+        // Don't reload because this is redired page
         if (page.rediredKey) {
             return nil;
         }
