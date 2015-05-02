@@ -5,7 +5,7 @@ This repository contains CocoaPod for Fabric (https://fabric.io).
 ### Current versions:
 * Fabric.framework v1.1.1
 * Crashlytics.framework v2.2.9
-* TwitterKit.framework v1.4.0
+* TwitterKit.framework v1.5.0
 * MoPub.framework v3.3.0
 
 ## Installing
@@ -24,7 +24,7 @@ pod 'Fabric/Twitter', '~> 1.2'
 
 4. Change the path in Run Script Build command to:
 
-  `./Pods/Fabric/Fabric.framework/run <your organization API key> <your organization build secret>`
+  `./Pods/Fabric/Fabric.framework/run YOUR_API_KEY YOUR_BUILD_SECRET`
 
 ## Known issues
 

@@ -8,19 +8,13 @@
  *
  */
 
-#import "BoltsVersion.h"
-#import "BFExecutor.h"
-#import "BFTask.h"
-#import "BFTaskCompletionSource.h"
-
-/*! @abstract 80175001: There were multiple errors. */
-extern NSInteger const kBFMultipleErrorsError;
-
-@interface Bolts : NSObject
-
+#import <Bolts/BFMeasurementEvent.h>
 /*!
- Returns the version of the Bolts Framework as an NSString.
+ Provides methods for posting notifications from the Bolts framework
  */
-+ (NSString *)version;
+@interface BFMeasurementEvent (Internal)
+
++ (void) postNotificationForEventName:(NSString *)name args:(NSDictionary *)args;
 
 @end
+

@@ -8,7 +8,7 @@
 
 #import "HackfoldrField.h"
 
-@interface HackfoldrPage : NSObject <UITableViewDataSource>
+@interface HackfoldrPage : NSObject <NSCopying, UITableViewDataSource>
 
 - (instancetype)initWithFieldArray:(NSArray *)fieldArray;
 

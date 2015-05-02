@@ -29,6 +29,6 @@
 
 - (HackfoldrTaskCompletionSource *)taskCompletionWithKey:(NSString *)hackfoldrKey;
 
-@property (nonatomic, strong) HackfoldrPage *lastPage;
+@property (nonatomic, strong, readonly) HackfoldrPage *lastPage;
 
 @end

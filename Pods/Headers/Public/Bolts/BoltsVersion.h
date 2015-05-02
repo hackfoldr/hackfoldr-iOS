@@ -1,1 +1,1 @@
-../../../Bolts/Bolts/BoltsVersion.h
+../../../Bolts/Bolts/Common/BoltsVersion.h

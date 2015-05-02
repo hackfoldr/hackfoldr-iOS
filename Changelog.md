@@ -1,6 +1,15 @@
 # Change Log
 
-## 1.0 rc-1
+## 1.0 beta-3
+
+- 修正使用 redired A1 一定會 crash 的問題
+- 新增中文語系介面
+
+## 1.0 beta-2
+
+- 修正 push list view 和 setting view 造成 crash 的問題
+
+## 1.0 beta-1
 
 - 支援 Google sheets (key 超過40)
 - 支援 hackfoldr A1 重導向頁面功能

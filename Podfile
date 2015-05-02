@@ -5,7 +5,7 @@ platform :ios, "7.0"
 target "hackfoldr-iOS" do
   pod 'AFNetworking', '~> 2.3'
   pod 'AFNetworking/UIKit'
-  pod 'Bolts', '~> 1.0.0'
+  pod 'Bolts', '~> 1.0'
   pod 'AFCSVParserResponseSerializer'
   pod 'MagicalRecord', '~> 2.2'
 

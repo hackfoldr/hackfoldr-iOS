@@ -35,7 +35,7 @@
 #pragma mark -
 
 @interface HackfoldrClient ()
-
+@property (nonatomic, strong, readwrite) HackfoldrPage *lastPage;
 @end
 
 @implementation HackfoldrClient
@@ -74,10 +74,8 @@
     NSString *requestPath = [NSString stringWithFormat:@"%@.csv.json", inPath];
     source.connectionTask = [self GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id fieldArray) {
         HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:fieldArray];
-        if (!page.rediredKey) {
-            _lastPage = page;
-        }
-        [source setResult:page];
+        _lastPage = [page copy];
+        [source setResult:_lastPage];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [source setError:error];
     }];
@@ -101,8 +99,8 @@
     NSString *requestPath = [NSString stringWithFormat:@"spreadsheets/d/%@/export?format=csv&gid=0", requestKeyID];
     [manager GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
         HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:csvFieldArray];
-        _lastPage = page;
-        [source setResult:page];
+        _lastPage = [page copy];
+        [source setResult:_lastPage];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"error:%@ %@", error, task.response);
         [source setError:error];

@@ -13,6 +13,8 @@
 
 @dynamic createDate;
 @dynamic hackfoldrKey;
+@dynamic rediredKey;
+@dynamic refreshDate;
 @dynamic title;
 
 @end

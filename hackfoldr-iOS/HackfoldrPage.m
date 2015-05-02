@@ -30,6 +30,15 @@
     return self;
 }
 
+- (instancetype)copyWithZone:(NSZone *)zone
+{
+    HackfoldrPage *copy = [[HackfoldrPage allocWithZone:zone] init];
+    copy.fields = [self.fields copy];
+    copy.pageTitle = [self.pageTitle copy];
+    copy.rediredKey = [self.rediredKey copy];
+    return copy;
+}
+
 - (NSArray *)cells
 {
     return self.fields;

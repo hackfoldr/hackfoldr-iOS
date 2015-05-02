@@ -24,7 +24,6 @@
 
 @interface MainViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 @property (nonatomic, strong) ListFieldViewController *listViewController;
-@property (nonatomic, strong) HackfoldrField *currentField;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @end
 
@@ -126,7 +125,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.listViewController.tableView) {
-        HackfoldrPage *dataSourcePage = tableView.dataSource;
+        __weak HackfoldrPage *dataSourcePage = (HackfoldrPage *)tableView.dataSource;
         HackfoldrField *sectionOfField = dataSourcePage.cells[indexPath.section];
         HackfoldrField *rowOfField = sectionOfField.subFields[indexPath.row];
         NSString *urlString = rowOfField.urlString;
@@ -140,7 +139,6 @@
         TOWebViewController *webViewController = [[TOWebViewController alloc] init];
         webViewController.showPageTitles = YES;
         [webViewController loadWithField:rowOfField];
-        self.currentField = rowOfField;
 
         [self.navigationController pushViewController:webViewController animated:YES];
     }
@@ -150,9 +148,7 @@
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    if (self == viewController) {
-        self.currentField = nil;
-    }
+
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -177,6 +173,7 @@
     // When List view is showed, don't show again
     for (UIViewController *vc in self.navigationController.viewControllers) {
         if ([vc isKindOfClass:[self.listViewController class]]) {
+            [self.navigationController popToViewController:self.listViewController animated:YES];
             return;
         }
     }
@@ -194,7 +191,7 @@
     }
 
     QRootElement *settingRoot = [[QRootElement alloc] init];
-    settingRoot.title = NSLocalizedStringFromTable(@"Change Hackfoldr Page", @"Hackfoldr", @"Title of SettingView");
+    settingRoot.title = NSLocalizedStringFromTable(@"Setting Hackfoldr Page", @"Hackfoldr", @"Title of SettingView");
     settingRoot.grouped = YES;
 
     QuickDialogController *dialogController = [QuickDialogController controllerForRoot:settingRoot];
@@ -249,7 +246,7 @@
     QSection *restSection = [[QSection alloc] init];
     restSection.title = NSLocalizedStringFromTable(@"Reset Actions", @"Hackfoldr", @"Reset hackfoldr actions in SettingView");
     QButtonElement *restHackfoldrPageElement = [[QButtonElement alloc] init];
-    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Hacfoldr Help", @"Hackfoldr", @"Reset hackfoldr page button title in SettingView");
+    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Hackfoldr Help", @"Hackfoldr", @"Reset hackfoldr page button title in SettingView");
     restHackfoldrPageElement.onSelected = ^(void) {
         // Set current HackfoldrPage to |DefaultHackfoldrPage|
         NSString *defaultHackfoldrKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
@@ -308,9 +305,16 @@
     return completion;
 }
 
-- (void)updateHackfoldrPageWithDialogController:(QuickDialogController *)dialogController key:(NSString *)key
+- (void)updateHackfoldrPageWithDialogController:(QuickDialogController *)dialogController key:(NSString *)hackfoldrKey
 {
-    HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:key];
+    NSString *rediredKey = nil;
+    // lookup |rediredKey| from core data
+    HackfoldrHistory *history = [HackfoldrHistory MR_findFirstByAttribute:@"hackfoldrKey" withValue:hackfoldrKey];
+    if (history && history.rediredKey) {
+        rediredKey = history.rediredKey;
+    }
+
+    HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:hackfoldrKey rediredKey:rediredKey];
 
     NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button title in SettingView");
     [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
@@ -324,37 +328,33 @@
         [dialogController loading:NO];
         return task;
     }] continueWithSuccessBlock:^id(BFTask *task) {
-        NSLog(@"change hackfoldr page: %@", key);
-
-        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:key];
+        NSLog(@"change hackfoldr page to: %@", hackfoldrKey);
+        // Just save |hackfoldrKey| to user defaults
+        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:hackfoldrKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
-
-        [self.listViewController.tableView reloadData];
-        // hide self
-        [dialogController popToPreviousRootElement];
-        return nil;
+        return task;
     }];
 }
 
-- (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
+- (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey rediredKey:(NSString *)rediredKey
 {
-    HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionWithKey:hackfoldrKey];
+    NSString *key = hackfoldrKey;
+    if (rediredKey) {
+        key = rediredKey;
+    }
 
-    [completionSource.task continueWithBlock:^id(BFTask *task) {
-        if (task.error) {
-            return task;
-        }
+    HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionWithKey:key];
+
+    [[completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
         HackfoldrPage *page = task.result;
         NSLog(@"result:%@", page);
 
         if (page.rediredKey) {
             NSLog(@"redired to:%@", page.rediredKey);
-            [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:page.rediredKey];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            return [[HackfoldrClient sharedClient] taskCompletionFromGoogleSheetWithSheetKey:page.rediredKey];
+            return [self updateHackfoldrPageTaskWithKey:hackfoldrKey rediredKey:page.rediredKey].task;
         }
 
-        // Save history to core data
+        // Save |history| to core data
         HackfoldrHistory *history = [HackfoldrHistory MR_findFirstByAttribute:@"hackfoldrKey" withValue:hackfoldrKey];
         if (!history) {
             history = [HackfoldrHistory MR_createEntity];
@@ -362,29 +362,32 @@
             history.refreshDate = [NSDate date];
             history.hackfoldrKey = hackfoldrKey;
             history.title = page.pageTitle;
+            if (rediredKey) {
+                history.rediredKey = rediredKey;
+            }
         } else {
             history.refreshDate = [NSDate date];
             history.title = page.pageTitle;
+            if (rediredKey) {
+                history.rediredKey = rediredKey;
+            }
         }
 
         [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfWithCompletion:nil];
 
-        return nil;
-    }];
-
-    // Reload tableView
-    [completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
+        return task;
+    }] continueWithSuccessBlock:^id(BFTask *task) {
         HackfoldrPage *page = task.result;
+        // Don't reload because this is redired page
         if (page.rediredKey) {
             return nil;
         }
 
+        // Reload tableView
         self.listViewController.tableView.dataSource = page;
-
         [self.listViewController.tableView reloadData];
-        if (!self.currentField) {
-            [self showListViewController];
-        }
+
+        [self showListViewController];
         return nil;
     }];
     return completionSource;
@@ -397,7 +400,7 @@
 
 - (void)reloadAction:(id)sender
 {
-    HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:self.hackfoldrPageKey];
+    HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:self.hackfoldrPageKey rediredKey:nil];
 
     NSString *cancelButtonTitle = NSLocalizedStringFromTable(@"Cancel", @"Hackfoldr", @"Alert Cancel button");
     NSString *setupTitle = NSLocalizedStringFromTable(@"Setup Key", @"Hackfoldr", @"Alert Setup button");
