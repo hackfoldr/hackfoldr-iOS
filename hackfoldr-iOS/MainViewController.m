@@ -305,9 +305,16 @@
     return completion;
 }
 
-- (void)updateHackfoldrPageWithDialogController:(QuickDialogController *)dialogController key:(NSString *)key
+- (void)updateHackfoldrPageWithDialogController:(QuickDialogController *)dialogController key:(NSString *)hackfoldrKey
 {
-    HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:key];
+    NSString *rediredKey = nil;
+    // lookup |rediredKey| from core data
+    HackfoldrHistory *history = [HackfoldrHistory MR_findFirstByAttribute:@"hackfoldrKey" withValue:hackfoldrKey];
+    if (history && history.rediredKey) {
+        rediredKey = history.rediredKey;
+    }
+
+    HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:hackfoldrKey rediredKey:rediredKey];
 
     NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button title in SettingView");
     [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
@@ -321,17 +328,22 @@
         [dialogController loading:NO];
         return task;
     }] continueWithSuccessBlock:^id(BFTask *task) {
-        NSLog(@"change hackfoldr page to: %@", key);
-
-        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:key];
+        NSLog(@"change hackfoldr page to: %@", hackfoldrKey);
+        // Just save |hackfoldrKey| to user defaults
+        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:hackfoldrKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
         return task;
     }];
 }
 
-- (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey
+- (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey rediredKey:(NSString *)rediredKey
 {
-    HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionWithKey:hackfoldrKey];
+    NSString *key = hackfoldrKey;
+    if (rediredKey) {
+        key = rediredKey;
+    }
+
+    HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] taskCompletionWithKey:key];
 
     [[completionSource.task continueWithSuccessBlock:^id(BFTask *task) {
         HackfoldrPage *page = task.result;
@@ -339,10 +351,10 @@
 
         if (page.rediredKey) {
             NSLog(@"redired to:%@", page.rediredKey);
-            return [self updateHackfoldrPageTaskWithKey:page.rediredKey].task;
+            return [self updateHackfoldrPageTaskWithKey:hackfoldrKey rediredKey:page.rediredKey].task;
         }
 
-        // Save history to core data
+        // Save |history| to core data
         HackfoldrHistory *history = [HackfoldrHistory MR_findFirstByAttribute:@"hackfoldrKey" withValue:hackfoldrKey];
         if (!history) {
             history = [HackfoldrHistory MR_createEntity];
@@ -350,9 +362,15 @@
             history.refreshDate = [NSDate date];
             history.hackfoldrKey = hackfoldrKey;
             history.title = page.pageTitle;
+            if (rediredKey) {
+                history.rediredKey = rediredKey;
+            }
         } else {
             history.refreshDate = [NSDate date];
             history.title = page.pageTitle;
+            if (rediredKey) {
+                history.rediredKey = rediredKey;
+            }
         }
 
         [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfWithCompletion:nil];
@@ -382,7 +400,7 @@
 
 - (void)reloadAction:(id)sender
 {
-    HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:self.hackfoldrPageKey];
+    HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:self.hackfoldrPageKey rediredKey:nil];
 
     NSString *cancelButtonTitle = NSLocalizedStringFromTable(@"Cancel", @"Hackfoldr", @"Alert Cancel button");
     NSString *setupTitle = NSLocalizedStringFromTable(@"Setup Key", @"Hackfoldr", @"Alert Setup button");

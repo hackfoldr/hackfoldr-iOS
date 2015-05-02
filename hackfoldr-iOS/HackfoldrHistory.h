@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSDate * createDate;
 @property (nonatomic, strong) NSDate * refreshDate;
 @property (nonatomic, strong) NSString * hackfoldrKey;
+@property (nonatomic, strong) NSString * rediredKey;
 @property (nonatomic, strong) NSString * title;
 
 @end
