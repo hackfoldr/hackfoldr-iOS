@@ -155,7 +155,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"alertView clickedAt:%ld", buttonIndex);
+    NSLog(@"alertView clickedAt:%d", (int)buttonIndex);
     if (buttonIndex == 1) {
         [self showSettingViewController];
         return;

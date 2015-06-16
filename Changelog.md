@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0 beta-4
+
+- 修正網址的檢查方式
+- 讓 status bar 會顯示
+- 更新 QuickDialog
+
 ## 1.0 beta-3
 
 - 修正使用 redired A1 一定會 crash 的問題

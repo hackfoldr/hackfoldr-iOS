@@ -56,8 +56,18 @@ DEPENDENCIES:
   - MagicalRecord (~> 2.2)
   - OHHTTPStubs
   - OHHTTPStubs/XCTestExpectation
-  - QuickDialog (~> 1.0)
+  - QuickDialog (from `https://github.com/escoz/QuickDialog`, branch `master`)
   - TOWebViewController
+
+EXTERNAL SOURCES:
+  QuickDialog:
+    :branch: master
+    :git: https://github.com/escoz/QuickDialog
+
+CHECKOUT OPTIONS:
+  QuickDialog:
+    :commit: c5891e6d63def55af5b7f5f5efe8d64330d3a4fd
+    :git: https://github.com/escoz/QuickDialog
 
 SPEC CHECKSUMS:
   AFCSVParserResponseSerializer: 057305eda68f4dc9d6c2603412cdd3de21d8ba44
@@ -67,7 +77,7 @@ SPEC CHECKSUMS:
   Fabric: 8a5b89c2131962830d92bbc88d482e80665846b2
   MagicalRecord: f8a56bb87ab6552f20c4bb8681a1958a197ea3cd
   OHHTTPStubs: 8cf0cfe6f34f13fc88fdf5b2a1b2c2536e8c0261
-  QuickDialog: ea2e68e0611ec012bcbd9d0e1d703d566a4c7355
+  QuickDialog: c15166b0041a30ce2d304ff6ce374805f9506051
   TOWebViewController: 2cfd0032d781cabd88a0995fbca9692c11f0797e
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.37.1
