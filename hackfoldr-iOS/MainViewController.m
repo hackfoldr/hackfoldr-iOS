@@ -330,7 +330,7 @@
         // Just save |hackfoldrKey| to user defaults
         [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:hackfoldrKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        return task;
+        return nil;
     }];
 }
 
