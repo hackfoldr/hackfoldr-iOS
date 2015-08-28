@@ -97,7 +97,7 @@
 
     NSString *requestKeyID = [keyID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *requestPath = [NSString stringWithFormat:@"spreadsheets/d/%@/export?format=csv&gid=0", requestKeyID];
-    [manager GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
+    source.connectionTask = [manager GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
         HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:csvFieldArray];
         _lastPage = [page copy];
         [source setResult:_lastPage];
