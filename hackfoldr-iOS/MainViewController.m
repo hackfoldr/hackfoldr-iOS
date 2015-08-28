@@ -213,8 +213,8 @@
     // Change page button clicked
     sendButtonElement.onSelected = ^(void) {
 
-        BFTaskCompletionSource *cleanKeyCompletionSource = [self validatorHackfoldrKeyForSettingViewWithHackfoldrKey:inputElement.textValue];
-        [cleanKeyCompletionSource.task continueWithBlock:^id(BFTask *task) {
+        BFTask *cleanKeyTask = [self validatorHackfoldrKeyForSettingViewWithHackfoldrKey:inputElement.textValue];
+        [cleanKeyTask continueWithBlock:^id(BFTask *task) {
             if (task.error) {
                 // hide self
                 [dialogController popToPreviousRootElement];
@@ -270,7 +270,7 @@
     }
 }
 
-- (BFTaskCompletionSource *)validatorHackfoldrKeyForSettingViewWithHackfoldrKey:(NSString *)newHackfoldrKey
+- (BFTask *)validatorHackfoldrKeyForSettingViewWithHackfoldrKey:(NSString *)newHackfoldrKey
 {
     BFTaskCompletionSource *completion = [BFTaskCompletionSource taskCompletionSource];
 
@@ -300,7 +300,7 @@
                                              userInfo:nil]];
     }
 
-    return completion;
+    return completion.task;
 }
 
 - (void)updateHackfoldrPageWithDialogController:(QuickDialogController *)dialogController key:(NSString *)hackfoldrKey
