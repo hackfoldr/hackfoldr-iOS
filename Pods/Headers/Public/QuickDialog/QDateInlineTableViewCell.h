@@ -1,1 +1,1 @@
-../../../QuickDialog/QDateInlineTableViewCell.h
+../../../QuickDialog/quickdialog/QDateInlineTableViewCell.h

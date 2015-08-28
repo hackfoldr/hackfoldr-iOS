@@ -1,1 +1,1 @@
-../../../QuickDialog/QuickDialogDelegate.h
+../../../QuickDialog/quickdialog/QuickDialogDelegate.h

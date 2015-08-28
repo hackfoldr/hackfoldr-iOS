@@ -12,9 +12,9 @@ target "hackfoldr-iOS" do
   pod 'QuickDialog', :git => 'https://github.com/escoz/QuickDialog', :branch => 'master'
   pod 'TOWebViewController'
 
-  # Test use
-  pod 'Fabric', '~> 1.2.2'
-  pod 'Fabric/Crashlytics'
+  # Track crash
+  pod 'Fabric'
+  pod 'Crashlytics'
 end
 
 target "hackfoldr-iOSTests" do

@@ -11,7 +11,7 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
-#import "CoreData+MagicalRecord.h"
+#import "MagicalRecord.h"
 #import "MainViewController.h"
 
 @implementation AppDelegate

@@ -10,7 +10,7 @@
 
 #import "AppDelegate.h"
 // Model & Client
-#import "CoreData+MagicalRecord.h"
+#import "MagicalRecord.h"
 #import "HackfoldrClient.h"
 #import "HackfoldrHistory.h"
 #import "HackfoldrPage.h"
@@ -250,10 +250,8 @@
     restHackfoldrPageElement.onSelected = ^(void) {
         // Set current HackfoldrPage to |DefaultHackfoldrPage|
         NSString *defaultHackfoldrKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
-        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:defaultHackfoldrKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        // hide self
-        [dialogController popToPreviousRootElement];
+        // update hackfoldr page
+        [self updateHackfoldrPageWithDialogController:dialogController key:defaultHackfoldrKey];
     };
     [restSection addElement:restHackfoldrPageElement];
     [settingRoot addSection:restSection];
