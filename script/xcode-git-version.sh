@@ -22,7 +22,7 @@ INFO_PLIST="${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Info"
 # instead use the number of commits on the master branch. If you like to
 # play fast and loose with your Git history, this may cause you problems.
 # Thanks to @amrox for pointing out the issue and fix.
-VERSION=$(git --git-dir="${PROJECT_DIR}/.git" --work-tree="${PROJECT_DIR}" rev-list master | wc -l)
+VERSION=$(git --git-dir="${PROJECT_DIR}/.git" --work-tree="${PROJECT_DIR}" rev-list develop | wc -l)
 
 # defaults write $INFO_PLIST CFBundleShortVersionString $SHORT_VERSION
 defaults write $INFO_PLIST CFBundleVersion $VERSION
