@@ -17,6 +17,7 @@
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
 #import "UIImage+TOWebViewControllerIcons.h"
 // ViewController
+#import <SafariServices/SafariServices.h>
 #import "ListFieldViewController.h"
 #import "QuickDialog.h"
 #import "TOWebViewController+HackfoldrField.h"
@@ -136,11 +137,17 @@
             return;
         }
 
-        TOWebViewController *webViewController = [[TOWebViewController alloc] init];
-        webViewController.showPageTitles = YES;
-        [webViewController loadWithField:rowOfField];
-
-        [self.navigationController pushViewController:webViewController animated:YES];
+        UIViewController *vc;
+        if (NSClassFromString(@"SFSafariViewController")) {
+            vc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:rowOfField.urlString]];
+            vc.title = rowOfField.name;
+        } else {
+            TOWebViewController *webViewController = [[TOWebViewController alloc] init];
+            webViewController.showPageTitles = YES;
+            [webViewController loadWithField:rowOfField];
+            vc = webViewController;
+        }
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
