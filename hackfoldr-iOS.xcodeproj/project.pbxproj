@@ -267,6 +267,7 @@
 				E7EB66B619554E290069FD71 /* Resources */,
 				F8ECB66B724E4F56BFCD72D5 /* Copy Pods Resources */,
 				E7118A521AD4FFB7007608C0 /* Update app bundle version */,
+				BBA05411B5E5EB9236B8E4CD /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -286,6 +287,7 @@
 				E7EB66D919554E290069FD71 /* Frameworks */,
 				E7EB66DA19554E290069FD71 /* Resources */,
 				D3FA1659305847ED9A84D75F /* Copy Pods Resources */,
+				F352A8386AA6B655CA2536AC /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -369,6 +371,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		BBA05411B5E5EB9236B8E4CD /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D3FA1659305847ED9A84D75F /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -397,6 +414,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "exec ./script/xcode-git-version.sh";
+		};
+		F352A8386AA6B655CA2536AC /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackfoldr-iOSTests/Pods-hackfoldr-iOSTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		F62215F8E8C94E159E6864B0 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

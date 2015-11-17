@@ -9,6 +9,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#if TARGET_OS_IPHONE
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
+    #error "Fabric's minimum iOS version is 6.0"
+#endif
+#else
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1070
+    #error "Fabric's minimum OS X version is 10.7"
+#endif
+#endif
+
 /**
  *  Fabric Base. Coordinates configuration and starts all provided kits.
  */
@@ -27,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Only the first call to this method is honored. Subsequent calls are no-ops.
  *
- * @param kits An array of kit Class objects
+ * @param kitClasses An array of kit Class objects
  *
  * @return Returns the shared Fabric instance. In most cases this can be ignored.
  */

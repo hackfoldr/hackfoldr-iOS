@@ -1,3 +1,6 @@
-OHHTTPSTUBS_FRAMEWORK_SEARCH_PATHS = $(inherited) "$(SDKROOT)/Developer/Library/Frameworks" "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-OHHTTPSTUBS_GCC_PREPROCESSOR_DEFINITIONS = XCODE_VERSION=$(XCODE_VERSION_MAJOR)
-OHHTTPSTUBS_OTHER_LDFLAGS = -framework "CFNetwork" -framework "Foundation" -framework "XCTest"
+FRAMEWORK_SEARCH_PATHS = $(inherited)  "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 XCODE_VERSION=$(XCODE_VERSION_MAJOR)
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/OHHTTPStubs" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFCSVParserResponseSerializer" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/Bolts" "${PODS_ROOT}/Headers/Public/CHCSVParser" "${PODS_ROOT}/Headers/Public/Crashlytics" "${PODS_ROOT}/Headers/Public/Fabric" "${PODS_ROOT}/Headers/Public/MagicalRecord" "${PODS_ROOT}/Headers/Public/OHHTTPStubs" "${PODS_ROOT}/Headers/Public/QuickDialog" "${PODS_ROOT}/Headers/Public/TOWebViewController"
+OTHER_LDFLAGS = -framework "CFNetwork" -framework "Foundation" -framework "XCTest"
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES
