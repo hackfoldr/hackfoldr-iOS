@@ -10,7 +10,7 @@
 
 #import "AppDelegate.h"
 // Model & Client
-#import "MagicalRecord.h"
+#import <MagicalRecord/MagicalRecord.h>
 #import "HackfoldrClient.h"
 #import "HackfoldrHistory.h"
 #import "HackfoldrPage.h"
