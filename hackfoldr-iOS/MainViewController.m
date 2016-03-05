@@ -137,17 +137,19 @@
             return;
         }
 
-        UIViewController *vc;
         if (NSClassFromString(@"SFSafariViewController")) {
-            vc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:rowOfField.urlString]];
-            vc.title = rowOfField.name;
+            SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:rowOfField.urlString]];
+            svc.title = rowOfField.name;
+            svc.delegate = self;
+            [self presentViewController:svc animated:YES completion:nil];
         } else {
             TOWebViewController *webViewController = [[TOWebViewController alloc] init];
             webViewController.showPageTitles = YES;
             [webViewController loadWithField:rowOfField];
-            vc = webViewController;
+
+            [self.navigationController pushViewController:webViewController animated:YES];
         }
-        [self.navigationController pushViewController:vc animated:YES];
+
     }
 }
 
