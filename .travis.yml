@@ -1,4 +1,6 @@
 language: objective-c
+xcode_workspace: hackfoldr-iOS.xcworkspace
+xcode_scheme: hackfoldr-iOS
 osx_image: xcode7.3
 
 branches:
@@ -6,7 +8,11 @@ branches:
     - master
     - develop
 
+before_install:
+#    - brew install xctool
+    - git clone https://github.com/facebook/xctool.git
+
 script:
-  - xctool -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator -configuration "DEBUG" build
-  - xctool -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator build-tests
-  # - xctool -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator run-tests
+  - xctool/xctool.sh -sdk iphonesimulator -configuration "DEBUG" build
+  - xctool/xctool.sh -sdk iphonesimulator build-tests
+  - xctool/xctool.sh -sdk iphonesimulator run-tests
