@@ -30,7 +30,7 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.7.0)
   - CHCSVParser (2.1.0)
-  - Crashlytics (3.7.0):
+  - Crashlytics (3.7.1):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
   - MagicalRecord (2.3.2):
@@ -43,9 +43,9 @@ PODS:
   - QuickDialog (1.0.2):
     - QuickDialog/Core (= 1.0.2)
   - QuickDialog/Core (1.0.2)
-  - TOWebViewController (2.2.3):
-    - TOWebViewController/Core (= 2.2.3)
-  - TOWebViewController/Core (2.2.3)
+  - TOWebViewController (2.2.4):
+    - TOWebViewController/Core (= 2.2.4)
+  - TOWebViewController/Core (2.2.4)
 
 DEPENDENCIES:
   - AFCSVParserResponseSerializer
@@ -75,11 +75,11 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
-  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
+  Crashlytics: 3cdd4c9655be68032a0cf0379e0fb5ef6af22cad
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   OHHTTPStubs: 8cf0cfe6f34f13fc88fdf5b2a1b2c2536e8c0261
   QuickDialog: f0c3e254c91182fa3f91fdb479ccac4a11b459e1
-  TOWebViewController: ca47b9aeefe66acb3353d197dc8270338540b116
+  TOWebViewController: f6b234d2be45dbf81d2a71a1f9480f8f3cc6501a
 
 COCOAPODS: 0.39.0
