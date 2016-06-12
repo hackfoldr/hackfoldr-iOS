@@ -10,13 +10,14 @@
 
 #import "AppDelegate.h"
 // Model & Client
-#import "MagicalRecord.h"
+#import <MagicalRecord/MagicalRecord.h>
 #import "HackfoldrClient.h"
 #import "HackfoldrHistory.h"
 #import "HackfoldrPage.h"
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
 #import "UIImage+TOWebViewControllerIcons.h"
 // ViewController
+#import <SafariServices/SafariServices.h>
 #import "ListFieldViewController.h"
 #import "QuickDialog.h"
 #import "TOWebViewController+HackfoldrField.h"
@@ -136,11 +137,18 @@
             return;
         }
 
-        TOWebViewController *webViewController = [[TOWebViewController alloc] init];
-        webViewController.showPageTitles = YES;
-        [webViewController loadWithField:rowOfField];
+        if (NSClassFromString(@"SFSafariViewController")) {
+            SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:rowOfField.urlString]];
+            svc.title = rowOfField.name;
+            [self presentViewController:svc animated:YES completion:nil];
+        } else {
+            TOWebViewController *webViewController = [[TOWebViewController alloc] init];
+            webViewController.showPageTitles = YES;
+            [webViewController loadWithField:rowOfField];
 
-        [self.navigationController pushViewController:webViewController animated:YES];
+            [self.navigationController pushViewController:webViewController animated:YES];
+        }
+
     }
 }
 
@@ -213,8 +221,8 @@
     // Change page button clicked
     sendButtonElement.onSelected = ^(void) {
 
-        BFTaskCompletionSource *cleanKeyCompletionSource = [self validatorHackfoldrKeyForSettingViewWithHackfoldrKey:inputElement.textValue];
-        [cleanKeyCompletionSource.task continueWithBlock:^id(BFTask *task) {
+        BFTask *cleanKeyTask = [self validatorHackfoldrKeyForSettingViewWithHackfoldrKey:inputElement.textValue];
+        [cleanKeyTask continueWithBlock:^id(BFTask *task) {
             if (task.error) {
                 // hide self
                 [dialogController popToPreviousRootElement];
@@ -270,7 +278,7 @@
     }
 }
 
-- (BFTaskCompletionSource *)validatorHackfoldrKeyForSettingViewWithHackfoldrKey:(NSString *)newHackfoldrKey
+- (BFTask *)validatorHackfoldrKeyForSettingViewWithHackfoldrKey:(NSString *)newHackfoldrKey
 {
     BFTaskCompletionSource *completion = [BFTaskCompletionSource taskCompletionSource];
 
@@ -300,7 +308,7 @@
                                              userInfo:nil]];
     }
 
-    return completion;
+    return completion.task;
 }
 
 - (void)updateHackfoldrPageWithDialogController:(QuickDialogController *)dialogController key:(NSString *)hackfoldrKey
@@ -330,7 +338,7 @@
         // Just save |hackfoldrKey| to user defaults
         [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:hackfoldrKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        return task;
+        return nil;
     }];
 }
 

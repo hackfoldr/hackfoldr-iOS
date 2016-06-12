@@ -267,6 +267,7 @@
 				E7EB66B619554E290069FD71 /* Resources */,
 				F8ECB66B724E4F56BFCD72D5 /* Copy Pods Resources */,
 				E7118A521AD4FFB7007608C0 /* Update app bundle version */,
+				BBA05411B5E5EB9236B8E4CD /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -286,6 +287,7 @@
 				E7EB66D919554E290069FD71 /* Frameworks */,
 				E7EB66DA19554E290069FD71 /* Resources */,
 				D3FA1659305847ED9A84D75F /* Copy Pods Resources */,
+				F352A8386AA6B655CA2536AC /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -303,8 +305,8 @@
 		E7EB66B019554E290069FD71 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = org.superbil;
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = org.g0v;
 				TargetAttributes = {
 					E7EB66DB19554E290069FD71 = {
 						TestTargetID = E7EB66B719554E290069FD71;
@@ -369,6 +371,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		BBA05411B5E5EB9236B8E4CD /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D3FA1659305847ED9A84D75F /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -397,6 +414,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "exec ./script/xcode-git-version.sh";
+		};
+		F352A8386AA6B655CA2536AC /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackfoldr-iOSTests/Pods-hackfoldr-iOSTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		F62215F8E8C94E159E6864B0 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -514,6 +546,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -582,6 +615,7 @@
 				GCC_PREFIX_HEADER = "hackfoldr-iOS/hackfoldr-iOS-Prefix.pch";
 				INFOPLIST_FILE = "hackfoldr-iOS/hackfoldr-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.g0v.hackfoldr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -603,6 +637,7 @@
 				GCC_PREFIX_HEADER = "hackfoldr-iOS/hackfoldr-iOS-Prefix.pch";
 				INFOPLIST_FILE = "hackfoldr-iOS/hackfoldr-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.g0v.hackfoldr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -627,6 +662,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "hackfoldr-iOSTests/hackfoldr-iOSTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = org.g0v.hackfoldr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -646,6 +682,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "hackfoldr-iOS/hackfoldr-iOS-Prefix.pch";
 				INFOPLIST_FILE = "hackfoldr-iOSTests/hackfoldr-iOSTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = org.g0v.hackfoldr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

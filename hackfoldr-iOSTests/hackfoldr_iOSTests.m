@@ -13,8 +13,40 @@
 #import "HackfoldrPage.h"
 #import "OHHTTPStubs.h"
 
-@interface hackfoldr_iOSTests : XCTestCase
 
+@interface AnnotatedRequestSerializer : AFHTTPRequestSerializer @end
+@implementation AnnotatedRequestSerializer
+- (NSMutableURLRequest *)requestWithMethod:(NSString *)method
+                                 URLString:(NSString *)URLString
+                                parameters:(NSDictionary *)parameters
+                                     error:(NSError * __autoreleasing *)error {
+    NSMutableURLRequest* req = [super requestWithMethod:method URLString:URLString parameters:parameters error:error];
+    [NSURLProtocol setProperty:parameters forKey:@"parameters" inRequest:req];
+    [NSURLProtocol setProperty:req.HTTPBody forKey:@"HTTPBody" inRequest:req];
+    return req;
+}
+@end
+
+
+@interface HackfoldrClient (UnitTest)
+- (instancetype)initWithBaseURLForUnitTest:(NSURL *)url;
+@end
+
+@implementation HackfoldrClient (UnitTest)
+
+- (instancetype)initWithBaseURLForUnitTest:(NSURL *)url {
+    self = [super initWithBaseURL:url];
+    if (self) {
+        self.requestSerializer = [AnnotatedRequestSerializer serializer];
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
+    }
+    return self;
+}
+
+@end
+
+
+@interface hackfoldr_iOSTests : XCTestCase
 @end
 
 @implementation hackfoldr_iOSTests
@@ -22,27 +54,10 @@
 - (void)setUp
 {
     [super setUp];
-
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        if ([request.URL.absoluteString rangeOfString:@"ethercalc.org"].location != NSNotFound) {
-            return YES;
-        }
-        return NO;
-    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-        NSLog(@"hook hackfoldr:%@", request);
-        NSString *jsonCSVDataString = OHPathForFileInBundle(@"sample.csv.json", nil);
-        NSData *csvData = [NSData dataWithContentsOfFile:jsonCSVDataString];
-
-        return [OHHTTPStubsResponse responseWithData:csvData
-                                          statusCode:200
-                                             headers:@{@"Content-Type":@"text/json"}];
-    }];
 }
 
 - (void)tearDown
 {
-    [OHHTTPStubs removeAllStubs];
-
     [super tearDown];
 }
 
@@ -105,7 +120,20 @@
 {
     XCTestExpectation *openHackfoldrExpectation = [self expectationWithDescription:@"open Hackfoldr"];
 
-    [[[HackfoldrClient sharedClient] taskCompletionWithKey:@"testHackFoldr"].task continueWithBlock:^id(BFTask *task) {
+    id stub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.absoluteString rangeOfString:@"ethercalc.org"].location != NSNotFound;
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        NSLog(@"hook hackfoldr:%@", request);
+        NSString *jsonCSVDataString = OHPathForFileInBundle(@"sample.csv.json", nil);
+        NSData *csvData = [NSData dataWithContentsOfFile:jsonCSVDataString];
+
+        return [OHHTTPStubsResponse responseWithData:csvData
+                                          statusCode:200
+                                             headers:@{@"Content-Type":@"text/json"}];
+    }];
+
+    HackfoldrClient *client = [[HackfoldrClient alloc] initWithBaseURLForUnitTest:[NSURL URLWithString:@"https://ethercalc.org/"]];
+    [[client taskCompletionWithKey:@"testHackFoldr"].task continueWithBlock:^id(BFTask *task) {
         XCTAssertNil(task.error);
         NSLog(@"task %@ %@", task.error, task.result);
 
@@ -113,7 +141,9 @@
         return nil;
     }];
 
-    [self waitForExpectationsWithTimeout:1000 handler:nil];
+    [self waitForExpectationsWithTimeout:1000 handler:^(NSError * _Nullable error) {
+        [OHHTTPStubs removeStub:stub];
+    }];
 }
 
 @end

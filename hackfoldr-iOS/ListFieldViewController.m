@@ -17,7 +17,8 @@
     [super viewDidLoad];
 
     self.settingButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-    self.settingButton.frame = CGRectMake(0, 0, 20, 20);
+    int iconSize = 26;
+    self.settingButton.frame = CGRectMake(0, 0, iconSize, iconSize);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.settingButton];
     // Hide back button
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] init]];
