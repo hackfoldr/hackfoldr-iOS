@@ -140,7 +140,6 @@
         if (NSClassFromString(@"SFSafariViewController")) {
             SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:rowOfField.urlString]];
             svc.title = rowOfField.name;
-            svc.delegate = self;
             [self presentViewController:svc animated:YES completion:nil];
         } else {
             TOWebViewController *webViewController = [[TOWebViewController alloc] init];
