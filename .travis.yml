@@ -7,10 +7,9 @@ branches:
     - develop
 
 before_install:
-#    - brew install xctool
-    - git clone https://github.com/facebook/xctool.git
+    - git clone --depth=1 https://github.com/facebook/xctool.git
 
 script:
-  - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator -configuration "DEBUG" build
-  - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator build-tests
-  - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator run-tests
+  - travis_wait 30 xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator -configuration "DEBUG" build
+  - travis_wait 30 xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator build-tests
+  - travis_wait 30 xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator run-tests
