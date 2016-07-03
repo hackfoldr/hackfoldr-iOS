@@ -30,7 +30,7 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.7.0)
   - CHCSVParser (2.1.0)
-  - Crashlytics (3.7.1):
+  - Crashlytics (3.7.2):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
   - MagicalRecord (2.3.2):
@@ -75,7 +75,7 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
-  Crashlytics: 3cdd4c9655be68032a0cf0379e0fb5ef6af22cad
+  Crashlytics: 130ab943f8c78cda7a814b434f270b2e2c8a3cba
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   OHHTTPStubs: 8cf0cfe6f34f13fc88fdf5b2a1b2c2536e8c0261
