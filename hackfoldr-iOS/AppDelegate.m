@@ -71,14 +71,42 @@
 
 - (BOOL)application:(UIApplication *)app handleOpenURL:(nonnull NSURL *)url
 {
-    NSLog(@"handleOpenURL: %@", url);
     return [self handleURL:url];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
     NSLog(@"openURL: %@ options: %@", url, options);
-    return [self handleURL:url];
+    return [self tryUpdateHackfoldrPageKeyWithURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    NSLog(@"Calling Application Bundle ID: %@", sourceApplication);
+    NSLog(@"URL scheme:%@", [url scheme]);
+    NSLog(@"URL query: %@", [url query]);
+    return [self tryUpdateHackfoldrPageKeyWithURL:url];
+}
+
+- (BOOL)tryUpdateHackfoldrPageKeyWithURL:(NSURL *)url {
+    BOOL canHandle = [self handleURL:url];
+    // Find MainViewController
+    __block MainViewController *vc = nil;
+    [((UINavigationController *)self.viewController).viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[MainViewController class]]) {
+            vc = obj;
+            *stop = YES;
+        }
+    }];
+    if (vc && url.host && url.host.length > 0) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [vc updateHackfoldrPageWithKey:url.host];
+        });
+    }
+    return canHandle;
 }
 
 @end
