@@ -61,4 +61,24 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)handleURL:(nonnull NSURL *)url
+{
+    if ([url.scheme isEqualToString:@"hackfoldr"]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)application:(UIApplication *)app handleOpenURL:(nonnull NSURL *)url
+{
+    NSLog(@"handleOpenURL: %@", url);
+    return [self handleURL:url];
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+    NSLog(@"openURL: %@ options: %@", url, options);
+    return [self handleURL:url];
+}
+
 @end
