@@ -26,6 +26,7 @@
 @interface MainViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 @property (nonatomic, strong) ListFieldViewController *listViewController;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
+@property (nonatomic, strong) QuickDialogController *dialogController;
 @end
 
 @implementation MainViewController
@@ -203,6 +204,7 @@
     settingRoot.grouped = YES;
 
     QuickDialogController *dialogController = [QuickDialogController controllerForRoot:settingRoot];
+    self.dialogController = dialogController;
 
     QSection *inputSection = [[QSection alloc] init];
     inputSection.footer = NSLocalizedStringFromTable(@"You can input new hackfoldr page key and select Change Key to change it.", @"Hackfoldr", @"Change key description at input section in SettingView.");
@@ -415,6 +417,13 @@
                                                   delegate:self
                                          cancelButtonTitle:cancelButtonTitle
                                          otherButtonTitles:setupTitle ,nil];
+}
+
+#pragma mark - Public method
+
+- (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey
+{
+    [self updateHackfoldrPageWithDialogController:self.dialogController key:hackfoldrKey];
 }
 
 @end
