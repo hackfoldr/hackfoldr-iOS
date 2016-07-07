@@ -10,6 +10,8 @@ before_install:
     - git clone --depth=1 https://github.com/facebook/xctool.git
 
 script:
-  - travis_wait 30 xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator -configuration "DEBUG" build
-  - travis_wait 30 xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator build-tests
-  - travis_wait 30 xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator run-tests
+  - SIMULATOR_ID=$(xcrun instruments -s devices | grep -io "$SIMULATOR \[.*\]" | grep -o "\[.*\]" | sed "s/^\[\(.*\)\]$/\1/")
+  - open -b com.apple.iphonesimulator --args -CurrentDeviceUDID $SIMULATOR_ID
+  - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator -configuration "DEBUG" build
+  - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator build-tests
+  - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator run-tests
