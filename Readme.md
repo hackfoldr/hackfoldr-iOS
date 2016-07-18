@@ -6,11 +6,11 @@ This is a simple iOS client for [hackfoldr](https://github.com/hackfoldr/hackfol
 
 ## Why? ##
 
-Hackfoldr on mobile is not good enought on iOS, let it simply.
+Hackfoldr on mobile is simply not good enough on iOS.
 
 ## Use CocoaPods developer ##
 
-[CocoaPods](http://cocoapods.org/) is easy way install iOS third-party component
+[CocoaPods](http://cocoapods.org/) is the easy way to install third-party iOS components.
 
 ````
 pod install
