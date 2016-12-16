@@ -23,16 +23,16 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Bolts (1.7.0):
-    - Bolts/AppLinks (= 1.7.0)
-    - Bolts/Tasks (= 1.7.0)
-  - Bolts/AppLinks (1.7.0):
+  - Bolts (1.8.4):
+    - Bolts/AppLinks (= 1.8.4)
+    - Bolts/Tasks (= 1.8.4)
+  - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
-  - Bolts/Tasks (1.7.0)
+  - Bolts/Tasks (1.8.4)
   - CHCSVParser (2.1.0)
-  - Crashlytics (3.7.2):
+  - Crashlytics (3.8.3):
     - Fabric (~> 1.6.3)
-  - Fabric (1.6.7)
+  - Fabric (1.6.11)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
@@ -43,9 +43,9 @@ PODS:
   - QuickDialog (1.0.2):
     - QuickDialog/Core (= 1.0.2)
   - QuickDialog/Core (1.0.2)
-  - TOWebViewController (2.2.4):
-    - TOWebViewController/Core (= 2.2.4)
-  - TOWebViewController/Core (2.2.4)
+  - TOWebViewController (2.2.6):
+    - TOWebViewController/Core (= 2.2.6)
+  - TOWebViewController/Core (2.2.6)
 
 DEPENDENCIES:
   - AFCSVParserResponseSerializer
@@ -73,13 +73,15 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFCSVParserResponseSerializer: 057305eda68f4dc9d6c2603412cdd3de21d8ba44
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
-  Crashlytics: 130ab943f8c78cda7a814b434f270b2e2c8a3cba
-  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   OHHTTPStubs: 8cf0cfe6f34f13fc88fdf5b2a1b2c2536e8c0261
   QuickDialog: f0c3e254c91182fa3f91fdb479ccac4a11b459e1
-  TOWebViewController: f6b234d2be45dbf81d2a71a1f9480f8f3cc6501a
+  TOWebViewController: a29908019f7e0e0f8eccfab8a1ee8dcdf4fc5aac
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: f53b2c27aac70245fbedf6e19b73039c8b030352
+
+COCOAPODS: 1.1.1
