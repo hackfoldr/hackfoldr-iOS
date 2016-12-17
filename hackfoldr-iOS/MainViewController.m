@@ -14,7 +14,9 @@
 #import "HackfoldrClient.h"
 #import "HackfoldrHistory.h"
 #import "HackfoldrPage.h"
+// Category
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
+#import "NSURL+Hackfoldr.h"
 #import "UIImage+TOWebViewControllerIcons.h"
 // ViewController
 #import <SafariServices/SafariServices.h>
@@ -138,8 +140,16 @@
             return;
         }
 
+        NSURL *targetURL = [NSURL URLWithString:urlString];
+
+        if ([NSURL canHandleHackfoldrURL:targetURL]) {
+            // Redirect to |urlString|
+//            [self updateHackfoldrPageWithDialogController:self.dialogController key:hackfoldrKey];
+            return;
+        }
+
         if (NSClassFromString(@"SFSafariViewController")) {
-            SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:rowOfField.urlString]];
+            SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:targetURL];
             svc.title = rowOfField.name;
             [self presentViewController:svc animated:YES completion:nil];
         } else {
@@ -149,7 +159,6 @@
 
             [self.navigationController pushViewController:webViewController animated:YES];
         }
-
     }
 }
 

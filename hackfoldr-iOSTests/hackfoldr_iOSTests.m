@@ -12,7 +12,7 @@
 #import "HackfoldrField.h"
 #import "HackfoldrPage.h"
 #import "OHHTTPStubs.h"
-
+#import "NSURL+Hackfoldr.h"
 
 @interface AnnotatedRequestSerializer : AFHTTPRequestSerializer @end
 @implementation AnnotatedRequestSerializer
@@ -144,6 +144,10 @@
     [self waitForExpectationsWithTimeout:1000 handler:^(NSError * _Nullable error) {
         [OHHTTPStubs removeStub:stub];
     }];
+}
+
+- (void)testHackfoldrURL {
+    XCTAssertTrue([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"hackfoldr://test"]]);
 }
 
 @end
