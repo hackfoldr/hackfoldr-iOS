@@ -13,6 +13,7 @@
 #import <MagicalRecord/MagicalRecord.h>
 
 #import "MainViewController.h"
+#import "NSURL+Hackfoldr.h"
 
 @implementation AppDelegate
 
@@ -61,17 +62,9 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (BOOL)handleURL:(nonnull NSURL *)url
-{
-    if ([url.scheme isEqualToString:@"hackfoldr"]) {
-        return YES;
-    }
-    return NO;
-}
-
 - (BOOL)application:(UIApplication *)app handleOpenURL:(nonnull NSURL *)url
 {
-    return [self handleURL:url];
+    return [NSURL canHandleHackfoldrURL:url];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
@@ -92,7 +85,7 @@
 }
 
 - (BOOL)tryUpdateHackfoldrPageKeyWithURL:(NSURL *)url {
-    BOOL canHandle = [self handleURL:url];
+    BOOL canHandle = [NSURL canHandleHackfoldrURL:url];
     // Find MainViewController
     __block MainViewController *vc = nil;
     [((UINavigationController *)self.viewController).viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
