@@ -144,8 +144,12 @@
 
         if ([NSURL canHandleHackfoldrURL:targetURL]) {
             // Redirect to |urlString|
-//            [self updateHackfoldrPageWithDialogController:self.dialogController key:hackfoldrKey];
-            return;
+            NSRange range = [urlString rangeOfString:@"://"];
+            if (range.location != NSNotFound) {
+                NSString *realKey = [urlString substringWithRange:NSMakeRange(range.location + range.length, urlString.length - range.length - range.location)];
+                [self updateHackfoldrPageWithDialogController:self.dialogController key:realKey];
+                return;
+            }
         }
 
         if (NSClassFromString(@"SFSafariViewController")) {
