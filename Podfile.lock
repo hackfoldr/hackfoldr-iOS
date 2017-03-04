@@ -36,10 +36,19 @@ PODS:
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
-  - OHHTTPStubs (3.1.12):
-    - OHHTTPStubs/Core (= 3.1.12)
-  - OHHTTPStubs/Core (3.1.12)
-  - OHHTTPStubs/XCTestExpectation (3.1.12)
+  - OHHTTPStubs (5.2.3):
+    - OHHTTPStubs/Default (= 5.2.3)
+  - OHHTTPStubs/Core (5.2.3)
+  - OHHTTPStubs/Default (5.2.3):
+    - OHHTTPStubs/Core
+    - OHHTTPStubs/JSON
+    - OHHTTPStubs/NSURLSession
+    - OHHTTPStubs/OHPathHelpers
+  - OHHTTPStubs/JSON (5.2.3):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/NSURLSession (5.2.3):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/OHPathHelpers (5.2.3)
   - QuickDialog (1.0.2):
     - QuickDialog/Core (= 1.0.2)
   - QuickDialog/Core (1.0.2)
@@ -56,7 +65,6 @@ DEPENDENCIES:
   - Fabric
   - MagicalRecord (~> 2.2)
   - OHHTTPStubs
-  - OHHTTPStubs/XCTestExpectation
   - QuickDialog (from `https://github.com/escoz/QuickDialog`, branch `master`)
   - TOWebViewController
 
@@ -78,10 +86,10 @@ SPEC CHECKSUMS:
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
-  OHHTTPStubs: 8cf0cfe6f34f13fc88fdf5b2a1b2c2536e8c0261
+  OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   QuickDialog: f0c3e254c91182fa3f91fdb479ccac4a11b459e1
   TOWebViewController: a29908019f7e0e0f8eccfab8a1ee8dcdf4fc5aac
 
-PODFILE CHECKSUM: f53b2c27aac70245fbedf6e19b73039c8b030352
+PODFILE CHECKSUM: 63aa94dd453fd036e6437ba026eea4cbe30881ab
 
 COCOAPODS: 1.1.1

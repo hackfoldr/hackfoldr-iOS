@@ -19,6 +19,5 @@ end
 
 target "hackfoldr-iOSTests" do
   pod 'OHHTTPStubs'
-  pod 'OHHTTPStubs/XCTestExpectation'
 end
 
