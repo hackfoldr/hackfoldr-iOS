@@ -150,6 +150,10 @@
 
 - (void)testHackfoldrURL {
     XCTAssertTrue([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"hackfoldr://test"]]);
+    XCTAssertTrue([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"http://hackfoldr.org"]]);
+    XCTAssertTrue([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"http://beta.hackfoldr.org"]]);
+    XCTAssertTrue([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"https://hackfoldr.org"]]);
+    XCTAssertFalse([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"http://nobody.hackfoldr.org"]]);
 }
 
 @end
