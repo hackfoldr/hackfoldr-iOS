@@ -79,6 +79,22 @@
                                                 imageSize);
 }
 
+- (NSString *)hackfoldrPageKey
+{
+    NSString *pageKey = [[NSUserDefaults standardUserDefaults] stringOfCurrentHackfoldrPage];
+
+    if (!pageKey || pageKey.length == 0) {
+        NSString *defaultPage = @"hackfoldr-iOS";
+
+        [[NSUserDefaults standardUserDefaults] setDefaultHackfoldrPage:defaultPage];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
+        pageKey = [[NSUserDefaults standardUserDefaults] stringOfCurrentHackfoldrPage];
+    }
+
+    return pageKey;
+}
+
 #pragma mark - View Flow
 
 - (void)viewDidAppear:(BOOL)animated
@@ -134,7 +150,7 @@
 
 - (void)reloadAction:(id)sender
 {
-    HackfoldrTaskCompletionSource *completionSource = [self.listViewController updateHackfoldrPageTaskWithKey:[[NSUserDefaults standardUserDefaults] hackfoldrPageKey] rediredKey:nil];
+    HackfoldrTaskCompletionSource *completionSource = [self.listViewController updateHackfoldrPageTaskWithKey:[self hackfoldrPageKey] rediredKey:nil];
 
     NSString *cancelButtonTitle = NSLocalizedStringFromTable(@"Cancel", @"Hackfoldr", @"Alert Cancel button");
     NSString *setupTitle = NSLocalizedStringFromTable(@"Setup Key", @"Hackfoldr", @"Alert Setup button");
