@@ -297,26 +297,10 @@
 {
     BFTaskCompletionSource *completion = [BFTaskCompletionSource taskCompletionSource];
 
-    // Find hackfoldr page key, if prefix is http or https
-    if ([newHackfoldrKey hasPrefix:@"http"]) {
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".*hackfoldr.org/(.*)/"
-                                                                               options:NSRegularExpressionAllowCommentsAndWhitespace
-                                                                                 error:NULL];
-        NSTextCheckingResult *match = [regex firstMatchInString:newHackfoldrKey
-                                                        options:NSMatchingReportCompletion
-                                                          range:NSMakeRange(0, newHackfoldrKey.length)];
-        if (match.range.location != NSNotFound) {
-            newHackfoldrKey = [newHackfoldrKey substringWithRange:[match rangeAtIndex:1]];
-        }
-    }
+    NSString *validatorKey = [NSURL validatorHackfoldrKey:newHackfoldrKey];
 
-    // Remove white space and new line
-    newHackfoldrKey = [newHackfoldrKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    // Use escapes to encoding |newHackfoldrPage|
-    newHackfoldrKey = [newHackfoldrKey stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-    if (newHackfoldrKey && newHackfoldrKey.length > 0) {
-        [completion setResult:newHackfoldrKey];
+    if (validatorKey && validatorKey.length > 0) {
+        [completion setResult:validatorKey];
     } else {
         [completion setError:[NSError errorWithDomain:@"SettingView"
                                                  code:1
