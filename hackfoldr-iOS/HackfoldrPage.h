@@ -14,7 +14,7 @@
 
 - (instancetype)initWithFieldArray:(NSArray *)fieldArray;
 
-@property (nonatomic, strong ,readonly) NSString *key;
+@property (nonatomic, strong, readonly) NSString *key;
 
 @property (nonatomic, strong) NSString *pageTitle;
 
