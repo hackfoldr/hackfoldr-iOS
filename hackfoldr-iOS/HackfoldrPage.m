@@ -11,6 +11,7 @@
 #import "HackfoldrField.h"
 
 @interface HackfoldrPage ()
+@property (nonatomic, strong, readwrite) NSString *key;
 @property (nonatomic, strong) NSArray *fields;
 @property (nonatomic, strong, readwrite) NSString *pagetitle;
 @property (nonatomic, strong, readwrite) NSString *rediredKey;
@@ -20,10 +21,17 @@
 
 - (instancetype)initWithFieldArray:(NSArray *)fieldArray
 {
+    return [self initWithKey:nil fieldArray:fieldArray];
+}
+
+- (instancetype)initWithKey:(NSString *)hackfoldrKey fieldArray:(NSArray *)fieldArray
+{
     self = [super init];
     if (!self) {
         return nil;
     }
+
+    self.key = hackfoldrKey;
 
     [self updateWithArray:fieldArray];
 
@@ -33,6 +41,7 @@
 - (instancetype)copyWithZone:(NSZone *)zone
 {
     HackfoldrPage *copy = [[HackfoldrPage allocWithZone:zone] init];
+    copy.key = [self.key copy];
     copy.fields = [self.fields copy];
     copy.pageTitle = [self.pageTitle copy];
     copy.rediredKey = [self.rediredKey copy];
@@ -113,6 +122,7 @@
 - (NSString *)description
 {
     NSMutableString *description = [NSMutableString string];
+    [description appendFormat:@"key: %@\n", self.key];
     [description appendFormat:@"pageTitle: %@\n", self.pageTitle];
     if (self.rediredKey) {
         [description appendFormat:@"rediredKey: %@", self.rediredKey];

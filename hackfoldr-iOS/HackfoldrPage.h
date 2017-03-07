@@ -10,7 +10,11 @@
 
 @interface HackfoldrPage : NSObject <NSCopying, UITableViewDataSource>
 
+- (instancetype)initWithKey:(NSString *)hackfoldrKey fieldArray:(NSArray *)fieldArray;
+
 - (instancetype)initWithFieldArray:(NSArray *)fieldArray;
+
+@property (nonatomic, strong ,readonly) NSString *key;
 
 @property (nonatomic, strong) NSString *pageTitle;
 
