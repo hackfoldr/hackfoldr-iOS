@@ -67,13 +67,12 @@
     return self;
 }
 
-
 - (HackfoldrTaskCompletionSource *)_taskCompletionWithPath:(NSString *)inPath
 {
     HackfoldrTaskCompletionSource *source = [HackfoldrTaskCompletionSource taskCompletionSource];
     NSString *requestPath = [NSString stringWithFormat:@"%@.csv.json", inPath];
     source.connectionTask = [self GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id fieldArray) {
-        HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:fieldArray];
+        HackfoldrPage *page = [[HackfoldrPage alloc] initWithKey:inPath fieldArray:fieldArray];
         _lastPage = [page copy];
         [source setResult:_lastPage];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -98,7 +97,7 @@
     NSString *requestKeyID = [keyID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *requestPath = [NSString stringWithFormat:@"spreadsheets/d/%@/export?format=csv&gid=0", requestKeyID];
     source.connectionTask = [manager GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
-        HackfoldrPage *page = [[HackfoldrPage alloc] initWithFieldArray:csvFieldArray];
+        HackfoldrPage *page = [[HackfoldrPage alloc] initWithKey:keyID fieldArray:csvFieldArray];
         _lastPage = [page copy];
         [source setResult:_lastPage];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

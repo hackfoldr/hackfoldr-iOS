@@ -26,4 +26,6 @@
 
 - (void)removeCurrentHackfoldrPage;
 
+- (NSString *)hackfoldrPageKey;
+
 @end

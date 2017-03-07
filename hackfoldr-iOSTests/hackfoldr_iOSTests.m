@@ -7,12 +7,13 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OHHTTPStubs/OHPathHelpers.h>
 
 #import "HackfoldrClient.h"
 #import "HackfoldrField.h"
 #import "HackfoldrPage.h"
-#import "OHHTTPStubs.h"
-
+#import "NSURL+Hackfoldr.h"
 
 @interface AnnotatedRequestSerializer : AFHTTPRequestSerializer @end
 @implementation AnnotatedRequestSerializer
@@ -124,7 +125,8 @@
         return [request.URL.absoluteString rangeOfString:@"ethercalc.org"].location != NSNotFound;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         NSLog(@"hook hackfoldr:%@", request);
-        NSString *jsonCSVDataString = OHPathForFileInBundle(@"sample.csv.json", nil);
+        NSString *jsonCSVDataString = OHPathForFile(@"sample.csv.json", [self class]);
+        XCTAssertNotNil(jsonCSVDataString);
         NSData *csvData = [NSData dataWithContentsOfFile:jsonCSVDataString];
 
         return [OHHTTPStubsResponse responseWithData:csvData
@@ -144,6 +146,14 @@
     [self waitForExpectationsWithTimeout:1000 handler:^(NSError * _Nullable error) {
         [OHHTTPStubs removeStub:stub];
     }];
+}
+
+- (void)testHackfoldrURL {
+    XCTAssertTrue([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"hackfoldr://test"]]);
+    XCTAssertTrue([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"http://hackfoldr.org"]]);
+    XCTAssertTrue([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"http://beta.hackfoldr.org"]]);
+    XCTAssertTrue([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"https://hackfoldr.org"]]);
+    XCTAssertFalse([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"http://nobody.hackfoldr.org"]]);
 }
 
 @end
