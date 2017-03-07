@@ -32,8 +32,17 @@
 
 @implementation ListFieldViewController
 
-+ (instancetype)viewController {
++ (instancetype)viewController
+{
     return [[ListFieldViewController alloc] initWithStyle:UITableViewStyleGrouped];
+}
+
+- (instancetype)initWithStyle:(UITableViewStyle)style
+{
+    if (self = [super initWithStyle:style]) {
+        _hideBackButton = YES;
+    }
+    return self;
 }
 
 - (void)viewDidLoad
@@ -47,12 +56,15 @@
     int iconSize = 26;
     self.settingButton.frame = CGRectMake(0, 0, iconSize, iconSize);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.settingButton];
-    // Hide back button
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] init]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    // Hide back button
+    if (self.hideBackButton) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] init]];
+    }
+
     [super viewWillAppear:animated];
 
     if (self.tableView.dataSource && [self.tableView.dataSource isKindOfClass:[HackfoldrPage class]]) {
@@ -208,7 +220,9 @@
         [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:hackfoldrKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
 
-        self.tableView.dataSource = task.result;
+        HackfoldrPage *page = task.result;
+        self.currentPage = page;
+        self.tableView.dataSource = page;
         return nil;
     }];
 
@@ -294,13 +308,15 @@
             NSRange range = [urlString rangeOfString:@"://"];
             if (range.location != NSNotFound) {
                 NSString *realKey = [urlString substringWithRange:NSMakeRange(range.location + range.length, urlString.length - range.length - range.location)];
-                NSString *pKey = [[NSUserDefaults standardUserDefaults] hackfoldrPageKey];
+
                 [[self updateHackfoldrPageTaskWithKey:realKey rediredKey:nil].task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
                     HackfoldrPage *page = t.result;
 
                     [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:realKey];
 
                     ListFieldViewController *lvc = [[ListFieldViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                    lvc.hideBackButton = NO;
+                    lvc.currentPage = page;
                     lvc.tableView.dataSource = page;
                     [self.navigationController pushViewController:lvc animated:YES];
                     return nil;

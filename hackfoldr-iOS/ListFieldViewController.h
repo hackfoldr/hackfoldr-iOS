@@ -16,6 +16,10 @@
 
 @property (nonatomic, strong) IBOutlet UIButton *settingButton;
 
+@property (nonatomic, assign) BOOL hideBackButton;
+
+@property (nonatomic, strong) HackfoldrPage *currentPage;
+
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey rediredKey:(NSString *)rediredKey;
 
 - (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey;
