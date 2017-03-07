@@ -52,4 +52,20 @@ static NSString *kCurrentHackfoldrPage = @"Current Hackfoldr Page";
     [self removeObjectForKey:kCurrentHackfoldrPage];
 }
 
+- (NSString *)hackfoldrPageKey
+{
+    NSString *pageKey = [self stringOfCurrentHackfoldrPage];
+
+    if (!pageKey || pageKey.length == 0) {
+        NSString *defaultPage = @"hackfoldr-iOS";
+
+        [self setDefaultHackfoldrPage:defaultPage];
+        [self synchronize];
+
+        pageKey = [self stringOfCurrentHackfoldrPage];
+    }
+
+    return pageKey;
+}
+
 @end
