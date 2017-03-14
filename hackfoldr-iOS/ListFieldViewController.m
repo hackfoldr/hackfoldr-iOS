@@ -34,7 +34,7 @@
 
 + (instancetype)viewController
 {
-    return [[ListFieldViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    return [[[self class] alloc] initWithStyle:UITableViewStyleGrouped];
 }
 
 - (instancetype)initWithStyle:(UITableViewStyle)style

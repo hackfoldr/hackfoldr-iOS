@@ -11,6 +11,8 @@
 @class HackfoldrTaskCompletionSource;
 
 @interface ListFieldViewController : UITableViewController
+NS_ASSUME_NONNULL_BEGIN
+
 
 + (instancetype)viewController;
 
@@ -20,7 +22,7 @@
 
 @property (nonatomic, strong) HackfoldrPage *currentPage;
 
-- (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey rediredKey:(NSString *)rediredKey;
+- (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey rediredKey:(nullable NSString *)rediredKey;
 
 - (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey;
 
