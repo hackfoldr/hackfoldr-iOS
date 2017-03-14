@@ -11,6 +11,7 @@ target "hackfoldr-iOS" do
 
   pod 'QuickDialog', :git => 'https://github.com/escoz/QuickDialog', :branch => 'master'
   pod 'TOWebViewController'
+  pod 'RATreeView'
 
   # Track crash
   pod 'Fabric'

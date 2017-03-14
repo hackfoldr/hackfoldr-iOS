@@ -52,6 +52,7 @@ PODS:
   - QuickDialog (1.0.2):
     - QuickDialog/Core (= 1.0.2)
   - QuickDialog/Core (1.0.2)
+  - RATreeView (2.1.2)
   - TOWebViewController (2.2.6):
     - TOWebViewController/Core (= 2.2.6)
   - TOWebViewController/Core (2.2.6)
@@ -66,6 +67,7 @@ DEPENDENCIES:
   - MagicalRecord (~> 2.2)
   - OHHTTPStubs
   - QuickDialog (from `https://github.com/escoz/QuickDialog`, branch `master`)
+  - RATreeView
   - TOWebViewController
 
 EXTERNAL SOURCES:
@@ -88,8 +90,9 @@ SPEC CHECKSUMS:
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   QuickDialog: f0c3e254c91182fa3f91fdb479ccac4a11b459e1
+  RATreeView: 380cde0090cfde21dc6ac29137f49d3b768fdd28
   TOWebViewController: a29908019f7e0e0f8eccfab8a1ee8dcdf4fc5aac
 
-PODFILE CHECKSUM: 63aa94dd453fd036e6437ba026eea4cbe30881ab
+PODFILE CHECKSUM: b160d8044c89d6e4153ddd0feeed380af8d5057c
 
 COCOAPODS: 1.1.1
