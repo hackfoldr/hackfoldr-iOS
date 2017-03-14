@@ -8,7 +8,7 @@
 
 #import "HackfoldrField.h"
 
-@interface HackfoldrPage : NSObject <NSCopying, UITableViewDataSource>
+@interface HackfoldrPage : NSObject <NSCopying>
 
 - (instancetype)initWithKey:(NSString *)hackfoldrKey fieldArray:(NSArray *)fieldArray;
 
@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSString *pageTitle;
 
 /// Objcect in NSArray is |HackfoldrField|
-@property (nonatomic, strong, readonly) NSArray *cells;
+@property (nonatomic, strong, readonly) NSArray<HackfoldrField *> *cells;
 
 /**
  * rediredKey is redired key from A1
