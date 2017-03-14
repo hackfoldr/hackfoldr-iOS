@@ -16,6 +16,7 @@
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
 #import "UIImage+TOWebViewControllerIcons.h"
 // ViewController
+#import <RATreeView/RATreeView.h>
 #import "ListFieldViewController.h"
 #import "UIAlertView+AFNetworking.h"
 
@@ -163,8 +164,8 @@
     [completionSource.task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
         HackfoldrPage *page = t.result;
         // Reload tableView
-        self.listViewController.tableView.dataSource = page;
-        [self.listViewController.tableView reloadData];
+        self.listViewController.page = page;
+        [self.listViewController.treeView reloadData];
 
         [self showListViewController];
         return nil;

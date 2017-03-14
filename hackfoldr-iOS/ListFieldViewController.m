@@ -20,13 +20,14 @@
 #import "NSURL+Hackfoldr.h"
 #import "UIImage+TOWebViewControllerIcons.h"
 // ViewController
+#import <RATreeView/RATreeView.h>
 #import <SafariServices/SafariServices.h>
 #import "ListFieldViewController.h"
 #import "QuickDialog.h"
 #import "TOWebViewController+HackfoldrField.h"
 #import "UIAlertView+AFNetworking.h"
 
-@interface ListFieldViewController ()
+@interface ListFieldViewController () <RATreeViewDelegate, RATreeViewDataSource>
 @property (nonatomic, strong) QuickDialogController *dialogController;
 @end
 
@@ -34,12 +35,12 @@
 
 + (instancetype)viewController
 {
-    return [[[self class] alloc] initWithStyle:UITableViewStyleGrouped];
+    return [[[self class] alloc] initWithNibName:nil bundle:nil];
 }
 
-- (instancetype)initWithStyle:(UITableViewStyle)style
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if (self = [super initWithStyle:style]) {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         _hideBackButton = YES;
     }
     return self;
@@ -49,7 +50,11 @@
 {
     [super viewDidLoad];
 
-    self.tableView.delegate = self;
+    self.treeView = [[RATreeView alloc] initWithFrame:self.view.bounds style:RATreeViewStylePlain];
+    self.treeView.delegate = self;
+    self.treeView.dataSource = self;
+    self.treeView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.treeView];
 
     self.settingButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [self.settingButton addTarget:self action:@selector(settingAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -67,9 +72,7 @@
 
     [super viewWillAppear:animated];
 
-    if (self.tableView.dataSource && [self.tableView.dataSource isKindOfClass:[HackfoldrPage class]]) {
-        self.title = ((HackfoldrPage *)self.tableView.dataSource).pageTitle;
-    }
+    self.title = self.page.pageTitle;
 }
 
 - (void)showSettingViewController
@@ -114,7 +117,7 @@
             }
             // Update hackfoldr page
             [[self updateHackfoldrPageWithDialogController:dialogController key:task.result] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-                [self.tableView reloadData];
+                [self.treeView reloadData];
                 [self.navigationController popViewControllerAnimated:YES];
                 return nil;
             }];
@@ -134,7 +137,7 @@
         buttonElement.onSelected = ^() {
             // Update hackfoldr page
             [[self updateHackfoldrPageWithDialogController:dialogController key:history.hackfoldrKey] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-                [self.tableView reloadData];
+                [self.treeView reloadData];
                 [self.navigationController popViewControllerAnimated:YES];
                 return nil;
             }];
@@ -152,7 +155,7 @@
         NSString *defaultHackfoldrKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
         // update hackfoldr page
         [[self updateHackfoldrPageWithDialogController:dialogController key:defaultHackfoldrKey] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-            [self.tableView reloadData];
+            [self.treeView reloadData];
             [self.navigationController popViewControllerAnimated:YES];
             return nil;
         }];
@@ -221,8 +224,7 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
 
         HackfoldrPage *page = task.result;
-        self.currentPage = page;
-        self.tableView.dataSource = page;
+        self.page = page;
         return nil;
     }];
 
@@ -237,7 +239,7 @@
     }
 
     HackfoldrTaskCompletionSource *s = [[HackfoldrClient sharedClient] taskCompletionWithKey:key];
-    [[s.task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
+    [[[s.task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
         HackfoldrPage *page = t.result;
 
         if (page.rediredKey) {
@@ -246,7 +248,7 @@
         }
 
         NSLog(@"page: %@", page);
-        return [BFTask taskWithResult:page];
+        return t;
     }] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
         HackfoldrPage *page = t.result;
 
@@ -270,6 +272,9 @@
         }
 
         [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfWithCompletion:nil];
+        return t;
+    }] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
+        self.page = t.result;
         return nil;
     }];
     return s;
@@ -285,58 +290,152 @@
     [self updateHackfoldrPageWithDialogController:self.dialogController key:hackfoldrKey];
 }
 
-#pragma mark - UITableViewDelegate
+#pragma mark - RATreeViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)treeView:(RATreeView *)treeView didSelectRowForItem:(id)item
 {
-    if (tableView == self.tableView) {
-        __weak HackfoldrPage *dataSourcePage = (HackfoldrPage *)tableView.dataSource;
-        HackfoldrField *sectionOfField = dataSourcePage.cells[indexPath.section];
-        HackfoldrField *rowOfField = sectionOfField.subFields[indexPath.row];
-        NSString *urlString = rowOfField.urlString;
-        NSLog(@"url: %@", urlString);
+    HackfoldrField *rowOfField = item;
+    if (!rowOfField.isSubItem) {
+        return;
+    }
 
-        if (!urlString || urlString.length == 0) {
-            // TODO: show nil message
+    NSString *urlString = rowOfField.urlString;
+    NSLog(@"url: %@", urlString);
+
+    if (!urlString || urlString.length == 0) {
+        // TODO: show nil message
+        return;
+    }
+
+    NSURL *targetURL = [NSURL URLWithString:urlString];
+
+    if ([NSURL canHandleHackfoldrURL:targetURL]) {
+        // Redirect to |urlString|
+        NSRange range = [urlString rangeOfString:@"://"];
+        if (range.location != NSNotFound) {
+            NSString *realKey = [urlString substringWithRange:NSMakeRange(range.location + range.length, urlString.length - range.length - range.location)];
+
+            [[self updateHackfoldrPageTaskWithKey:realKey rediredKey:nil].task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
+                HackfoldrPage *page = t.result;
+
+                [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:realKey];
+
+                ListFieldViewController *lvc = [ListFieldViewController viewController];
+                lvc.hideBackButton = NO;
+                lvc.page = page;
+                [self.navigationController pushViewController:lvc animated:YES];
+                return nil;
+            }];
             return;
         }
+    }
 
-        NSURL *targetURL = [NSURL URLWithString:urlString];
+    if (NSClassFromString(@"SFSafariViewController")) {
+        SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:targetURL];
+        svc.title = rowOfField.name;
+        [self presentViewController:svc animated:YES completion:nil];
+    } else {
+        TOWebViewController *webViewController = [[TOWebViewController alloc] init];
+        webViewController.showPageTitles = YES;
+        [webViewController loadWithField:rowOfField];
 
-        if ([NSURL canHandleHackfoldrURL:targetURL]) {
-            // Redirect to |urlString|
-            NSRange range = [urlString rangeOfString:@"://"];
-            if (range.location != NSNotFound) {
-                NSString *realKey = [urlString substringWithRange:NSMakeRange(range.location + range.length, urlString.length - range.length - range.location)];
+        [self.navigationController pushViewController:webViewController animated:YES];
+    }
+}
 
-                [[self updateHackfoldrPageTaskWithKey:realKey rediredKey:nil].task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-                    HackfoldrPage *page = t.result;
+- (BOOL)treeView:(RATreeView *)treeView shouldExpandRowForItem:(id)item
+{
+    if (item) {
+        NSInteger subIndex = [self.page.cells indexOfObject:item];
+        return (subIndex != NSNotFound);
+    }
+    return YES;
+}
 
-                    [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:realKey];
+#pragma mark - RATreeViewDataSource
 
-                    ListFieldViewController *lvc = [[ListFieldViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                    lvc.hideBackButton = NO;
-                    lvc.currentPage = page;
-                    lvc.tableView.dataSource = page;
-                    [self.navigationController pushViewController:lvc animated:YES];
-                    return nil;
-                }];
-                return;
-            }
-        }
+- (NSInteger)treeView:(RATreeView *)treeView numberOfChildrenOfItem:(nullable id)item;
+{
+    if (item) {
+        NSInteger subIndex = [self.page.cells indexOfObject:item];
+        HackfoldrField *subField = self.page.cells[subIndex];
+        return subField.subFields.count;
+    }
 
-        if (NSClassFromString(@"SFSafariViewController")) {
-            SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:targetURL];
-            svc.title = rowOfField.name;
-            [self presentViewController:svc animated:YES completion:nil];
-        } else {
-            TOWebViewController *webViewController = [[TOWebViewController alloc] init];
-            webViewController.showPageTitles = YES;
-            [webViewController loadWithField:rowOfField];
-
-            [self.navigationController pushViewController:webViewController animated:YES];
+    // Root items
+    NSUInteger sum = 0;
+    for (HackfoldrField *f in self.page.cells) {
+        if (f.index == 0) {
+            sum += f.subFields.count;
+        } else if (!f.isSubItem) {
+            sum += 1;
         }
     }
+    return sum;
+}
+
+- (id)treeView:(RATreeView *)treeView child:(NSInteger)index ofItem:(nullable id)item
+{
+    if (item) {
+        HackfoldrField *field = item;
+        return field.subFields[index];
+    }
+
+    HackfoldrField *rootField = nil;
+    for (HackfoldrField *f in self.page.cells) {
+        if (f.index == 0) {
+            rootField = f;
+        } else {
+            break;
+        }
+    }
+    if (index < rootField.subFields.count) {
+        return rootField.subFields[index];
+    }
+    NSInteger realIndex = index - rootField.subFields.count;
+    if (rootField && rootField.subFields.count > 0 && realIndex == 0) {
+        realIndex += 1;
+    }
+    return self.page.cells[realIndex];
+}
+
+- (UITableViewCell *)treeView:(RATreeView *)treeView cellForItem:(nullable id)item;
+{
+    HackfoldrField *field = item;
+    NSString *identifier = [NSStringFromClass([self class]) stringByAppendingString:@"Cell"];
+    UITableViewCell *cell = [treeView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
+    }
+
+    // Default color is white
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.detailTextLabel.backgroundColor = [UIColor whiteColor];
+
+    CGFloat fontSize = [UIFont systemFontSize];
+
+    if (field.isSubItem) {
+        cell.accessoryType = field.urlString.length > 0 ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
+
+        // Only setup when |field.labelString| have value
+        if (field.labelString.length > 0) {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@" %@ ", field.labelString];
+            cell.detailTextLabel.textColor = [UIColor whiteColor];
+            cell.detailTextLabel.backgroundColor = field.labelColor;
+            [cell.detailTextLabel.layer setCornerRadius:3.f];
+            [cell.detailTextLabel.layer setMasksToBounds:YES];
+        }
+    } else {
+        cell.detailTextLabel.text = nil;
+        fontSize += 4.f;
+    }
+
+    cell.textLabel.text = field.name;
+    cell.textLabel.font = [UIFont systemFontOfSize:fontSize];
+
+    NSLog(@"field:%@", field);
+
+    return cell;
 }
 
 @end

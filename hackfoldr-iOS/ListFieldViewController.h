@@ -7,20 +7,23 @@
 //
 
 @class BFTask;
+@class RATreeView;
 @class HackfoldrPage;
 @class HackfoldrTaskCompletionSource;
 
-@interface ListFieldViewController : UITableViewController
 NS_ASSUME_NONNULL_BEGIN
 
+@interface ListFieldViewController : UIViewController
 
 + (instancetype)viewController;
+
+@property (nonatomic, strong) RATreeView *treeView;
 
 @property (nonatomic, strong) IBOutlet UIButton *settingButton;
 
 @property (nonatomic, assign) BOOL hideBackButton;
 
-@property (nonatomic, strong) HackfoldrPage *currentPage;
+@property (nonatomic, strong) HackfoldrPage *page;
 
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey rediredKey:(nullable NSString *)rediredKey;
 
@@ -29,3 +32,5 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showSettingViewController;
 
 @end
+
+NS_ASSUME_NONNULL_END
