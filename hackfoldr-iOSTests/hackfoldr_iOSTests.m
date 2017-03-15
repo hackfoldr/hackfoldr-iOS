@@ -153,7 +153,25 @@
     XCTAssertTrue([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"http://hackfoldr.org"]]);
     XCTAssertTrue([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"http://beta.hackfoldr.org"]]);
     XCTAssertTrue([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"https://hackfoldr.org"]]);
+    XCTAssertFalse([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"https://hackfoldr-iOS"]]);
     XCTAssertFalse([NSURL canHandleHackfoldrURL:[NSURL URLWithString:@"http://nobody.hackfoldr.org"]]);
+}
+
+- (void)testRealKey {
+    NSString *realKeyOfHackfoldr = [NSURL realKeyOfHackfoldrWithURL:[NSURL URLWithString:@"hackfoldr://hackfoldr-iOS/"]];
+    XCTAssertNotNil(realKeyOfHackfoldr);
+    XCTAssertEqualObjects(realKeyOfHackfoldr, @"hackfoldr-iOS");
+
+    NSString *realKeyOfHackfoldrOrg = [NSURL realKeyOfHackfoldrWithURL:[NSURL URLWithString:@"https://hackfoldr.org/hackfoldr-iOS/"]];
+    XCTAssertNotNil(realKeyOfHackfoldrOrg);
+    XCTAssertEqualObjects(realKeyOfHackfoldrOrg, @"hackfoldr-iOS");
+
+    NSString *realKeyOfBeta = [NSURL realKeyOfHackfoldrWithURL:[NSURL URLWithString:@"http://beta.hackfoldr.org/hackfoldr-iOS/"]];
+    XCTAssertNotNil(realKeyOfBeta);
+    XCTAssertEqualObjects(realKeyOfBeta, @"hackfoldr-iOS");
+
+    NSString *badRealKey = [NSURL realKeyOfHackfoldrWithURL:[NSURL URLWithString:@"https://hackfoldr-iOS"]];
+    XCTAssertNil(badRealKey);
 }
 
 @end

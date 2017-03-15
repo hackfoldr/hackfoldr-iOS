@@ -22,6 +22,16 @@
     return NO;
 }
 
++ (nullable NSString *)realKeyOfHackfoldrWithURL:(nonnull NSURL *)url
+{
+    if ([url.scheme isEqualToString:@"hackfoldr"]) {
+        return url.host;
+    } else if ([url.host isEqualToString:@"hackfoldr.org"] || [url.host isEqualToString:@"beta.hackfoldr.org"]) {
+        return [url.path stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]];
+    }
+    return nil;
+}
+
 + (NSString *)validatorHackfoldrKey:(NSString *)newHackfoldrKey {
     // Find hackfoldr page key, if prefix is http or https
     if ([newHackfoldrKey hasPrefix:@"http"]) {

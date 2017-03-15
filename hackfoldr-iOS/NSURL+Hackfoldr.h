@@ -12,6 +12,8 @@
 
 + (BOOL)canHandleHackfoldrURL:(nonnull NSURL *)url;
 
++ (nullable NSString *)realKeyOfHackfoldrWithURL:(nonnull NSURL *)url;
+
 + (nonnull NSString *)validatorHackfoldrKey:(nonnull NSString *)newHackfoldrKey;
 
 @end

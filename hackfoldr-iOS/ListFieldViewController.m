@@ -313,7 +313,8 @@
         // Redirect to |urlString|
         NSRange range = [urlString rangeOfString:@"://"];
         if (range.location != NSNotFound) {
-            NSString *realKey = [urlString substringWithRange:NSMakeRange(range.location + range.length, urlString.length - range.length - range.location)];
+            NSString *realKey = [NSURL realKeyOfHackfoldrWithURL:targetURL];
+            if (!realKey) return;
 
             [[self updateHackfoldrPageTaskWithKey:realKey rediredKey:nil].task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
                 HackfoldrPage *page = t.result;
