@@ -9,6 +9,7 @@
 #import "ListFieldViewController.h"
 
 #import <Bolts/Bolts.h>
+#import <FontAwesomeKit/FontAwesomeKit.h>
 
 // Model & Client
 #import <MagicalRecord/MagicalRecord.h>
@@ -56,10 +57,12 @@
     self.treeView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.treeView];
 
-    self.settingButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    self.settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.settingButton addTarget:self action:@selector(settingAction:) forControlEvents:UIControlEventTouchUpInside];
     int iconSize = 26;
+    [self.settingButton setImage: [[FAKFontAwesome cogIconWithSize:iconSize] imageWithSize:CGSizeMake(iconSize, iconSize)] forState:UIControlStateNormal];
     self.settingButton.frame = CGRectMake(0, 0, iconSize, iconSize);
+    self.settingButton.accessibilityLabel = @"Settings";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.settingButton];
 }
 
