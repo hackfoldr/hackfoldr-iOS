@@ -13,6 +13,9 @@ target "hackfoldr-iOS" do
   pod 'TOWebViewController'
   pod 'RATreeView'
 
+  pod 'FontAwesomeKit', :git => 'https://github.com/PrideChung/FontAwesomeKit.git'
+  pod 'FontAwesomeKit/FontAwesome', :git => 'https://github.com/PrideChung/FontAwesomeKit.git'
+
   # Track crash
   pod 'Fabric'
   pod 'Crashlytics'

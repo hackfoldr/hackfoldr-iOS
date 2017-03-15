@@ -33,6 +33,27 @@ PODS:
   - Crashlytics (3.8.3):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.11)
+  - FontAwesomeKit (2.2.1):
+    - FontAwesomeKit/Core (= 2.2.1)
+    - FontAwesomeKit/FontAwesome (= 2.2.1)
+    - FontAwesomeKit/FoundationIcons (= 2.2.1)
+    - FontAwesomeKit/IonIcons (= 2.2.1)
+    - FontAwesomeKit/Material (= 2.2.1)
+    - FontAwesomeKit/Octicons (= 2.2.1)
+    - FontAwesomeKit/Zocial (= 2.2.1)
+  - FontAwesomeKit/Core (2.2.1)
+  - FontAwesomeKit/FontAwesome (2.2.1):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/FoundationIcons (2.2.1):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/IonIcons (2.2.1):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/Material (2.2.1):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/Octicons (2.2.1):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/Zocial (2.2.1):
+    - FontAwesomeKit/Core
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
@@ -64,6 +85,8 @@ DEPENDENCIES:
   - Bolts (~> 1.0)
   - Crashlytics
   - Fabric
+  - FontAwesomeKit (from `https://github.com/PrideChung/FontAwesomeKit.git`)
+  - FontAwesomeKit/FontAwesome (from `https://github.com/PrideChung/FontAwesomeKit.git`)
   - MagicalRecord (~> 2.2)
   - OHHTTPStubs
   - QuickDialog (from `https://github.com/escoz/QuickDialog`, branch `master`)
@@ -71,11 +94,16 @@ DEPENDENCIES:
   - TOWebViewController
 
 EXTERNAL SOURCES:
+  FontAwesomeKit:
+    :git: https://github.com/PrideChung/FontAwesomeKit.git
   QuickDialog:
     :branch: master
     :git: https://github.com/escoz/QuickDialog
 
 CHECKOUT OPTIONS:
+  FontAwesomeKit:
+    :commit: ed5eb02f4bcf76e218bb1c966c551a7b5240b6b4
+    :git: https://github.com/PrideChung/FontAwesomeKit.git
   QuickDialog:
     :commit: 9947f43797a1e2d8979d43a219d92172dee251ed
     :git: https://github.com/escoz/QuickDialog
@@ -87,12 +115,13 @@ SPEC CHECKSUMS:
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   QuickDialog: f0c3e254c91182fa3f91fdb479ccac4a11b459e1
   RATreeView: 380cde0090cfde21dc6ac29137f49d3b768fdd28
   TOWebViewController: a29908019f7e0e0f8eccfab8a1ee8dcdf4fc5aac
 
-PODFILE CHECKSUM: b160d8044c89d6e4153ddd0feeed380af8d5057c
+PODFILE CHECKSUM: 3cea18b6fee157b29d158aafebfb6c54cf621879
 
 COCOAPODS: 1.1.1
