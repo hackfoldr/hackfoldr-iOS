@@ -30,7 +30,7 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
   - CHCSVParser (2.1.0)
-  - Crashlytics (3.8.3):
+  - Crashlytics (3.8.4):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.11)
   - FontAwesomeKit (2.2.1):
@@ -113,7 +113,7 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
-  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
+  Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
