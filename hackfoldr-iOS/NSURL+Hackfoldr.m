@@ -15,6 +15,9 @@
     if ([url.scheme isEqualToString:@"hackfoldr"]) {
         return YES;
     } else if ([url.host isEqualToString:@"hackfoldr.org"]) {
+        if ([url.path isEqualToString:@"/about"]) {
+            return NO;
+        }
         return YES;
     } else if ([url.host isEqualToString:@"beta.hackfoldr.org"]) {
         return YES;
