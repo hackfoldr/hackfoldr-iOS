@@ -306,7 +306,21 @@
     [[BFTask taskWithDelay:100] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id _Nullable(BFTask * _Nonnull t) {
         // Expand field cells
         for (HackfoldrField *f in self.page.cells) {
-            if (f.actions && [f.actions rangeOfString:@"expand"].location != NSNotFound) {
+            if (f.actions.length > 0) {
+                // Always expand when |f.actions| had expand
+                if ([f.actions rangeOfString:@"expand"].location != NSNotFound) {
+                    [self.treeView expandRowForItem:f];
+                    continue;
+                }
+                // Always collapse when |f.actions| had collapse
+                else if ([f.actions rangeOfString:@"collapse"].location != NSNotFound) {
+                    // Do nothing
+                    continue;
+                }
+            }
+
+            // Auto expand when |f.subFields| has less than 3 fields
+            if (f.subFields.count > 0 && f.subFields.count <= 3) {
                 [self.treeView expandRowForItem:f];
             }
         }
