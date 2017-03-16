@@ -484,12 +484,15 @@
         }
 
         // Only setup when |field.labelString| have value
-        if (field.labelString.length > 0) {
+        NSString *cleanLabelString = [field.labelString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        if (cleanLabelString.length > 0) {
             cell.detailTextLabel.text = [NSString stringWithFormat:@" %@ ", field.labelString];
             cell.detailTextLabel.textColor = [UIColor whiteColor];
             cell.detailTextLabel.backgroundColor = field.labelColor;
             [cell.detailTextLabel.layer setCornerRadius:3.f];
             [cell.detailTextLabel.layer setMasksToBounds:YES];
+        } else {
+            cell.detailTextLabel.text = nil;
         }
     } else {
         cell.detailTextLabel.text = nil;
