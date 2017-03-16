@@ -302,12 +302,16 @@
 
     [self.treeView reloadData];
 
-    // Expand field cells
-    for (HackfoldrField *f in self.page.cells) {
-        if (f.actions && [f.actions rangeOfString:@"expand"].location != NSNotFound) {
-            [self.treeView expandRowForItem:f];
+    // Just a little delay to workaround UI display
+    [[BFTask taskWithDelay:100] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id _Nullable(BFTask * _Nonnull t) {
+        // Expand field cells
+        for (HackfoldrField *f in self.page.cells) {
+            if (f.actions && [f.actions rangeOfString:@"expand"].location != NSNotFound) {
+                [self.treeView expandRowForItem:f];
+            }
         }
-    }
+        return nil;
+    }];
 }
 
 - (UIImage *)folderImageWithField:(HackfoldrField *)field
@@ -365,6 +369,7 @@
                 lvc.hideBackButton = NO;
                 lvc.page = page;
                 [self.navigationController pushViewController:lvc animated:YES];
+                [lvc reloadPage];
                 return nil;
             }];
             return;

@@ -163,12 +163,10 @@
                                          otherButtonTitles:setupTitle ,nil];
 
     [completionSource.task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-        HackfoldrPage *page = t.result;
-        // Reload tableView
-        self.listViewController.page = page;
-        [self.listViewController reloadPage];
-
         [self showListViewController];
+
+        // Reload tableView
+        [self.listViewController reloadPage];
         return nil;
     }];
 }
