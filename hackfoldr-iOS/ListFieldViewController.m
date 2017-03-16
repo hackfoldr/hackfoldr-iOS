@@ -477,14 +477,38 @@
     CGFloat fontSize = [UIFont systemFontSize];
 
     if (field.isSubItem) {
-        cell.accessoryType = field.urlString.length > 0 ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
+        UIImage *iconImage = nil;
+        CGFloat iconSize = [UIFont systemFontSize] + 2.f;
+
         if ([NSURL canHandleHackfoldrURL:[NSURL URLWithString:field.urlString]]) {
-            UIImage *hackfoldrImage = [[UIImage imageNamed:@"hackfoldr-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            UIImageView *iconView = [[UIImageView alloc] initWithImage:hackfoldrImage];
-            iconView.frame = CGRectMake(0, 0, 16, 16);
+            iconImage = [[UIImage imageNamed:@"hackfoldr-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        } else if (field.actions.length > 0 && [field.actions rangeOfString:@"fa-"].location != NSNotFound) {
+            // Custom icon
+            NSString *iconName = nil;
+            NSArray<NSString *> *actions = [field.actions componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
+            for (NSString *s in actions) {
+                if ([s rangeOfString:@"fa-"].location != NSNotFound) {
+                    iconName = [s stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                    break;
+                }
+            }
+
+            NSError *error = nil;
+            FAKFontAwesome *fa = [FAKFontAwesome iconWithIdentifier:iconName size:iconSize error:&error];
+            if (!error) {
+                iconImage = [fa imageWithSize:CGSizeMake(iconSize, iconSize)];
+            } else {
+                NSLog(@"FontAwsome %@, %@", iconName, error);
+            }
+        }
+
+        if (iconImage) {
+            UIImageView *iconView = [[UIImageView alloc] initWithImage:iconImage];
+            iconView.frame = CGRectMake(0, 0, iconSize, iconSize);
             iconView.tintColor = [UIColor hackfoldrGreenColor];
             cell.accessoryView = iconView;
         } else {
+            cell.accessoryType = field.urlString.length > 0 ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
             cell.accessoryView = nil;
         }
 
