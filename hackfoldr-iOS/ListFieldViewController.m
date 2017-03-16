@@ -61,20 +61,32 @@
 
     self.settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.settingButton addTarget:self action:@selector(settingAction:) forControlEvents:UIControlEventTouchUpInside];
-    int iconSize = 26;
+    CGFloat iconSize = 24;
     [self.settingButton setImage: [[FAKFontAwesome cogIconWithSize:iconSize] imageWithSize:CGSizeMake(iconSize, iconSize)] forState:UIControlStateNormal];
     self.settingButton.frame = CGRectMake(0, 0, iconSize, iconSize);
-    self.settingButton.accessibilityLabel = @"Settings";
+    self.settingButton.accessibilityLabel = @"Settings button";
+
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.settingButton];
+
+    // Hide back button
+    UIView *leftView = nil;
+    if (self.hideBackButton) {
+        leftView = [[UIView alloc] init];
+    } else {
+        CGFloat iconSize = 24;
+        UIImage *image = [[FAKFontAwesome chevronLeftIconWithSize:iconSize] imageWithSize:CGSizeMake(iconSize, iconSize)];
+        UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [backButton addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
+        backButton.frame = CGRectMake(0, 0, iconSize, iconSize);
+        backButton.accessibilityLabel = @"Back button";
+        [backButton setImage:image forState:UIControlStateNormal];
+        leftView = backButton;
+    }
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    // Hide back button
-    if (self.hideBackButton) {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] init]];
-    }
-
     [super viewWillAppear:animated];
 
     self.title = self.page.pageTitle;
@@ -255,6 +267,11 @@
 - (void)settingAction:(id)sender
 {
     [self showSettingViewController];
+}
+
+- (void)backAction:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey
