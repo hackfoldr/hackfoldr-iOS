@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) HackfoldrPage *page;
 
+- (void)reloadPage;
+
 - (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey rediredKey:(nullable NSString *)rediredKey;
 
 - (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey;

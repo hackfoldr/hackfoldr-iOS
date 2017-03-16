@@ -166,7 +166,7 @@
         HackfoldrPage *page = t.result;
         // Reload tableView
         self.listViewController.page = page;
-        [self.listViewController.treeView reloadData];
+        [self.listViewController reloadPage];
 
         [self showListViewController];
         return nil;

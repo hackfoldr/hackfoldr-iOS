@@ -121,7 +121,8 @@
             }
             // Update hackfoldr page
             [[self updateHackfoldrPageWithDialogController:dialogController key:task.result] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-                [self.treeView reloadData];
+                [self reloadPage];
+
                 [self.navigationController popViewControllerAnimated:YES];
                 return nil;
             }];
@@ -141,7 +142,8 @@
         buttonElement.onSelected = ^() {
             // Update hackfoldr page
             [[self updateHackfoldrPageWithDialogController:dialogController key:history.hackfoldrKey] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-                [self.treeView reloadData];
+                [self reloadPage];
+
                 [self.navigationController popViewControllerAnimated:YES];
                 return nil;
             }];
@@ -159,7 +161,8 @@
         NSString *defaultHackfoldrKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
         // update hackfoldr page
         [[self updateHackfoldrPageWithDialogController:dialogController key:defaultHackfoldrKey] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-            [self.treeView reloadData];
+            [self reloadPage];
+
             [self.navigationController popViewControllerAnimated:YES];
             return nil;
         }];
@@ -294,6 +297,39 @@
     [self updateHackfoldrPageWithDialogController:self.dialogController key:hackfoldrKey];
 }
 
+- (void)reloadPage {
+    if (!self.page) return;
+
+    [self.treeView reloadData];
+
+    // Expand field cells
+    for (HackfoldrField *f in self.page.cells) {
+        if (f.actions && [f.actions rangeOfString:@"expand"].location != NSNotFound) {
+            [self.treeView expandRowForItem:f];
+        }
+    }
+}
+
+- (UIImage *)folderImageWithField:(HackfoldrField *)field
+{
+    if (field.actions && [field.actions rangeOfString:@"expand"].location != NSNotFound) {
+        return [self folderImageWithisExpand:YES];
+    }
+    return [self folderImageWithisExpand:NO];
+}
+
+- (UIImage *)folderImageWithisExpand:(BOOL)isExpand
+{
+    CGFloat iconSize = 24;
+    UIImage *foldrImage;
+    if (isExpand) {
+        foldrImage = [[FAKFontAwesome folderOpenIconWithSize:iconSize] imageWithSize:CGSizeMake(iconSize, iconSize)];
+    } else {
+        foldrImage = [[FAKFontAwesome folderIconWithSize:iconSize] imageWithSize:CGSizeMake(iconSize, iconSize)];
+    }
+    return foldrImage;
+}
+
 #pragma mark - RATreeViewDelegate
 
 - (void)treeView:(RATreeView *)treeView didSelectRowForItem:(id)item
@@ -357,6 +393,18 @@
     return YES;
 }
 
+- (void)treeView:(RATreeView *)treeView willExpandRowForItem:(id)item
+{
+    UITableViewCell *cell = [treeView cellForItem:item];
+    cell.imageView.image = [self folderImageWithisExpand:YES];
+}
+
+- (void)treeView:(RATreeView *)treeView willCollapseRowForItem:(id)item
+{
+    UITableViewCell *cell = [treeView cellForItem:item];
+    cell.imageView.image = [self folderImageWithisExpand:NO];
+}
+
 #pragma mark - RATreeViewDataSource
 
 - (NSInteger)treeView:(RATreeView *)treeView numberOfChildrenOfItem:(nullable id)item;
@@ -407,7 +455,8 @@
 - (UITableViewCell *)treeView:(RATreeView *)treeView cellForItem:(nullable id)item;
 {
     HackfoldrField *field = item;
-    NSString *identifier = [NSStringFromClass([self class]) stringByAppendingString:@"Cell"];
+    NSString *cellName = field.isSubItem ? @"detail" : @"folder";
+    NSString *identifier = [cellName stringByAppendingString:@"Cell"];
     UITableViewCell *cell = [treeView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
@@ -442,6 +491,8 @@
     } else {
         cell.detailTextLabel.text = nil;
         fontSize += 4.f;
+
+        cell.imageView.image = [self folderImageWithField:field];
     }
 
     cell.textLabel.text = field.name;
