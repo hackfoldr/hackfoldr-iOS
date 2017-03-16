@@ -27,8 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)reloadPage;
 
-- (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey rediredKey:(nullable NSString *)rediredKey;
-
 - (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey;
 
 - (void)showSettingViewController;

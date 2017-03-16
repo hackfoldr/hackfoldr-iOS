@@ -15,6 +15,7 @@
 #import "HackfoldrClient.h"
 #import "HackfoldrPage.h"
 // Category
+#import "HackfoldrClient+Store.h"
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
 #import "UIColor+Hackfoldr.h"
 // ViewController
@@ -154,7 +155,7 @@
 
 - (void)reloadAction:(id)sender
 {
-    HackfoldrTaskCompletionSource *completionSource = [self.listViewController updateHackfoldrPageTaskWithKey:[self hackfoldrPageKey] rediredKey:nil];
+    HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] hackfoldrPageTaskWithKey:[self hackfoldrPageKey] rediredKey:nil];
 
     NSString *cancelButtonTitle = NSLocalizedStringFromTable(@"Cancel", @"Hackfoldr", @"Alert Cancel button");
     NSString *setupTitle = NSLocalizedStringFromTable(@"Setup Key", @"Hackfoldr", @"Alert Setup button");
@@ -167,6 +168,8 @@
     [completionSource.task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
         [self showListViewController];
 
+        HackfoldrPage *page = t.result;
+        self.listViewController.page = page;
         // Reload tableView
         [self.listViewController reloadPage];
         return nil;

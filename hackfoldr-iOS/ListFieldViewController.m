@@ -17,8 +17,9 @@
 #import "HackfoldrHistory.h"
 #import "HackfoldrPage.h"
 // Category
-#import "NSUserDefaults+DefaultHackfoldrPage.h"
+#import "HackfoldrClient+Store.h"
 #import "NSURL+Hackfoldr.h"
+#import "NSUserDefaults+DefaultHackfoldrPage.h"
 #import "UIColor+Hackfoldr.h"
 #import "UIImage+TOWebViewControllerIcons.h"
 // ViewController
@@ -211,7 +212,7 @@
         rediredKey = history.rediredKey;
     }
 
-    HackfoldrTaskCompletionSource *completionSource = [self updateHackfoldrPageTaskWithKey:hackfoldrKey rediredKey:rediredKey];
+    HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] hackfoldrPageTaskWithKey:hackfoldrKey rediredKey:rediredKey];
 
     NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button title in SettingView");
     [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
@@ -236,55 +237,6 @@
     }];
 
     return completionSource.task;
-}
-
-- (HackfoldrTaskCompletionSource *)updateHackfoldrPageTaskWithKey:(NSString *)hackfoldrKey rediredKey:(NSString *)rediredKey
-{
-    NSString *key = hackfoldrKey;
-    if (rediredKey) {
-        key = rediredKey;
-    }
-
-    HackfoldrTaskCompletionSource *s = [[HackfoldrClient sharedClient] taskCompletionWithKey:key];
-    [[[s.task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-        HackfoldrPage *page = t.result;
-
-        if (page.rediredKey) {
-            NSLog(@"redired to:%@", page.rediredKey);
-            return [self updateHackfoldrPageTaskWithKey:page.key rediredKey:page.rediredKey].task;
-        }
-
-        NSLog(@"page: %@", page);
-        return t;
-    }] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-        HackfoldrPage *page = t.result;
-
-        // Save |history| to core data
-        HackfoldrHistory *history = [HackfoldrHistory MR_findFirstByAttribute:@"hackfoldrKey" withValue:page.key];
-        if (!history) {
-            history = [HackfoldrHistory MR_createEntity];
-            history.createDate = [NSDate date];
-            history.refreshDate = [NSDate date];
-            history.hackfoldrKey = page.key;
-            history.title = page.pageTitle;
-            if (page.rediredKey) {
-                history.rediredKey = page.rediredKey;
-            }
-        } else {
-            history.refreshDate = [NSDate date];
-            history.title = page.pageTitle;
-            if (page.rediredKey) {
-                history.rediredKey = page.rediredKey;
-            }
-        }
-
-        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfWithCompletion:nil];
-        return t;
-    }] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-        self.page = t.result;
-        return nil;
-    }];
-    return s;
 }
 
 - (void)settingAction:(id)sender
@@ -374,7 +326,7 @@
             NSString *realKey = [NSURL realKeyOfHackfoldrWithURL:targetURL];
             if (!realKey) return;
 
-            [[self updateHackfoldrPageTaskWithKey:realKey rediredKey:nil].task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
+            [[[HackfoldrClient sharedClient] hackfoldrPageTaskWithKey:realKey rediredKey:nil].task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
                 HackfoldrPage *page = t.result;
 
                 [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:realKey];

@@ -19,6 +19,7 @@
 		E79424B11ACEEF6400558AE9 /* HackfoldrHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = E79424B01ACEEF6400558AE9 /* HackfoldrHistory.m */; };
 		E79424B31ACF015300558AE9 /* sample.csv.json in Resources */ = {isa = PBXBuildFile; fileRef = E79424B21ACF015300558AE9 /* sample.csv.json */; };
 		E79B0E771E7AE43F005BE38C /* UIColor+Hackfoldr.m in Sources */ = {isa = PBXBuildFile; fileRef = E79B0E761E7AE43F005BE38C /* UIColor+Hackfoldr.m */; };
+		E79B0E7A1E7B1714005BE38C /* HackfoldrClient+Store.m in Sources */ = {isa = PBXBuildFile; fileRef = E79B0E791E7B1714005BE38C /* HackfoldrClient+Store.m */; };
 		E7B1DD8A195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B1DD89195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m */; };
 		E7EB66BC19554E290069FD71 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7EB66BB19554E290069FD71 /* Foundation.framework */; };
 		E7EB66BE19554E290069FD71 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7EB66BD19554E290069FD71 /* CoreGraphics.framework */; };
@@ -72,6 +73,8 @@
 		E79424B21ACF015300558AE9 /* sample.csv.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sample.csv.json; path = TestData/sample.csv.json; sourceTree = "<group>"; };
 		E79B0E751E7AE43F005BE38C /* UIColor+Hackfoldr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hackfoldr.h"; path = "hackfoldr-iOS/UIColor+Hackfoldr.h"; sourceTree = "<group>"; };
 		E79B0E761E7AE43F005BE38C /* UIColor+Hackfoldr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hackfoldr.m"; path = "hackfoldr-iOS/UIColor+Hackfoldr.m"; sourceTree = "<group>"; };
+		E79B0E781E7B1714005BE38C /* HackfoldrClient+Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HackfoldrClient+Store.h"; path = "hackfoldr-iOS/HackfoldrClient+Store.h"; sourceTree = "<group>"; };
+		E79B0E791E7B1714005BE38C /* HackfoldrClient+Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "HackfoldrClient+Store.m"; path = "hackfoldr-iOS/HackfoldrClient+Store.m"; sourceTree = "<group>"; };
 		E7B1DD88195AEE7D00768FFA /* TOWebViewController+HackfoldrField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TOWebViewController+HackfoldrField.h"; path = "hackfoldr-iOS/TOWebViewController+HackfoldrField.h"; sourceTree = "<group>"; };
 		E7B1DD89195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TOWebViewController+HackfoldrField.m"; path = "hackfoldr-iOS/TOWebViewController+HackfoldrField.m"; sourceTree = "<group>"; };
 		E7EB66B819554E290069FD71 /* hackfoldr-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hackfoldr-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +142,8 @@
 		E70F906E1A77F7A300BF4B25 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				E79B0E781E7B1714005BE38C /* HackfoldrClient+Store.h */,
+				E79B0E791E7B1714005BE38C /* HackfoldrClient+Store.m */,
 				886F4A451E0536AA00AF14DE /* NSURL+Hackfoldr.h */,
 				886F4A461E0536AA00AF14DE /* NSURL+Hackfoldr.m */,
 				E70F906B1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.h */,
@@ -487,6 +492,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E79424B11ACEEF6400558AE9 /* HackfoldrHistory.m in Sources */,
+				E79B0E7A1E7B1714005BE38C /* HackfoldrClient+Store.m in Sources */,
 				886F4A471E0536AA00AF14DE /* NSURL+Hackfoldr.m in Sources */,
 				E7EB66D519554E290069FD71 /* MainViewController.m in Sources */,
 				882E652A19B2D5920054E522 /* ListFieldViewController.m in Sources */,
