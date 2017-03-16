@@ -447,7 +447,7 @@
         CGFloat iconSize = [UIFont systemFontSize] + 2.f;
 
         if ([NSURL canHandleHackfoldrURL:[NSURL URLWithString:field.urlString]]) {
-            iconImage = [[UIImage imageNamed:@"hackfoldr-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            iconImage = [[UIImage imageNamed:@"hackfoldr-icon-small"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         } else if (field.actions.length > 0 && [field.actions rangeOfString:@"fa-"].location != NSNotFound) {
             // Custom icon
             NSString *iconName = nil;
