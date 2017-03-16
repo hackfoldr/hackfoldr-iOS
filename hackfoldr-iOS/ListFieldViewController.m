@@ -442,14 +442,17 @@
             break;
         }
     }
-    if (index < rootField.subFields.count) {
-        return rootField.subFields[index];
+    if (rootField) {
+        if (index < rootField.subFields.count) {
+            return rootField.subFields[index];
+        }
+        NSInteger realIndex = index - (rootField.subFields.count - 1);
+        if (rootField && rootField.subFields.count > 0 && realIndex == 0) {
+            realIndex += 1;
+        }
+        return self.page.cells[realIndex];
     }
-    NSInteger realIndex = index - rootField.subFields.count;
-    if (rootField && rootField.subFields.count > 0 && realIndex == 0) {
-        realIndex += 1;
-    }
-    return self.page.cells[realIndex];
+    return self.page.cells[index];
 }
 
 - (UITableViewCell *)treeView:(RATreeView *)treeView cellForItem:(nullable id)item;
