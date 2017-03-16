@@ -92,6 +92,16 @@
     self.title = self.page.pageTitle;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    if (self.page.key) {
+        [[NSUserDefaults standardUserDefaults] setCurrentHackfoldrPage:self.page.key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
 - (void)showSettingViewController
 {
     // When Setting view is showed, don't show again
