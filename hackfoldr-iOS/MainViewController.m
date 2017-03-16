@@ -8,6 +8,8 @@
 
 #import "MainViewController.h"
 
+#import <FontAwesomeKit/FontAwesomeKit.h>
+
 #import "AppDelegate.h"
 // Model & Client
 #import "HackfoldrClient.h"
@@ -15,7 +17,6 @@
 // Category
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
 #import "UIColor+Hackfoldr.h"
-#import "UIImage+TOWebViewControllerIcons.h"
 // ViewController
 #import <RATreeView/RATreeView.h>
 #import "ListFieldViewController.h"
@@ -35,8 +36,9 @@
     self.title = [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleName"];
 
     UIButton *reloadButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    reloadButton.frame = CGRectMake(0, 0, 31, 31);
-    UIImage *reloadImage = [UIImage TOWebViewControllerIcon_refreshButtonWithAttributes:nil];
+    CGFloat iconSize = 24;
+    reloadButton.frame = CGRectMake(0, 0, iconSize, iconSize);
+    UIImage *reloadImage =  [[FAKFontAwesome refreshIconWithSize:iconSize] imageWithSize:reloadButton.frame.size];
     [reloadButton setImage:reloadImage forState:UIControlStateNormal];
     [reloadButton addTarget:self
                      action:@selector(reloadAction:)
