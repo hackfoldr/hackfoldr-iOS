@@ -96,13 +96,24 @@
     QuickDialogController *dialogController = [QuickDialogController controllerForRoot:settingRoot];
     self.dialogController = dialogController;
 
-    QSection *inputSection = [[QSection alloc] init];
-    inputSection.footer = NSLocalizedStringFromTable(@"You can input new hackfoldr page key and select Change Key to change it.", @"Hackfoldr", @"Change key description at input section in SettingView.");
-
+    QSection *currentPageSection = [[QSection alloc] init];
+    currentPageSection.title = NSLocalizedStringFromTable(@"Current Hackfoldr", @"Hackfoldr", @"Section title of current hackfoldr");
+    NSString *key = [[NSUserDefaults standardUserDefaults] stringOfCurrentHackfoldrPage];
     QLabelElement *currentHackpageKey = [[QLabelElement alloc] init];
     currentHackpageKey.title = NSLocalizedStringFromTable(@"Current key", @"Hackfoldr", @"Current key title in SettingView.");
-    currentHackpageKey.value = [[NSUserDefaults standardUserDefaults] stringOfCurrentHackfoldrPage];
-    [inputSection addElement:currentHackpageKey];
+    currentHackpageKey.value = key;
+    [currentPageSection addElement:currentHackpageKey];
+
+    QDateTimeElement *currentHackpageDate = [[QDateTimeElement alloc] init];
+    HackfoldrHistory *currentHistory = [HackfoldrHistory MR_findFirstByAttribute:@"hackfoldrKey" withValue:key];
+    currentHackpageDate.title = NSLocalizedStringFromTable(@"Refresh At", @"Hackfoldr", @"Refresh date about current hackfoldr key in SettingView.");
+    currentHackpageDate.dateValue = currentHistory.refreshDate;
+    [currentPageSection addElement:currentHackpageDate];
+
+    [settingRoot addSection:currentPageSection];
+
+    QSection *inputSection = [[QSection alloc] init];
+    inputSection.footer = NSLocalizedStringFromTable(@"You can input new hackfoldr page key and select Change Key to change it.", @"Hackfoldr", @"Change key description at input section in SettingView.");
 
     QEntryElement *inputElement = [[QEntryElement alloc] init];
     inputElement.placeholder = NSLocalizedStringFromTable(@"Hackfoldr key or URL", @"Hackfoldr", @"Place holder string for input element in SettingView.");
