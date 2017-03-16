@@ -19,6 +19,7 @@
 // Category
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
 #import "NSURL+Hackfoldr.h"
+#import "UIColor+Hackfoldr.h"
 #import "UIImage+TOWebViewControllerIcons.h"
 // ViewController
 #import <RATreeView/RATreeView.h>
@@ -420,6 +421,15 @@
 
     if (field.isSubItem) {
         cell.accessoryType = field.urlString.length > 0 ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
+        if ([NSURL canHandleHackfoldrURL:[NSURL URLWithString:field.urlString]]) {
+            UIImage *hackfoldrImage = [[UIImage imageNamed:@"hackfoldr-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            UIImageView *iconView = [[UIImageView alloc] initWithImage:hackfoldrImage];
+            iconView.frame = CGRectMake(0, 0, 16, 16);
+            iconView.tintColor = [UIColor hackfoldrGreenColor];
+            cell.accessoryView = iconView;
+        } else {
+            cell.accessoryView = nil;
+        }
 
         // Only setup when |field.labelString| have value
         if (field.labelString.length > 0) {

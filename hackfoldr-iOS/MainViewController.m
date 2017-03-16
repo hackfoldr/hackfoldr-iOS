@@ -14,6 +14,7 @@
 #import "HackfoldrPage.h"
 // Category
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
+#import "UIColor+Hackfoldr.h"
 #import "UIImage+TOWebViewControllerIcons.h"
 // ViewController
 #import <RATreeView/RATreeView.h>
@@ -54,7 +55,7 @@
         [self.view addSubview:self.backgroundImageView];
     }
 
-    self.view.backgroundColor = [UIColor colorWithRed:0.490 green:0.781 blue:0.225 alpha:1.000];
+    self.view.backgroundColor = [UIColor hackfoldrGreenColor];
 
     [self mainNavigationController].delegate = self;
 }
