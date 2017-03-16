@@ -235,7 +235,11 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     [description appendFormat:@"isCommentLine: %@ ", self.isCommentLine ? @"YES" : @"NO"];
 
     if (self.subFields.count > 0) {
-        [description appendFormat:@"subFields: %@ ", self.subFields];
+        [description appendString:@"subFields: {\n"];
+        for (HackfoldrField *sf in self.subFields) {
+            [description appendFormat:@"\t%@\n", sf.description];
+        }
+        [description appendString:@"}\n"];
     }
 
     if (self.labelString) {
