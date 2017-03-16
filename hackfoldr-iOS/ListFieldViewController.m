@@ -147,6 +147,7 @@
 
     QSection *historySection = [[QSection alloc] init];
     historySection.title = NSLocalizedStringFromTable(@"History", @"Hackfoldr", @"History section title in SettingView");
+    historySection.footer = NSLocalizedStringFromTable(@"You can select one cell to return to the past.", @"Hackfoldr", @"History section footer in SettingView");
     NSArray *histories = [HackfoldrHistory MR_findAllSortedBy:@"refreshDate" ascending:NO];
     [histories enumerateObjectsUsingBlock:^(HackfoldrHistory *history, NSUInteger idx, BOOL *stop) {
         QButtonElement *buttonElement = [[QButtonElement alloc] init];
@@ -166,6 +167,7 @@
 
     QSection *restSection = [[QSection alloc] init];
     restSection.title = NSLocalizedStringFromTable(@"Reset Actions", @"Hackfoldr", @"Reset hackfoldr actions in SettingView");
+    restSection.footer = NSLocalizedStringFromTable(@"If you lost in app, just select it.", @"Hackfoldr", @"Reset section footer in SettingView");
     QButtonElement *restHackfoldrPageElement = [[QButtonElement alloc] init];
     restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Hackfoldr Help", @"Hackfoldr", @"Reset hackfoldr page button title in SettingView");
     restHackfoldrPageElement.onSelected = ^(void) {
@@ -185,7 +187,7 @@
     QSection *infoSection = [[QSection alloc] init];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    infoSection.footer = [NSString stringWithFormat:@"App Version: %@ (%@)", version, build];
+    infoSection.footer = [NSString stringWithFormat:@"App Version: %@ (%@)\nCreate by Superbil", version, build];
     [settingRoot addSection:infoSection];
 
     if (self.navigationController) {
