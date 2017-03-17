@@ -35,25 +35,21 @@
     return nil;
 }
 
-+ (NSString *)validatorHackfoldrKey:(NSString *)newHackfoldrKey {
-    // Find hackfoldr page key, if prefix is http or https
-    if ([newHackfoldrKey hasPrefix:@"http"]) {
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".*hackfoldr.org/(.*)/"
-                                                                               options:NSRegularExpressionAllowCommentsAndWhitespace
-                                                                                 error:NULL];
-        NSTextCheckingResult *match = [regex firstMatchInString:newHackfoldrKey
-                                                        options:NSMatchingReportCompletion
-                                                          range:NSMakeRange(0, newHackfoldrKey.length)];
-        if (match.range.location != NSNotFound) {
-            newHackfoldrKey = [newHackfoldrKey substringWithRange:[match rangeAtIndex:1]];
++ (NSString *)validatorHackfoldrKey:(NSString *)hackfoldrKey
+{
+    NSString *newHackfoldrKey = [hackfoldrKey copy];
+    // Find hackfoldr page key
+    if ([newHackfoldrKey rangeOfString:@"://"].location != NSNotFound) {
+        NSURL *hackfoldrURL = [NSURL URLWithString:newHackfoldrKey];
+        if ([NSURL canHandleHackfoldrURL:hackfoldrURL]) {
+            newHackfoldrKey = [NSURL realKeyOfHackfoldrWithURL:hackfoldrURL];
         }
     }
 
     // Remove white space and new line
     newHackfoldrKey = [newHackfoldrKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     // Use escapes to encoding |newHackfoldrPage|
-    newHackfoldrKey = [newHackfoldrKey stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
+    newHackfoldrKey = [newHackfoldrKey stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
     return newHackfoldrKey;
 }
 
