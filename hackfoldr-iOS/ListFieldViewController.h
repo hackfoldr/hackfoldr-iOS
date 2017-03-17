@@ -6,8 +6,31 @@
 //  Copyright (c) 2014年 org.superbil. All rights reserved.
 //
 
+@class BFTask;
+@class RATreeView;
+@class HackfoldrPage;
+@class HackfoldrTaskCompletionSource;
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface ListFieldViewController : UITableViewController
+
++ (instancetype)viewController;
+
+@property (nonatomic, strong) RATreeView *treeView;
 
 @property (nonatomic, strong) IBOutlet UIButton *settingButton;
 
+@property (nonatomic, assign) BOOL hideBackButton;
+
+@property (nonatomic, strong) HackfoldrPage *page;
+
+- (void)reloadPage;
+
+- (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey;
+
+- (void)showSettingViewController;
+
 @end
+
+NS_ASSUME_NONNULL_END

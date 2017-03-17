@@ -7,10 +7,11 @@ branches:
     - develop
 
 before_install:
-#    - brew install xctool
     - git clone --depth=1 https://github.com/facebook/xctool.git
 
 script:
+  - SIMULATOR_ID=$(xcrun instruments -s devices | grep -io "$SIMULATOR \[.*\]" | grep -o "\[.*\]" | sed "s/^\[\(.*\)\]$/\1/")
+  - open -b com.apple.iphonesimulator --args -CurrentDeviceUDID $SIMULATOR_ID
   - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator -configuration "DEBUG" build
   - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator build-tests
-  - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator run-tests
+  # - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator run-tests

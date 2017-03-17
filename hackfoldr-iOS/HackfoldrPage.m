@@ -11,6 +11,7 @@
 #import "HackfoldrField.h"
 
 @interface HackfoldrPage ()
+@property (nonatomic, strong, readwrite) NSString *key;
 @property (nonatomic, strong) NSArray *fields;
 @property (nonatomic, strong, readwrite) NSString *pagetitle;
 @property (nonatomic, strong, readwrite) NSString *rediredKey;
@@ -20,10 +21,17 @@
 
 - (instancetype)initWithFieldArray:(NSArray *)fieldArray
 {
+    return [self initWithKey:nil fieldArray:fieldArray];
+}
+
+- (instancetype)initWithKey:(NSString *)hackfoldrKey fieldArray:(NSArray *)fieldArray
+{
     self = [super init];
     if (!self) {
         return nil;
     }
+
+    self.key = hackfoldrKey;
 
     [self updateWithArray:fieldArray];
 
@@ -33,6 +41,7 @@
 - (instancetype)copyWithZone:(NSZone *)zone
 {
     HackfoldrPage *copy = [[HackfoldrPage allocWithZone:zone] init];
+    copy.key = [self.key copy];
     copy.fields = [self.fields copy];
     copy.pageTitle = [self.pageTitle copy];
     copy.rediredKey = [self.rediredKey copy];
@@ -113,61 +122,13 @@
 - (NSString *)description
 {
     NSMutableString *description = [NSMutableString string];
+    [description appendFormat:@"key: %@\n", self.key];
     [description appendFormat:@"pageTitle: %@\n", self.pageTitle];
     if (self.rediredKey) {
         [description appendFormat:@"rediredKey: %@", self.rediredKey];
     }
 //    [description appendFormat:@"cells: %@", self.fields];
     return description;
-}
-
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return self.fields.count;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    HackfoldrField *sectionField = self.fields[section];
-    return sectionField.subFields.count;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    HackfoldrField *sectionFeild = self.fields[section];
-    return sectionFeild.name;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSString *identifier = [NSStringFromClass([self class]) stringByAppendingString:@"Cell"];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
-    }
-
-    HackfoldrField *sectionField = self.fields[indexPath.section];
-    HackfoldrField *field = sectionField.subFields[indexPath.row];
-    cell.textLabel.text = field.name;
-
-    cell.accessoryType = field.urlString.length > 0 ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
-
-    // Default color is white
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.detailTextLabel.backgroundColor = [UIColor whiteColor];
-    // Only setup when |field.labelString| have value
-    if (field.labelString.length > 0) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@" %@ ", field.labelString];
-        cell.detailTextLabel.textColor = [UIColor whiteColor];
-        cell.detailTextLabel.backgroundColor = field.labelColor;
-        [cell.detailTextLabel.layer setCornerRadius:3.f];
-        [cell.detailTextLabel.layer setMasksToBounds:YES];
-    }
-    NSLog(@"field:%@",field);
-
-    return cell;
 }
 
 @end

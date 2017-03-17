@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		84FEEA5C40A246A495BB0AA2 /* libPods-hackfoldr-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BF3E8BC95B4A9183627B72 /* libPods-hackfoldr-iOSTests.a */; };
+		3AB4D0070023B1FA82E42FAE /* libPods-hackfoldr-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 893ECEAB2C1FEB82EE9E1ED6 /* libPods-hackfoldr-iOSTests.a */; };
 		882E652A19B2D5920054E522 /* ListFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 882E652919B2D5920054E522 /* ListFieldViewController.m */; };
+		886F4A471E0536AA00AF14DE /* NSURL+Hackfoldr.m in Sources */ = {isa = PBXBuildFile; fileRef = 886F4A461E0536AA00AF14DE /* NSURL+Hackfoldr.m */; };
+		D7BD8128463F908AE0D361C0 /* libPods-hackfoldr-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2BE931B1EC9D9EDF8673F5C /* libPods-hackfoldr-iOS.a */; };
 		E70F906D1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.m in Sources */ = {isa = PBXBuildFile; fileRef = E70F906C1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.m */; };
 		E71D192A1956CE5500B57207 /* HackfoldrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D19291956CE5500B57207 /* HackfoldrClient.m */; };
 		E71D192D1956CFB600B57207 /* HackfoldrField.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D192C1956CFB600B57207 /* HackfoldrField.m */; };
@@ -16,6 +18,9 @@
 		E79424AE1ACEEDCF00558AE9 /* HackoldrModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E79424AC1ACEEDCF00558AE9 /* HackoldrModel.xcdatamodeld */; };
 		E79424B11ACEEF6400558AE9 /* HackfoldrHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = E79424B01ACEEF6400558AE9 /* HackfoldrHistory.m */; };
 		E79424B31ACF015300558AE9 /* sample.csv.json in Resources */ = {isa = PBXBuildFile; fileRef = E79424B21ACF015300558AE9 /* sample.csv.json */; };
+		E79B0E771E7AE43F005BE38C /* UIColor+Hackfoldr.m in Sources */ = {isa = PBXBuildFile; fileRef = E79B0E761E7AE43F005BE38C /* UIColor+Hackfoldr.m */; };
+		E79B0E7A1E7B1714005BE38C /* HackfoldrClient+Store.m in Sources */ = {isa = PBXBuildFile; fileRef = E79B0E791E7B1714005BE38C /* HackfoldrClient+Store.m */; };
+		E79B0E7E1E7C030E005BE38C /* g0v.svg in Resources */ = {isa = PBXBuildFile; fileRef = E79B0E7D1E7C030E005BE38C /* g0v.svg */; };
 		E7B1DD8A195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B1DD89195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m */; };
 		E7EB66BC19554E290069FD71 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7EB66BB19554E290069FD71 /* Foundation.framework */; };
 		E7EB66BE19554E290069FD71 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7EB66BD19554E290069FD71 /* CoreGraphics.framework */; };
@@ -32,7 +37,6 @@
 		E7EB66EA19554E290069FD71 /* hackfoldr_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB66E919554E290069FD71 /* hackfoldr_iOSTests.m */; };
 		E7F7482A1955878C00262A34 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7F748291955878C00262A34 /* QuartzCore.framework */; };
 		E7F9558719570D4E0098661E /* HackfoldrPage.m in Sources */ = {isa = PBXBuildFile; fileRef = E7F9558619570D4E0098661E /* HackfoldrPage.m */; };
-		F8C75494381B4A8B87C9B571 /* libPods-hackfoldr-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 592911384328487494648D2E /* libPods-hackfoldr-iOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,14 +50,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		027535827D0C4373601413DC /* Pods-hackfoldr-iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-hackfoldr-iOSTests/Pods-hackfoldr-iOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		49BF3E8BC95B4A9183627B72 /* libPods-hackfoldr-iOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hackfoldr-iOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		522D20859EE8892A57507769 /* Pods-hackfoldr-iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hackfoldr-iOSTests/Pods-hackfoldr-iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		592911384328487494648D2E /* libPods-hackfoldr-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hackfoldr-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5CCF71AC7BC4CF830F234ACB /* Pods-hackfoldr-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		0FFCE6D7B8522BC376B03A51 /* Pods-hackfoldr-iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-hackfoldr-iOSTests/Pods-hackfoldr-iOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		70B8275F56498EFBD8F1410F /* Pods-hackfoldr-iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hackfoldr-iOSTests/Pods-hackfoldr-iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		882E652819B2D5920054E522 /* ListFieldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListFieldViewController.h; path = "hackfoldr-iOS/ListFieldViewController.h"; sourceTree = "<group>"; };
 		882E652919B2D5920054E522 /* ListFieldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListFieldViewController.m; path = "hackfoldr-iOS/ListFieldViewController.m"; sourceTree = "<group>"; };
-		D9B6887CD0441DC6A72CAC63 /* Pods-hackfoldr-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		886F4A451E0536AA00AF14DE /* NSURL+Hackfoldr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+Hackfoldr.h"; path = "hackfoldr-iOS/NSURL+Hackfoldr.h"; sourceTree = "<group>"; };
+		886F4A461E0536AA00AF14DE /* NSURL+Hackfoldr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURL+Hackfoldr.m"; path = "hackfoldr-iOS/NSURL+Hackfoldr.m"; sourceTree = "<group>"; };
+		889DFBC61D28EE740066ECA2 /* hackfoldr-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "hackfoldr-iOS.entitlements"; sourceTree = "<group>"; };
+		893ECEAB2C1FEB82EE9E1ED6 /* libPods-hackfoldr-iOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hackfoldr-iOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6F8B8E84166B0CC5D012432 /* Pods-hackfoldr-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		E2BE931B1EC9D9EDF8673F5C /* libPods-hackfoldr-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hackfoldr-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E70F906B1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults+DefaultHackfoldrPage.h"; path = "hackfoldr-iOS/NSUserDefaults+DefaultHackfoldrPage.h"; sourceTree = "<group>"; };
 		E70F906C1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSUserDefaults+DefaultHackfoldrPage.m"; path = "hackfoldr-iOS/NSUserDefaults+DefaultHackfoldrPage.m"; sourceTree = "<group>"; };
 		E71D19281956CE5500B57207 /* HackfoldrClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HackfoldrClient.h; path = "hackfoldr-iOS/HackfoldrClient.h"; sourceTree = "<group>"; };
@@ -66,6 +72,11 @@
 		E79424AF1ACEEF6400558AE9 /* HackfoldrHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HackfoldrHistory.h; path = "hackfoldr-iOS/HackfoldrHistory.h"; sourceTree = "<group>"; };
 		E79424B01ACEEF6400558AE9 /* HackfoldrHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfoldrHistory.m; path = "hackfoldr-iOS/HackfoldrHistory.m"; sourceTree = "<group>"; };
 		E79424B21ACF015300558AE9 /* sample.csv.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sample.csv.json; path = TestData/sample.csv.json; sourceTree = "<group>"; };
+		E79B0E751E7AE43F005BE38C /* UIColor+Hackfoldr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hackfoldr.h"; path = "hackfoldr-iOS/UIColor+Hackfoldr.h"; sourceTree = "<group>"; };
+		E79B0E761E7AE43F005BE38C /* UIColor+Hackfoldr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hackfoldr.m"; path = "hackfoldr-iOS/UIColor+Hackfoldr.m"; sourceTree = "<group>"; };
+		E79B0E781E7B1714005BE38C /* HackfoldrClient+Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HackfoldrClient+Store.h"; path = "hackfoldr-iOS/HackfoldrClient+Store.h"; sourceTree = "<group>"; };
+		E79B0E791E7B1714005BE38C /* HackfoldrClient+Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "HackfoldrClient+Store.m"; path = "hackfoldr-iOS/HackfoldrClient+Store.m"; sourceTree = "<group>"; };
+		E79B0E7D1E7C030E005BE38C /* g0v.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = g0v.svg; sourceTree = "<group>"; };
 		E7B1DD88195AEE7D00768FFA /* TOWebViewController+HackfoldrField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TOWebViewController+HackfoldrField.h"; path = "hackfoldr-iOS/TOWebViewController+HackfoldrField.h"; sourceTree = "<group>"; };
 		E7B1DD89195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TOWebViewController+HackfoldrField.m"; path = "hackfoldr-iOS/TOWebViewController+HackfoldrField.m"; sourceTree = "<group>"; };
 		E7EB66B819554E290069FD71 /* hackfoldr-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hackfoldr-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,6 +100,7 @@
 		E7F748291955878C00262A34 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E7F9558519570D4E0098661E /* HackfoldrPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HackfoldrPage.h; path = "hackfoldr-iOS/HackfoldrPage.h"; sourceTree = "<group>"; };
 		E7F9558619570D4E0098661E /* HackfoldrPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfoldrPage.m; path = "hackfoldr-iOS/HackfoldrPage.m"; sourceTree = "<group>"; };
+		F15476DD2E850E7A93F2DF39 /* Pods-hackfoldr-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +112,7 @@
 				E7EB66BE19554E290069FD71 /* CoreGraphics.framework in Frameworks */,
 				E7EB66C019554E290069FD71 /* UIKit.framework in Frameworks */,
 				E7EB66BC19554E290069FD71 /* Foundation.framework in Frameworks */,
-				F8C75494381B4A8B87C9B571 /* libPods-hackfoldr-iOS.a in Frameworks */,
+				D7BD8128463F908AE0D361C0 /* libPods-hackfoldr-iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,20 +123,20 @@
 				E7EB66DE19554E290069FD71 /* XCTest.framework in Frameworks */,
 				E7EB66E019554E290069FD71 /* UIKit.framework in Frameworks */,
 				E7EB66DF19554E290069FD71 /* Foundation.framework in Frameworks */,
-				84FEEA5C40A246A495BB0AA2 /* libPods-hackfoldr-iOSTests.a in Frameworks */,
+				3AB4D0070023B1FA82E42FAE /* libPods-hackfoldr-iOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		61E95886120C8CA58C6FE18A /* Pods */ = {
+		53725B8A749867B92203B128 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D9B6887CD0441DC6A72CAC63 /* Pods-hackfoldr-iOS.debug.xcconfig */,
-				5CCF71AC7BC4CF830F234ACB /* Pods-hackfoldr-iOS.release.xcconfig */,
-				522D20859EE8892A57507769 /* Pods-hackfoldr-iOSTests.debug.xcconfig */,
-				027535827D0C4373601413DC /* Pods-hackfoldr-iOSTests.release.xcconfig */,
+				D6F8B8E84166B0CC5D012432 /* Pods-hackfoldr-iOS.debug.xcconfig */,
+				F15476DD2E850E7A93F2DF39 /* Pods-hackfoldr-iOS.release.xcconfig */,
+				70B8275F56498EFBD8F1410F /* Pods-hackfoldr-iOSTests.debug.xcconfig */,
+				0FFCE6D7B8522BC376B03A51 /* Pods-hackfoldr-iOSTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -132,8 +144,14 @@
 		E70F906E1A77F7A300BF4B25 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				E79B0E781E7B1714005BE38C /* HackfoldrClient+Store.h */,
+				E79B0E791E7B1714005BE38C /* HackfoldrClient+Store.m */,
+				886F4A451E0536AA00AF14DE /* NSURL+Hackfoldr.h */,
+				886F4A461E0536AA00AF14DE /* NSURL+Hackfoldr.m */,
 				E70F906B1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.h */,
 				E70F906C1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.m */,
+				E79B0E751E7AE43F005BE38C /* UIColor+Hackfoldr.h */,
+				E79B0E761E7AE43F005BE38C /* UIColor+Hackfoldr.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -184,8 +202,8 @@
 				E7EB66BA19554E290069FD71 /* Frameworks */,
 				E7EB66C119554E290069FD71 /* hackfoldr-iOS */,
 				E7EB66E319554E290069FD71 /* hackfoldr-iOSTests */,
-				61E95886120C8CA58C6FE18A /* Pods */,
 				E7EB66B919554E290069FD71 /* Products */,
+				53725B8A749867B92203B128 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -206,8 +224,8 @@
 				E7EB66BD19554E290069FD71 /* CoreGraphics.framework */,
 				E7EB66BF19554E290069FD71 /* UIKit.framework */,
 				E7EB66DD19554E290069FD71 /* XCTest.framework */,
-				592911384328487494648D2E /* libPods-hackfoldr-iOS.a */,
-				49BF3E8BC95B4A9183627B72 /* libPods-hackfoldr-iOSTests.a */,
+				E2BE931B1EC9D9EDF8673F5C /* libPods-hackfoldr-iOS.a */,
+				893ECEAB2C1FEB82EE9E1ED6 /* libPods-hackfoldr-iOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -215,9 +233,11 @@
 		E7EB66C119554E290069FD71 /* hackfoldr-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				889DFBC61D28EE740066ECA2 /* hackfoldr-iOS.entitlements */,
 				E7EB66CA19554E290069FD71 /* AppDelegate.h */,
 				E7EB66CB19554E290069FD71 /* AppDelegate.m */,
 				E7EB66D619554E290069FD71 /* Images.xcassets */,
+				E79B0E7D1E7C030E005BE38C /* g0v.svg */,
 				E7EB66C219554E290069FD71 /* Supporting Files */,
 			);
 			path = "hackfoldr-iOS";
@@ -261,13 +281,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7EB66ED19554E290069FD71 /* Build configuration list for PBXNativeTarget "hackfoldr-iOS" */;
 			buildPhases = (
-				F62215F8E8C94E159E6864B0 /* Check Pods Manifest.lock */,
+				052512BDB754F2B582BE1463 /* [CP] Check Pods Manifest.lock */,
 				E7EB66B419554E290069FD71 /* Sources */,
 				E7EB66B519554E290069FD71 /* Frameworks */,
 				E7EB66B619554E290069FD71 /* Resources */,
-				F8ECB66B724E4F56BFCD72D5 /* Copy Pods Resources */,
 				E7118A521AD4FFB7007608C0 /* Update app bundle version */,
-				BBA05411B5E5EB9236B8E4CD /* Embed Pods Frameworks */,
+				9CEE81AA26700A695D757035 /* [CP] Embed Pods Frameworks */,
+				69F766257D99B6A5FCB74096 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -282,12 +302,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7EB66F019554E290069FD71 /* Build configuration list for PBXNativeTarget "hackfoldr-iOSTests" */;
 			buildPhases = (
-				B7D95A8A23B2466384102BEF /* Check Pods Manifest.lock */,
+				77FF7C2AC3EDECEA679C69E0 /* [CP] Check Pods Manifest.lock */,
 				E7EB66D819554E290069FD71 /* Sources */,
 				E7EB66D919554E290069FD71 /* Frameworks */,
 				E7EB66DA19554E290069FD71 /* Resources */,
-				D3FA1659305847ED9A84D75F /* Copy Pods Resources */,
-				F352A8386AA6B655CA2536AC /* Embed Pods Frameworks */,
+				0124B146823B3F199D87589B /* [CP] Embed Pods Frameworks */,
+				2E64CB07CD5F0D8FAE5E4930 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -305,9 +325,16 @@
 		E7EB66B019554E290069FD71 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = org.g0v;
 				TargetAttributes = {
+					E7EB66B719554E290069FD71 = {
+						SystemCapabilities = {
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
+						};
+					};
 					E7EB66DB19554E290069FD71 = {
 						TestTargetID = E7EB66B719554E290069FD71;
 					};
@@ -340,6 +367,7 @@
 			files = (
 				E7EB66D719554E290069FD71 /* Images.xcassets in Resources */,
 				E7EB66C619554E290069FD71 /* InfoPlist.strings in Resources */,
+				E79B0E7E1E7C030E005BE38C /* g0v.svg in Resources */,
 				E755907A1AEAB595007337B1 /* Hackfoldr.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,49 +384,94 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B7D95A8A23B2466384102BEF /* Check Pods Manifest.lock */ = {
+		0124B146823B3F199D87589B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackfoldr-iOSTests/Pods-hackfoldr-iOSTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BBA05411B5E5EB9236B8E4CD /* Embed Pods Frameworks */ = {
+		052512BDB754F2B582BE1463 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		D3FA1659305847ED9A84D75F /* Copy Pods Resources */ = {
+		2E64CB07CD5F0D8FAE5E4930 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackfoldr-iOSTests/Pods-hackfoldr-iOSTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		69F766257D99B6A5FCB74096 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		77FF7C2AC3EDECEA679C69E0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		9CEE81AA26700A695D757035 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E7118A521AD4FFB7007608C0 /* Update app bundle version */ = {
@@ -415,51 +488,6 @@
 			shellPath = /bin/sh;
 			shellScript = "exec ./script/xcode-git-version.sh";
 		};
-		F352A8386AA6B655CA2536AC /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackfoldr-iOSTests/Pods-hackfoldr-iOSTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F62215F8E8C94E159E6864B0 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		F8ECB66B724E4F56BFCD72D5 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -468,8 +496,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E79424B11ACEEF6400558AE9 /* HackfoldrHistory.m in Sources */,
+				E79B0E7A1E7B1714005BE38C /* HackfoldrClient+Store.m in Sources */,
+				886F4A471E0536AA00AF14DE /* NSURL+Hackfoldr.m in Sources */,
 				E7EB66D519554E290069FD71 /* MainViewController.m in Sources */,
 				882E652A19B2D5920054E522 /* ListFieldViewController.m in Sources */,
+				E79B0E771E7AE43F005BE38C /* UIColor+Hackfoldr.m in Sources */,
 				E7B1DD8A195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m in Sources */,
 				E7EB66CC19554E290069FD71 /* AppDelegate.m in Sources */,
 				E71D192A1956CE5500B57207 /* HackfoldrClient.m in Sources */,
@@ -532,6 +563,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -541,14 +573,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -561,7 +598,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -572,6 +609,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -581,20 +619,25 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -603,10 +646,11 @@
 		};
 		E7EB66EE19554E290069FD71 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D9B6887CD0441DC6A72CAC63 /* Pods-hackfoldr-iOS.debug.xcconfig */;
+			baseConfigurationReference = D6F8B8E84166B0CC5D012432 /* Pods-hackfoldr-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "hackfoldr-iOS/hackfoldr-iOS.entitlements";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -614,7 +658,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "hackfoldr-iOS/hackfoldr-iOS-Prefix.pch";
 				INFOPLIST_FILE = "hackfoldr-iOS/hackfoldr-iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.g0v.hackfoldr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -625,10 +669,11 @@
 		};
 		E7EB66EF19554E290069FD71 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CCF71AC7BC4CF830F234ACB /* Pods-hackfoldr-iOS.release.xcconfig */;
+			baseConfigurationReference = F15476DD2E850E7A93F2DF39 /* Pods-hackfoldr-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "hackfoldr-iOS/hackfoldr-iOS.entitlements";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -636,7 +681,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "hackfoldr-iOS/hackfoldr-iOS-Prefix.pch";
 				INFOPLIST_FILE = "hackfoldr-iOS/hackfoldr-iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.g0v.hackfoldr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -647,7 +692,7 @@
 		};
 		E7EB66F119554E290069FD71 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 522D20859EE8892A57507769 /* Pods-hackfoldr-iOSTests.debug.xcconfig */;
+			baseConfigurationReference = 70B8275F56498EFBD8F1410F /* Pods-hackfoldr-iOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/hackfoldr-iOS.app/hackfoldr-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -671,7 +716,7 @@
 		};
 		E7EB66F219554E290069FD71 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 027535827D0C4373601413DC /* Pods-hackfoldr-iOSTests.release.xcconfig */;
+			baseConfigurationReference = 0FFCE6D7B8522BC376B03A51 /* Pods-hackfoldr-iOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/hackfoldr-iOS.app/hackfoldr-iOS";
 				FRAMEWORK_SEARCH_PATHS = (

@@ -144,39 +144,24 @@ typedef NS_ENUM(NSUInteger, FieldType) {
         return;
     }
 
-    NSString *labelColorString = nil;
-    NSMutableString *realLabelStringOfSpace = [NSMutableString string];
-    // Separate by space
-    // ex: red LabelString
-    NSString *firstString = [labelString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].firstObject;
-    if (firstString) {
-        labelColorString = firstString;
-        NSString *subString = [labelString stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@ ", firstString]
-                                                                     withString:@""];
-        [realLabelStringOfSpace appendString:subString];
-    }
-
-    if ([self updateLabelColorByString:labelColorString]) {
-        _labelString = realLabelStringOfSpace;
+    __block NSString *colorName = nil;
+    [[self colorTable] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull name, UIColor * _Nonnull c, BOOL * _Nonnull stop) {
+        if ([labelString rangeOfString:name].location != NSNotFound) {
+            colorName = name;
+            *stop = YES;
+        }
+    }];
+    if (colorName && [self updateLabelColorByString:colorName]) {
+        NSString *cleanLabel = [labelString stringByReplacingOccurrencesOfString:colorName withString:@""];
+        cleanLabel = [cleanLabel stringByReplacingOccurrencesOfString:@"important" withString:@""];
+        cleanLabel = [cleanLabel stringByReplacingOccurrencesOfString:@"warning" withString:@""];
+        cleanLabel = [cleanLabel stringByReplacingOccurrencesOfString:@"issue" withString:@""];
+        cleanLabel = [cleanLabel stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@":"]];
+        cleanLabel = [cleanLabel stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        _labelString = cleanLabel;
         return;
     }
 
-    // Separate by colon
-    // ex: LabelString:important
-    NSMutableString *realLabelStringOfColon = [NSMutableString string];
-    NSString *lastString = [labelString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@":"]].lastObject;
-
-    if (lastString) {
-        labelColorString = lastString;
-        NSString *subString = [labelString stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@":%@", lastString]
-                                                                     withString:@""];
-        [realLabelStringOfColon appendString:subString];
-    }
-
-    if ([self updateLabelColorByString:labelColorString]) {
-        _labelString = realLabelStringOfColon;
-        return;
-    }
     _labelString = labelString;
 }
 
@@ -185,32 +170,35 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     return _labelString;
 }
 
+- (NSDictionary<NSString *, UIColor *> *)colorTable {
+    UIColor *defaultColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.35f];
+    return @{@"black" : UIColorFromRGB(0x5C6166),
+             @"blue" : UIColorFromRGB(0x6ECFF5),
+             @"deep-blue" : UIColorFromRGB(0x006DCC),
+             @"deep-green" : UIColorFromRGB(0x5BB75B),
+             @"deep-purple" : UIColorFromRGB(0x564F8A),
+             @"gray" : defaultColor,
+             @"green" : UIColorFromRGB(0xA1CF64),
+             @"important" : UIColorFromRGB(0xD95C5C),
+             @"issue" : defaultColor,
+             @"orange" : UIColorFromRGB(0xF0AD4E),
+             @"pink" : UIColorFromRGB(0xF3A8AA),
+             @"purple" : UIColorFromRGB(0x9B96F7),
+             @"red" : UIColorFromRGB(0xD95C5C),
+             @"teal" : UIColorFromRGB(0x00B5AD),
+             @"warning" : UIColorFromRGB(0xF0AD4E),
+             @"yellow" : UIColorFromRGB(0xF0AD4E),
+             };
+}
+
 - (BOOL)updateLabelColorByString:(NSString *)colorString
 {
-    UIColor *defaultColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.35f];
-    NSDictionary *colorTable = @{ @"black" : UIColorFromRGB(0x5C6166),
-                                  @"blue" : UIColorFromRGB(0x6ECFF5),
-                                  @"deep-blue" : UIColorFromRGB(0x006DCC),
-                                  @"deep-green" : UIColorFromRGB(0x5BB75B),
-                                  @"deep-purple" : UIColorFromRGB(0x564F8A),
-                                  @"gray" : defaultColor,
-                                  @"green" : UIColorFromRGB(0xA1CF64),
-                                  @"important" : UIColorFromRGB(0xD95C5C),
-                                  @"issue" : defaultColor,
-                                  @"orange" : UIColorFromRGB(0xF0AD4E),
-                                  @"pink" : UIColorFromRGB(0xF3A8AA),
-                                  @"purple" : UIColorFromRGB(0x9B96F7),
-                                  @"red" : UIColorFromRGB(0xD95C5C),
-                                  @"teal" : UIColorFromRGB(0x00B5AD),
-                                  @"warning" : UIColorFromRGB(0xF0AD4E),
-                                  @"yellow" : UIColorFromRGB(0xF0AD4E),
-                                 };
-    self.labelColor = colorTable[colorString];
+    self.labelColor = [self colorTable][colorString];
     if (self.labelColor) {
         return YES;
     }
 
-    self.labelColor = defaultColor;
+    self.labelColor = [self colorTable][@"gray"];
     return NO;
 }
 
@@ -235,7 +223,11 @@ typedef NS_ENUM(NSUInteger, FieldType) {
     [description appendFormat:@"isCommentLine: %@ ", self.isCommentLine ? @"YES" : @"NO"];
 
     if (self.subFields.count > 0) {
-        [description appendFormat:@"subFields: %@ ", self.subFields];
+        [description appendString:@"subFields: {\n"];
+        for (HackfoldrField *sf in self.subFields) {
+            [description appendFormat:@"\t%@\n", sf.description];
+        }
+        [description appendString:@"}\n"];
     }
 
     if (self.labelString) {

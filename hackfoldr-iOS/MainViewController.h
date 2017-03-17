@@ -10,4 +10,6 @@
 
 @interface MainViewController : UIViewController
 
+- (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey;
+
 @end

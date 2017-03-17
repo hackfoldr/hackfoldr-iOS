@@ -13,6 +13,7 @@
 #import <MagicalRecord/MagicalRecord.h>
 
 #import "MainViewController.h"
+#import "NSURL+Hackfoldr.h"
 
 @implementation AppDelegate
 
@@ -59,6 +60,46 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)app handleOpenURL:(nonnull NSURL *)url
+{
+    return [NSURL canHandleHackfoldrURL:url];
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+    NSLog(@"openURL: %@ options: %@", url, options);
+    return [self tryUpdateHackfoldrPageKeyWithURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    NSLog(@"Calling Application Bundle ID: %@", sourceApplication);
+    NSLog(@"URL scheme:%@", [url scheme]);
+    NSLog(@"URL query: %@", [url query]);
+    return [self tryUpdateHackfoldrPageKeyWithURL:url];
+}
+
+- (BOOL)tryUpdateHackfoldrPageKeyWithURL:(NSURL *)url {
+    BOOL canHandle = [NSURL canHandleHackfoldrURL:url];
+    // Find MainViewController
+    __block MainViewController *vc = nil;
+    [((UINavigationController *)self.viewController).viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[MainViewController class]]) {
+            vc = obj;
+            *stop = YES;
+        }
+    }];
+    if (vc && url.host && url.host.length > 0) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [vc updateHackfoldrPageWithKey:url.host];
+        });
+    }
+    return canHandle;
 }
 
 @end
