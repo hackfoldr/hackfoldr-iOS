@@ -10,6 +10,7 @@
 
 #import <Bolts/Bolts.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import <PocketSVG/PocketSVG.h>
 
 // Model & Client
 #import <MagicalRecord/MagicalRecord.h>
@@ -32,6 +33,10 @@
 
 @interface ListFieldViewController () <RATreeViewDelegate, RATreeViewDataSource>
 @property (nonatomic, strong) QuickDialogController *dialogController;
+
+@property (nonatomic, strong) UIView *refreshLoadingView;
+@property (nonatomic, strong) SVGImageView *g0vIcon;
+@property (assign) BOOL isRefreshAnimating;
 @end
 
 @implementation ListFieldViewController
@@ -83,6 +88,30 @@
         leftView = backButton;
     }
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftView];
+
+    [self setupRefreshControl];
+}
+
+- (void)setupRefreshControl
+{
+    self.refreshControl = [[UIRefreshControl alloc] init];
+
+    self.refreshLoadingView = [[UIView alloc] initWithFrame:self.refreshControl.bounds];
+    self.refreshLoadingView.backgroundColor = [UIColor clearColor];
+
+    NSURL *g0vIconURL = [[NSBundle mainBundle] URLForResource:@"g0v" withExtension:@"svg"];
+    SVGImageView *icon = [[SVGImageView alloc] initWithContentsOfURL:g0vIconURL];
+    icon.frame = CGRectMake(0, 0, 24, 24);
+    self.g0vIcon = icon;
+    [self.refreshLoadingView addSubview:self.g0vIcon];
+
+    // Clip so the graphics don't stick out
+    self.refreshLoadingView.clipsToBounds = YES;
+
+    self.refreshControl.tintColor = [UIColor clearColor];
+
+    [self.refreshControl addSubview:self.refreshLoadingView];
+    [self.refreshControl addTarget:self action:@selector(refreshAction:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -237,7 +266,6 @@
     return completion.task;
 }
 
-
 - (BFTask *)updateHackfoldrPageWithDialogController:(QuickDialogController *)dialogController key:(NSString *)hackfoldrKey
 {
     NSString *rediredKey = nil;
@@ -282,6 +310,25 @@
 - (void)backAction:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)refreshAction:(id)sender
+{
+    if (!self.page.key) return;
+
+    [[self updateHackfoldrPageWithDialogController:self.dialogController key:self.page.key] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id _Nullable(BFTask * _Nonnull t) {
+        [self.refreshControl endRefreshing];
+
+        if (t.error) {
+            NSLog(@"refresh: %@", t.error);
+            return nil;
+        }
+
+        HackfoldrPage *page = t.result;
+        self.page = page;
+        [self reloadPage];
+        return nil;
+    }];
 }
 
 - (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey
@@ -338,6 +385,76 @@
         foldrImage = [[FAKFontAwesome folderIconWithSize:iconSize] imageWithSize:CGSizeMake(iconSize, iconSize)];
     }
     return foldrImage;
+}
+
+- (void)animateRefreshView
+{
+    self.isRefreshAnimating = YES;
+
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         // Rotate the spinner by M_PI_2 = PI/2 = 90 degrees
+                         [self.g0vIcon setTransform:CGAffineTransformRotate(self.g0vIcon.transform, M_PI_2)];
+                     }
+                     completion:^(BOOL finished) {
+                         // If still refreshing, keep spinning, else reset
+                         if (self.refreshControl.isRefreshing) {
+                             [self animateRefreshView];
+                         } else {
+                             self.isRefreshAnimating = NO;
+                         }
+                     }];
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    // Get the current size of the refresh controller
+    CGRect refreshBounds = self.refreshControl.bounds;
+
+    // Distance the table has been pulled >= 0
+    CGFloat pullDistance = MAX(0.0, -self.refreshControl.frame.origin.y);
+
+    // Half the width of the table
+    CGFloat midX = self.treeView.frame.size.width / 2.0;
+
+    // Calculate the width and height of our graphics
+    CGFloat iconHeight = self.g0vIcon.bounds.size.height;
+    CGFloat iconHeightHalf = iconHeight / 2.0;
+
+    CGFloat iconWidth = self.g0vIcon.bounds.size.width;
+    CGFloat iconWidthHalf = iconWidth / 2.0;
+
+    // Calculate the pull ratio, between 0.0-1.0
+    CGFloat pullRatio = MIN( MAX(pullDistance, 0.0), 100.0) / 100.0;
+
+    // Set the Y coord of the graphics, based on pull distance
+    CGFloat iconY = pullDistance / 2.0 - iconHeightHalf;
+
+    // Set the graphic's frames
+    CGRect iconFrame = self.g0vIcon.frame;
+    iconFrame.origin.x = refreshBounds.size.width / 2 - iconWidthHalf;
+    iconFrame.origin.y = iconY;
+    self.g0vIcon.frame = iconFrame;
+
+    // Set the encompassing view's frames
+    refreshBounds.size.height = pullDistance;
+
+    self.refreshLoadingView.frame = refreshBounds;
+
+    // If we're refreshing and the animation is not playing, then play the animation
+    if (self.refreshControl.isRefreshing && !self.isRefreshAnimating) {
+        [self animateRefreshView];
+    }
+
+    NSLog(@"pullDistance: %.1f, pullRatio: %.1f, midX: %.1f, isRefreshing: %@",
+          pullDistance,
+          pullRatio,
+          midX,
+          self.refreshControl.isRefreshing ? @"YES" : @"NO");
 }
 
 #pragma mark - RATreeViewDelegate
