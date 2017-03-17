@@ -1,6 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, "7.0"
+platform :ios, "9.0"
 
 target "hackfoldr-iOS" do
   pod 'AFNetworking', '~> 2.3'
@@ -15,6 +15,7 @@ target "hackfoldr-iOS" do
 
   pod 'FontAwesomeKit', :git => 'https://github.com/PrideChung/FontAwesomeKit.git'
   pod 'FontAwesomeKit/FontAwesome', :git => 'https://github.com/PrideChung/FontAwesomeKit.git'
+  pod 'PocketSVG'
 
   # Track crash
   pod 'Fabric'

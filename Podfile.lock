@@ -70,6 +70,7 @@ PODS:
   - OHHTTPStubs/NSURLSession (5.2.3):
     - OHHTTPStubs/Core
   - OHHTTPStubs/OHPathHelpers (5.2.3)
+  - PocketSVG (2.1.1)
   - QuickDialog (1.0.2):
     - QuickDialog/Core (= 1.0.2)
   - QuickDialog/Core (1.0.2)
@@ -89,6 +90,7 @@ DEPENDENCIES:
   - FontAwesomeKit/FontAwesome (from `https://github.com/PrideChung/FontAwesomeKit.git`)
   - MagicalRecord (~> 2.2)
   - OHHTTPStubs
+  - PocketSVG
   - QuickDialog (from `https://github.com/escoz/QuickDialog`, branch `master`)
   - RATreeView
   - TOWebViewController
@@ -118,10 +120,11 @@ SPEC CHECKSUMS:
   FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
+  PocketSVG: b5bd9de562adb211af33ab3a9a29dcacb3e8fe14
   QuickDialog: f0c3e254c91182fa3f91fdb479ccac4a11b459e1
   RATreeView: 380cde0090cfde21dc6ac29137f49d3b768fdd28
   TOWebViewController: a29908019f7e0e0f8eccfab8a1ee8dcdf4fc5aac
 
-PODFILE CHECKSUM: 3cea18b6fee157b29d158aafebfb6c54cf621879
+PODFILE CHECKSUM: e0f4afa9d5c2283bc5c0e94c61e2e45c2a613a2e
 
 COCOAPODS: 1.1.1
