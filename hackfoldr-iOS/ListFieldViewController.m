@@ -159,6 +159,7 @@
     HackfoldrHistory *currentHistory = [HackfoldrHistory MR_findFirstByAttribute:@"hackfoldrKey" withValue:key];
     currentHackpageDate.title = NSLocalizedStringFromTable(@"Refresh At", @"Hackfoldr", @"Refresh date about current hackfoldr key in SettingView.");
     currentHackpageDate.dateValue = currentHistory.refreshDate;
+    currentHackpageDate.enabled = NO;
     [currentPageSection addElement:currentHackpageDate];
 
     [settingRoot addSection:currentPageSection];
