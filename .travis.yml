@@ -6,12 +6,14 @@ branches:
     - master
     - develop
 
+env:
+  global:
+    - COCOAPODS_DISABLE_DETERMINISTIC_UUIDS=1
+    - BUILD_TARGET="-scheme hackfoldr-iOS -sdk iphonesimulator"
+
 before_install:
-    - git clone --depth=1 https://github.com/facebook/xctool.git
+    - gem install xcpretty -N --no-ri --no-rdoc
 
 script:
-  - SIMULATOR_ID=$(xcrun instruments -s devices | grep -io "$SIMULATOR \[.*\]" | grep -o "\[.*\]" | sed "s/^\[\(.*\)\]$/\1/")
-  - open -b com.apple.iphonesimulator --args -CurrentDeviceUDID $SIMULATOR_ID
-  - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator -configuration "DEBUG" build
-  - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator build-tests
-  # - xctool/xctool.sh -workspace hackfoldr-iOS.xcworkspace -scheme hackfoldr-iOS -sdk iphonesimulator run-tests
+  - set -o pipefail
+  - xcodebuild clean test -workspace hackfoldr-iOS.xcworkspace $BUILD_TARGET | xcpretty
