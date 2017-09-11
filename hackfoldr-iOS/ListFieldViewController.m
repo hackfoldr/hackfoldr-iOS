@@ -496,6 +496,7 @@
                 [lvc reloadPage];
                 return nil;
             }];
+            [treeView deselectRowForItem:item animated:YES];
             return;
         }
     }
@@ -511,6 +512,7 @@
 
         [self.navigationController pushViewController:webViewController animated:YES];
     }
+    [treeView deselectRowForItem:item animated:YES];
 }
 
 - (BOOL)treeView:(RATreeView *)treeView shouldExpandRowForItem:(id)item
