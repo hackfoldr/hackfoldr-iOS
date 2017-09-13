@@ -10,6 +10,7 @@
 		3AB4D0070023B1FA82E42FAE /* libPods-hackfoldr-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 893ECEAB2C1FEB82EE9E1ED6 /* libPods-hackfoldr-iOSTests.a */; };
 		882E652A19B2D5920054E522 /* ListFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 882E652919B2D5920054E522 /* ListFieldViewController.m */; };
 		886F4A471E0536AA00AF14DE /* NSURL+Hackfoldr.m in Sources */ = {isa = PBXBuildFile; fileRef = 886F4A461E0536AA00AF14DE /* NSURL+Hackfoldr.m */; };
+		88AC6BEA1F6BD13000E082E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88AC6BE91F6BD13000E082E2 /* LaunchScreen.storyboard */; };
 		D7BD8128463F908AE0D361C0 /* libPods-hackfoldr-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2BE931B1EC9D9EDF8673F5C /* libPods-hackfoldr-iOS.a */; };
 		E70F906D1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.m in Sources */ = {isa = PBXBuildFile; fileRef = E70F906C1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.m */; };
 		E71D192A1956CE5500B57207 /* HackfoldrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D19291956CE5500B57207 /* HackfoldrClient.m */; };
@@ -57,6 +58,7 @@
 		886F4A451E0536AA00AF14DE /* NSURL+Hackfoldr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+Hackfoldr.h"; path = "hackfoldr-iOS/NSURL+Hackfoldr.h"; sourceTree = "<group>"; };
 		886F4A461E0536AA00AF14DE /* NSURL+Hackfoldr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURL+Hackfoldr.m"; path = "hackfoldr-iOS/NSURL+Hackfoldr.m"; sourceTree = "<group>"; };
 		889DFBC61D28EE740066ECA2 /* hackfoldr-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "hackfoldr-iOS.entitlements"; sourceTree = "<group>"; };
+		88AC6BE91F6BD13000E082E2 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		893ECEAB2C1FEB82EE9E1ED6 /* libPods-hackfoldr-iOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hackfoldr-iOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6F8B8E84166B0CC5D012432 /* Pods-hackfoldr-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackfoldr-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hackfoldr-iOS/Pods-hackfoldr-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		E2BE931B1EC9D9EDF8673F5C /* libPods-hackfoldr-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hackfoldr-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -238,6 +240,7 @@
 				E7EB66CB19554E290069FD71 /* AppDelegate.m */,
 				E7EB66D619554E290069FD71 /* Images.xcassets */,
 				E79B0E7D1E7C030E005BE38C /* g0v.svg */,
+				88AC6BE91F6BD13000E082E2 /* LaunchScreen.storyboard */,
 				E7EB66C219554E290069FD71 /* Supporting Files */,
 			);
 			path = "hackfoldr-iOS";
@@ -366,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7EB66D719554E290069FD71 /* Images.xcassets in Resources */,
+				88AC6BEA1F6BD13000E082E2 /* LaunchScreen.storyboard in Resources */,
 				E7EB66C619554E290069FD71 /* InfoPlist.strings in Resources */,
 				E79B0E7E1E7C030E005BE38C /* g0v.svg in Resources */,
 				E755907A1AEAB595007337B1 /* Hackfoldr.strings in Resources */,
@@ -649,7 +653,6 @@
 			baseConfigurationReference = D6F8B8E84166B0CC5D012432 /* Pods-hackfoldr-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "hackfoldr-iOS/hackfoldr-iOS.entitlements";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -672,7 +675,6 @@
 			baseConfigurationReference = F15476DD2E850E7A93F2DF39 /* Pods-hackfoldr-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "hackfoldr-iOS/hackfoldr-iOS.entitlements";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
