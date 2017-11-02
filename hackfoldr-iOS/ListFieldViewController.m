@@ -31,9 +31,10 @@
 #import "SettingViewController.h"
 #import "TOWebViewController+HackfoldrField.h"
 
-@interface ListFieldViewController () <RATreeViewDelegate, RATreeViewDataSource>
+@interface ListFieldViewController () <RATreeViewDelegate, RATreeViewDataSource, UIScrollViewDelegate>
 @property (nonatomic, strong) SettingViewController *settingsController;
 
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UIView *refreshLoadingView;
 @property (nonatomic, strong) UIImage *hackfoldrImage;
 @property (nonatomic, strong) SVGImageView *g0vIcon;
@@ -96,6 +97,7 @@
 - (void)setupRefreshControl
 {
     self.refreshControl = [[UIRefreshControl alloc] init];
+    self.treeView.scrollView.refreshControl = self.refreshControl;
 
     self.refreshLoadingView = [[UIView alloc] initWithFrame:self.refreshControl.bounds];
     self.refreshLoadingView.backgroundColor = [UIColor clearColor];
@@ -113,6 +115,8 @@
 
     [self.refreshControl addSubview:self.refreshLoadingView];
     [self.refreshControl addTarget:self action:@selector(refreshAction:) forControlEvents:UIControlEventValueChanged];
+
+    self.treeView.scrollView.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
