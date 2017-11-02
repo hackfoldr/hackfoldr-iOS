@@ -33,7 +33,7 @@
 #import "UIAlertView+AFNetworking.h"
 
 @interface ListFieldViewController () <RATreeViewDelegate, RATreeViewDataSource>
-@property (nonatomic, strong) QuickDialogController *dialogController;
+@property (nonatomic, strong) SettingViewController *settingsController;
 
 @property (nonatomic, strong) UIView *refreshLoadingView;
 @property (nonatomic, strong) UIImage *hackfoldrImage;
@@ -138,19 +138,19 @@
 - (void)showSettingViewController
 {
     // When Setting view is showed, don't show again
-    for (QuickDialogController *vc in self.navigationController.viewControllers) {
-        if ([vc isKindOfClass:[QuickDialogController class]]) {
+    for (SettingViewController *vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[SettingViewController class]]) {
             return;
         }
     }
 
     SettingViewController *dialogController = [[SettingViewController alloc] init];
-    self.dialogController = dialogController;
+    self.settingsController = dialogController;
     dialogController.updateHackfoldrPage = ^void(NSString * _Nonnull pageKey, NSError * _Nullable error) {
         if (error) {
-            [self.dialogController popToPreviousRootElement];
+            [self.settingsController popoverPresentationController];
         } else {
-            [[self updateHackfoldrPageWithDialogController:self.dialogController key:pageKey] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
+            [[self updateHackfoldrPageWithDialogController:self.settingsController key:pageKey] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
                 [self reloadPage];
 
                 [self.navigationController popViewControllerAnimated:YES];
@@ -167,7 +167,7 @@
     }
 }
 
-- (BFTask *)updateHackfoldrPageWithDialogController:(QuickDialogController *)dialogController key:(NSString *)hackfoldrKey
+- (BFTask *)updateHackfoldrPageWithDialogController:(SettingViewController *)dialogController key:(NSString *)hackfoldrKey
 {
     NSString *rediredKey = nil;
     // lookup |rediredKey| from core data
@@ -184,10 +184,7 @@
                                          cancelButtonTitle:dismissButtonTitle
                                          otherButtonTitles:nil];
 
-    [dialogController loading:YES];
-
     [[completionSource.task continueWithBlock:^id(BFTask *task) {
-        [dialogController loading:NO];
         return task;
     }] continueWithSuccessBlock:^id(BFTask *task) {
         NSLog(@"change hackfoldr page to: %@", hackfoldrKey);
@@ -217,7 +214,7 @@
 {
     if (!self.page.key) return;
 
-    [[self updateHackfoldrPageWithDialogController:self.dialogController key:self.page.key] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id _Nullable(BFTask * _Nonnull t) {
+    [[self updateHackfoldrPageWithDialogController:self.settingsController key:self.page.key] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id _Nullable(BFTask * _Nonnull t) {
         [self.refreshControl endRefreshing];
 
         if (t.error) {
@@ -234,7 +231,7 @@
 
 - (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey
 {
-    [[self updateHackfoldrPageWithDialogController:self.dialogController key:hackfoldrKey] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id _Nullable(BFTask * _Nonnull t) {
+    [[self updateHackfoldrPageWithDialogController:self.settingsController key:hackfoldrKey] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id _Nullable(BFTask * _Nonnull t) {
         [self reloadPage];
         return nil;
     }];

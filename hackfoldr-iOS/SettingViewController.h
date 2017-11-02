@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QuickDialog.h"
+
+#import <XLForm/XLForm.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SettingViewController : QuickDialogController
+@interface SettingViewController : XLFormViewController
 
 @property (nonatomic, copy, nullable) void (^updateHackfoldrPage)(NSString *pageKey, NSError * _Nullable error);
 
