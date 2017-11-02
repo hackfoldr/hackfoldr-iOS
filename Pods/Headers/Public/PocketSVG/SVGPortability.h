@@ -1,1 +1,0 @@
-../../../PocketSVG/SVGPortability.h

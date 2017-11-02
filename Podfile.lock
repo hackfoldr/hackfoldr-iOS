@@ -30,9 +30,9 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
   - CHCSVParser (2.1.0)
-  - Crashlytics (3.8.4):
-    - Fabric (~> 1.6.3)
-  - Fabric (1.6.11)
+  - Crashlytics (3.9.3):
+    - Fabric (~> 1.7.2)
+  - Fabric (1.7.2)
   - FontAwesomeKit (2.2.1):
     - FontAwesomeKit/Core (= 2.2.1)
     - FontAwesomeKit/FontAwesome (= 2.2.1)
@@ -57,20 +57,20 @@ PODS:
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
-  - OHHTTPStubs (5.2.3):
-    - OHHTTPStubs/Default (= 5.2.3)
-  - OHHTTPStubs/Core (5.2.3)
-  - OHHTTPStubs/Default (5.2.3):
+  - OHHTTPStubs (6.0.0):
+    - OHHTTPStubs/Default (= 6.0.0)
+  - OHHTTPStubs/Core (6.0.0)
+  - OHHTTPStubs/Default (6.0.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (5.2.3):
+  - OHHTTPStubs/JSON (6.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (5.2.3):
+  - OHHTTPStubs/NSURLSession (6.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (5.2.3)
-  - PocketSVG (2.1.1)
+  - OHHTTPStubs/OHPathHelpers (6.0.0)
+  - PocketSVG (2.2.1)
   - RATreeView (2.1.2)
   - TOWebViewController (2.2.6):
     - TOWebViewController/Core (= 2.2.6)
@@ -107,12 +107,12 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
-  Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
-  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
+  Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
   FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
-  OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
-  PocketSVG: b5bd9de562adb211af33ab3a9a29dcacb3e8fe14
+  OHHTTPStubs: 752f9b11fd810a15162d50f11c06ff94f8e012eb
+  PocketSVG: 51c4d5cb9ae7623d4494f439f69747394bad5d67
   RATreeView: 380cde0090cfde21dc6ac29137f49d3b768fdd28
   TOWebViewController: a29908019f7e0e0f8eccfab8a1ee8dcdf4fc5aac
   XLForm: 04110197c12187dd28a6c7295d3d8b95f4fdb4de
