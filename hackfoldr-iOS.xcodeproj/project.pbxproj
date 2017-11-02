@@ -16,6 +16,7 @@
 		E71D192A1956CE5500B57207 /* HackfoldrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D19291956CE5500B57207 /* HackfoldrClient.m */; };
 		E71D192D1956CFB600B57207 /* HackfoldrField.m in Sources */ = {isa = PBXBuildFile; fileRef = E71D192C1956CFB600B57207 /* HackfoldrField.m */; };
 		E755907A1AEAB595007337B1 /* Hackfoldr.strings in Resources */ = {isa = PBXBuildFile; fileRef = E75590781AEAB595007337B1 /* Hackfoldr.strings */; };
+		E77B93D11FAB1F4800BD8130 /* HackfoldrPage+CSSearchableItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E77B93D01FAB1F4800BD8130 /* HackfoldrPage+CSSearchableItem.m */; };
 		E79424AE1ACEEDCF00558AE9 /* HackoldrModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E79424AC1ACEEDCF00558AE9 /* HackoldrModel.xcdatamodeld */; };
 		E79424B11ACEEF6400558AE9 /* HackfoldrHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = E79424B01ACEEF6400558AE9 /* HackfoldrHistory.m */; };
 		E79424B31ACF015300558AE9 /* sample.csv.json in Resources */ = {isa = PBXBuildFile; fileRef = E79424B21ACF015300558AE9 /* sample.csv.json */; };
@@ -70,6 +71,8 @@
 		E71D192C1956CFB600B57207 /* HackfoldrField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfoldrField.m; path = "hackfoldr-iOS/HackfoldrField.m"; sourceTree = "<group>"; };
 		E75590791AEAB595007337B1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Hackfoldr.strings"; sourceTree = "<group>"; };
 		E755907B1AEAB5A0007337B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Hackfoldr.strings; sourceTree = "<group>"; };
+		E77B93CF1FAB1F4800BD8130 /* HackfoldrPage+CSSearchableItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "HackfoldrPage+CSSearchableItem.h"; path = "hackfoldr-iOS/HackfoldrPage+CSSearchableItem.h"; sourceTree = "<group>"; };
+		E77B93D01FAB1F4800BD8130 /* HackfoldrPage+CSSearchableItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "HackfoldrPage+CSSearchableItem.m"; path = "hackfoldr-iOS/HackfoldrPage+CSSearchableItem.m"; sourceTree = "<group>"; };
 		E79424AD1ACEEDCF00558AE9 /* HackoldrModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HackoldrModel.xcdatamodel; sourceTree = "<group>"; };
 		E79424AF1ACEEF6400558AE9 /* HackfoldrHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HackfoldrHistory.h; path = "hackfoldr-iOS/HackfoldrHistory.h"; sourceTree = "<group>"; };
 		E79424B01ACEEF6400558AE9 /* HackfoldrHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfoldrHistory.m; path = "hackfoldr-iOS/HackfoldrHistory.m"; sourceTree = "<group>"; };
@@ -148,6 +151,8 @@
 			children = (
 				E79B0E781E7B1714005BE38C /* HackfoldrClient+Store.h */,
 				E79B0E791E7B1714005BE38C /* HackfoldrClient+Store.m */,
+				E77B93CF1FAB1F4800BD8130 /* HackfoldrPage+CSSearchableItem.h */,
+				E77B93D01FAB1F4800BD8130 /* HackfoldrPage+CSSearchableItem.m */,
 				886F4A451E0536AA00AF14DE /* NSURL+Hackfoldr.h */,
 				886F4A461E0536AA00AF14DE /* NSURL+Hackfoldr.m */,
 				E70F906B1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.h */,
@@ -504,6 +509,7 @@
 				886F4A471E0536AA00AF14DE /* NSURL+Hackfoldr.m in Sources */,
 				E7EB66D519554E290069FD71 /* MainViewController.m in Sources */,
 				882E652A19B2D5920054E522 /* ListFieldViewController.m in Sources */,
+				E77B93D11FAB1F4800BD8130 /* HackfoldrPage+CSSearchableItem.m in Sources */,
 				E79B0E771E7AE43F005BE38C /* UIColor+Hackfoldr.m in Sources */,
 				E7B1DD8A195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m in Sources */,
 				E7EB66CC19554E290069FD71 /* AppDelegate.m in Sources */,
