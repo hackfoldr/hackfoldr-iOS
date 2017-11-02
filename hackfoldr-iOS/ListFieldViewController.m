@@ -36,6 +36,7 @@
 @property (nonatomic, strong) QuickDialogController *dialogController;
 
 @property (nonatomic, strong) UIView *refreshLoadingView;
+@property (nonatomic, strong) UIImage *hackfoldrImage;
 @property (nonatomic, strong) SVGImageView *g0vIcon;
 @property (assign) BOOL isRefreshAnimating;
 @end
@@ -312,6 +313,13 @@
     return foldrImage;
 }
 
+- (UIImage *)hackfoldrImage {
+    if (_hackfoldrImage) return _hackfoldrImage;
+
+    _hackfoldrImage = [[UIImage imageNamed:@"hackfoldr-icon-small"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    return _hackfoldrImage;
+}
+
 - (void)animateRefreshView
 {
     self.isRefreshAnimating = YES;
@@ -531,7 +539,7 @@
         CGFloat iconSize = [UIFont systemFontSize] + 2.f;
 
         if ([NSURL canHandleHackfoldrURL:[NSURL URLWithString:field.urlString]]) {
-            iconImage = [[UIImage imageNamed:@"hackfoldr-icon-small"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            iconImage = self.hackfoldrImage;
         } else if (field.actions.length > 0 && [field.actions rangeOfString:@"fa-"].location != NSNotFound) {
             // Custom icon
             NSString *iconName = nil;
