@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 
+#import <CoreSpotlight/CoreSpotlight.h>
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
 #import <MagicalRecord/MagicalRecord.h>
@@ -84,8 +85,9 @@
     return [self tryUpdateHackfoldrPageKeyWithURL:url];
 }
 
-- (BOOL)tryUpdateHackfoldrPageKeyWithURL:(NSURL *)url {
-    BOOL canHandle = [NSURL canHandleHackfoldrURL:url];
+- (void)updateCurrentHackfoldrPageWithKey:(NSString *)pageKey {
+    if (!pageKey || pageKey.length == 0) return;
+
     // Find MainViewController
     __block MainViewController *vc = nil;
     [((UINavigationController *)self.viewController).viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -94,12 +96,27 @@
             *stop = YES;
         }
     }];
-    if (vc && url.host && url.host.length > 0) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [vc updateHackfoldrPageWithKey:url.host];
-        });
-    }
+    if (!vc) return;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [vc updateHackfoldrPageWithKey:pageKey];
+    });
+}
+
+- (BOOL)tryUpdateHackfoldrPageKeyWithURL:(NSURL *)url {
+    BOOL canHandle = [NSURL canHandleHackfoldrURL:url];
+    [self updateCurrentHackfoldrPageWithKey:url.host];
     return canHandle;
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray * __nullable restorableObjects))restorationHandler {
+    if ([userActivity.activityType isEqualToString:CSSearchableItemActionType]) {
+        NSLog(@"CSSearchableItemActionType");
+        NSString *uniqueIdentifier = userActivity.userInfo[CSSearchableItemActivityIdentifier];
+        NSLog(@"uniqueIdentifier %@", uniqueIdentifier);
+        [self updateCurrentHackfoldrPageWithKey:uniqueIdentifier];
+    }
+    return YES;
 }
 
 @end

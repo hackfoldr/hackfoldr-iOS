@@ -19,6 +19,7 @@
 #import "HackfoldrPage.h"
 // Category
 #import "HackfoldrClient+Store.h"
+#import "HackfoldrPage+CSSearchableItem.h"
 #import "NSURL+Hackfoldr.h"
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
 #import "UIColor+Hackfoldr.h"
@@ -119,6 +120,8 @@
     [super viewWillAppear:animated];
 
     self.title = self.page.pageTitle;
+
+    [self createSearchIndex];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -200,7 +203,7 @@
     QSection *historySection = [[QSection alloc] init];
     historySection.title = NSLocalizedStringFromTable(@"History", @"Hackfoldr", @"History section title in SettingView");
     historySection.footer = NSLocalizedStringFromTable(@"You can select one cell to return to the past.", @"Hackfoldr", @"History section footer in SettingView");
-    NSArray *histories = [HackfoldrHistory MR_findAllSortedBy:@"refreshDate" ascending:NO];
+    NSArray<HackfoldrHistory *> *histories = [HackfoldrHistory MR_findAllSortedBy:@"refreshDate" ascending:NO];
     [histories enumerateObjectsUsingBlock:^(HackfoldrHistory *history, NSUInteger idx, BOOL *stop) {
         QButtonElement *buttonElement = [[QButtonElement alloc] init];
         buttonElement.title = history.title;
@@ -334,7 +337,14 @@
 
 - (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey
 {
-    [self updateHackfoldrPageWithDialogController:self.dialogController key:hackfoldrKey];
+    [[self updateHackfoldrPageWithDialogController:self.dialogController key:hackfoldrKey] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id _Nullable(BFTask * _Nonnull t) {
+        HackfoldrPage *page = t.result;
+        if (page) {
+            self.title = page.pageTitle;
+            [self.treeView reloadData];
+        }
+        return nil;
+    }];
 }
 
 - (void)reloadPage {
@@ -366,6 +376,28 @@
         }
         return nil;
     }];
+}
+
+- (void)createSearchIndex {
+    NSMutableArray *items = [NSMutableArray array];
+    NSArray<HackfoldrHistory *> *histories = [HackfoldrHistory MR_findAllSortedBy:@"refreshDate" ascending:NO];
+    [histories enumerateObjectsUsingBlock:^(HackfoldrHistory * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        CSSearchableItem *item = [self.page searchableItemWithDomain:NSStringFromClass(self.class)];
+        [items addObject:item];
+    }];
+
+    [CSSearchableIndex.defaultSearchableIndex indexSearchableItems:items completionHandler: ^(NSError * __nullable error) {
+        if (error) {
+            NSLog(@"Indexed failed %@", error);
+            return;
+        }
+        NSLog(@"create search indexed");
+    }];
+    self.userActivity.eligibleForSearch = YES;
+    self.userActivity.eligibleForPublicIndexing = YES;
+    self.userActivity.eligibleForHandoff = YES;
+
+    [self updateUserActivityState:self.userActivity];
 }
 
 - (UIImage *)folderImageWithField:(HackfoldrField *)field

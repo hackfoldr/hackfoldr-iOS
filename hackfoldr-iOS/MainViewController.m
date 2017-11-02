@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 
+#import <CoreSpotlight/CoreSpotlight.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
 
 #import "AppDelegate.h"
@@ -61,6 +62,12 @@
     self.view.backgroundColor = [UIColor hackfoldrGreenColor];
 
     [self mainNavigationController].delegate = self;
+
+    [CSSearchableIndex.defaultSearchableIndex deleteAllSearchableItemsWithCompletionHandler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"deleteAllSearchableItems %@", error);
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning
