@@ -9,7 +9,7 @@ target "hackfoldr-iOS" do
   pod 'AFCSVParserResponseSerializer'
   pod 'MagicalRecord', '~> 2.2'
 
-  pod 'QuickDialog', :git => 'https://github.com/escoz/QuickDialog', :branch => 'master'
+  pod 'XLForm', '~> 4.0.0'
   pod 'TOWebViewController'
   pod 'RATreeView'
 
