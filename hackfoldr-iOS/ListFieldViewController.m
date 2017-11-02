@@ -11,6 +11,8 @@
 #import <Bolts/Bolts.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <PocketSVG/PocketSVG.h>
+#import <RATreeView/RATreeView.h>
+#import <SafariServices/SafariServices.h>
 
 // Model & Client
 #import <MagicalRecord/MagicalRecord.h>
@@ -25,10 +27,8 @@
 #import "UIColor+Hackfoldr.h"
 #import "UIImage+TOWebViewControllerIcons.h"
 // ViewController
-#import <RATreeView/RATreeView.h>
-#import <SafariServices/SafariServices.h>
 #import "ListFieldViewController.h"
-#import "QuickDialog.h"
+#import "SettingViewController.h"
 #import "TOWebViewController+HackfoldrField.h"
 #import "UIAlertView+AFNetworking.h"
 
@@ -143,107 +143,20 @@
         }
     }
 
-    QRootElement *settingRoot = [[QRootElement alloc] init];
-    settingRoot.title = NSLocalizedStringFromTable(@"Setting Hackfoldr Page", @"Hackfoldr", @"Title of SettingView");
-    settingRoot.grouped = YES;
-
-    QuickDialogController *dialogController = [QuickDialogController controllerForRoot:settingRoot];
+    SettingViewController *dialogController = [[SettingViewController alloc] init];
     self.dialogController = dialogController;
-
-    QSection *currentPageSection = [[QSection alloc] init];
-    currentPageSection.title = NSLocalizedStringFromTable(@"Current Hackfoldr", @"Hackfoldr", @"Section title of current hackfoldr");
-    NSString *key = [[NSUserDefaults standardUserDefaults] stringOfCurrentHackfoldrPage];
-    QLabelElement *currentHackpageKey = [[QLabelElement alloc] init];
-    currentHackpageKey.title = NSLocalizedStringFromTable(@"Current key", @"Hackfoldr", @"Current key title in SettingView.");
-    currentHackpageKey.value = key;
-    [currentPageSection addElement:currentHackpageKey];
-
-    QDateTimeElement *currentHackpageDate = [[QDateTimeElement alloc] init];
-    HackfoldrHistory *currentHistory = [HackfoldrHistory MR_findFirstByAttribute:@"hackfoldrKey" withValue:key];
-    currentHackpageDate.title = NSLocalizedStringFromTable(@"Refresh At", @"Hackfoldr", @"Refresh date about current hackfoldr key in SettingView.");
-    currentHackpageDate.dateValue = currentHistory.refreshDate;
-    currentHackpageDate.enabled = NO;
-    [currentPageSection addElement:currentHackpageDate];
-
-    [settingRoot addSection:currentPageSection];
-
-    QSection *inputSection = [[QSection alloc] init];
-    inputSection.footer = NSLocalizedStringFromTable(@"You can input new hackfoldr page key and select Change Key to change it.", @"Hackfoldr", @"Change key description at input section in SettingView.");
-
-    QEntryElement *inputElement = [[QEntryElement alloc] init];
-    inputElement.placeholder = NSLocalizedStringFromTable(@"Hackfoldr key or URL", @"Hackfoldr", @"Place holder string for input element in SettingView.");
-    [inputSection addElement:inputElement];
-
-    QButtonElement *sendButtonElement = [[QButtonElement alloc] init];
-    sendButtonElement.title = NSLocalizedStringFromTable(@"Change Key", @"Hackfoldr", @"Change hackfoldr key button title in SettingView.");
-    // Change page button clicked
-    sendButtonElement.onSelected = ^(void) {
-
-        BFTask *cleanKeyTask = [self validatorHackfoldrKeyForSettingViewWithHackfoldrKey:inputElement.textValue];
-        [cleanKeyTask continueWithBlock:^id(BFTask *task) {
-            if (task.error) {
-                // hide self
-                [dialogController popToPreviousRootElement];
-                return nil;
-            }
-            // Update hackfoldr page
-            [[self updateHackfoldrPageWithDialogController:dialogController key:task.result] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
+    dialogController.updateHackfoldrPage = ^void(NSString * _Nonnull pageKey, NSError * _Nullable error) {
+        if (error) {
+            [self.dialogController popToPreviousRootElement];
+        } else {
+            [[self updateHackfoldrPageWithDialogController:self.dialogController key:pageKey] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
                 [self reloadPage];
 
                 [self.navigationController popViewControllerAnimated:YES];
                 return nil;
             }];
-
-            return nil;;
-        }];
+        }
     };
-    [inputSection addElement:sendButtonElement];
-    [settingRoot addSection:inputSection];
-
-    QSection *historySection = [[QSection alloc] init];
-    historySection.title = NSLocalizedStringFromTable(@"History", @"Hackfoldr", @"History section title in SettingView");
-    historySection.footer = NSLocalizedStringFromTable(@"You can select one cell to return to the past.", @"Hackfoldr", @"History section footer in SettingView");
-    NSArray<HackfoldrHistory *> *histories = [HackfoldrHistory MR_findAllSortedBy:@"refreshDate" ascending:NO];
-    [histories enumerateObjectsUsingBlock:^(HackfoldrHistory *history, NSUInteger idx, BOOL *stop) {
-        QButtonElement *buttonElement = [[QButtonElement alloc] init];
-        buttonElement.title = history.title;
-        buttonElement.onSelected = ^() {
-            // Update hackfoldr page
-            [[self updateHackfoldrPageWithDialogController:dialogController key:history.hackfoldrKey] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-                [self reloadPage];
-
-                [self.navigationController popViewControllerAnimated:YES];
-                return nil;
-            }];
-        };
-        [historySection addElement:buttonElement];
-    }];
-    [settingRoot addSection:historySection];
-
-    QSection *restSection = [[QSection alloc] init];
-    restSection.title = NSLocalizedStringFromTable(@"Reset Actions", @"Hackfoldr", @"Reset hackfoldr actions in SettingView");
-    restSection.footer = NSLocalizedStringFromTable(@"If you lost in app, just select it.", @"Hackfoldr", @"Reset section footer in SettingView");
-    QButtonElement *restHackfoldrPageElement = [[QButtonElement alloc] init];
-    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Hackfoldr Help", @"Hackfoldr", @"Reset hackfoldr page button title in SettingView");
-    restHackfoldrPageElement.onSelected = ^(void) {
-        // Set current HackfoldrPage to |DefaultHackfoldrPage|
-        NSString *defaultHackfoldrKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
-        // update hackfoldr page
-        [[self updateHackfoldrPageWithDialogController:dialogController key:defaultHackfoldrKey] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-            [self reloadPage];
-
-            [self.navigationController popViewControllerAnimated:YES];
-            return nil;
-        }];
-    };
-    [restSection addElement:restHackfoldrPageElement];
-    [settingRoot addSection:restSection];
-
-    QSection *infoSection = [[QSection alloc] init];
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    infoSection.footer = [NSString stringWithFormat:@"App Version: %@ (%@)\nCreate by Superbil", version, build];
-    [settingRoot addSection:infoSection];
 
     if (self.navigationController) {
         [self.navigationController pushViewController:dialogController animated:YES];
@@ -251,23 +164,6 @@
         UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:dialogController];
         [self presentViewController:controller animated:YES completion:nil];
     }
-}
-
-- (BFTask *)validatorHackfoldrKeyForSettingViewWithHackfoldrKey:(NSString *)newHackfoldrKey
-{
-    BFTaskCompletionSource *completion = [BFTaskCompletionSource taskCompletionSource];
-
-    NSString *validatorKey = [NSURL validatorHackfoldrKey:newHackfoldrKey];
-
-    if (validatorKey && validatorKey.length > 0) {
-        [completion setResult:validatorKey];
-    } else {
-        [completion setError:[NSError errorWithDomain:@"SettingView"
-                                                 code:1
-                                             userInfo:nil]];
-    }
-
-    return completion.task;
 }
 
 - (BFTask *)updateHackfoldrPageWithDialogController:(QuickDialogController *)dialogController key:(NSString *)hackfoldrKey
@@ -338,11 +234,7 @@
 - (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey
 {
     [[self updateHackfoldrPageWithDialogController:self.dialogController key:hackfoldrKey] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id _Nullable(BFTask * _Nonnull t) {
-        HackfoldrPage *page = t.result;
-        if (page) {
-            self.title = page.pageTitle;
-            [self.treeView reloadData];
-        }
+        [self reloadPage];
         return nil;
     }];
 }
