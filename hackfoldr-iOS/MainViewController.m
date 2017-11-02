@@ -22,7 +22,6 @@
 // ViewController
 #import <RATreeView/RATreeView.h>
 #import "ListFieldViewController.h"
-#import "UIAlertView+AFNetworking.h"
 
 @interface MainViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 @property (nonatomic, strong) ListFieldViewController *listViewController;
@@ -130,21 +129,6 @@
 
 }
 
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    NSLog(@"alertView clickedAt:%d", (int)buttonIndex);
-    if (buttonIndex == 1) {
-        [self.listViewController showSettingViewController];
-        return;
-    }
-
-    if ([HackfoldrClient sharedClient].lastPage) {
-        [self showListViewController];
-    }
-}
-
 #pragma mark - Actions
 
 - (void)showListViewController
@@ -164,13 +148,29 @@
 {
     HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] hackfoldrPageTaskWithKey:[self hackfoldrPageKey] rediredKey:nil];
 
+    NSString *title = NSLocalizedStringFromTable(@"Error", @"Hackfoldr", @"Error title");
     NSString *cancelButtonTitle = NSLocalizedStringFromTable(@"Cancel", @"Hackfoldr", @"Alert Cancel button");
     NSString *setupTitle = NSLocalizedStringFromTable(@"Setup Key", @"Hackfoldr", @"Alert Setup button");
 
-    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
-                                                  delegate:self
-                                         cancelButtonTitle:cancelButtonTitle
-                                         otherButtonTitles:setupTitle ,nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:setupTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.listViewController showSettingViewController];
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:cancelButtonTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        if ([HackfoldrClient sharedClient].lastPage) {
+            [self showListViewController];
+        }
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }]];
+
+    [completionSource.task continueWithBlock:^id _Nullable(BFTask * _Nonnull t) {
+        if (t.error) {
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        return nil;
+    }];
 
     [completionSource.task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
         [self showListViewController];

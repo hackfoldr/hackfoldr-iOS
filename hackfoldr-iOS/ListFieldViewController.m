@@ -30,7 +30,6 @@
 #import "ListFieldViewController.h"
 #import "SettingViewController.h"
 #import "TOWebViewController+HackfoldrField.h"
-#import "UIAlertView+AFNetworking.h"
 
 @interface ListFieldViewController () <RATreeViewDelegate, RATreeViewDataSource>
 @property (nonatomic, strong) SettingViewController *settingsController;
@@ -178,11 +177,20 @@
 
     HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] hackfoldrPageTaskWithKey:hackfoldrKey rediredKey:rediredKey];
 
+    NSString *title = NSLocalizedStringFromTable(@"Error", @"Hackfoldr", @"Error title");
     NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button title in SettingView");
-    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
-                                                  delegate:self
-                                         cancelButtonTitle:dismissButtonTitle
-                                         otherButtonTitles:nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+
+    [alert addAction:[UIAlertAction actionWithTitle:dismissButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }]];
+
+    [completionSource.task continueWithBlock:^id _Nullable(BFTask * _Nonnull t) {
+        if (t.error) {
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        return nil;
+    }];
 
     [[completionSource.task continueWithBlock:^id(BFTask *task) {
         return task;

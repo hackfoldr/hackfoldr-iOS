@@ -3,7 +3,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, "9.0"
 
 target "hackfoldr-iOS" do
-  pod 'AFNetworking', '~> 2.3'
+  pod 'AFNetworking', '~> 3.1'
   pod 'AFNetworking/UIKit'
   pod 'Bolts', '~> 1.0'
   pod 'AFCSVParserResponseSerializer'
@@ -25,4 +25,3 @@ end
 target "hackfoldr-iOSTests" do
   pod 'OHHTTPStubs'
 end
-
