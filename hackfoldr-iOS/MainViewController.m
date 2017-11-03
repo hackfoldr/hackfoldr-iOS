@@ -50,7 +50,7 @@
 
     UIImage *backgroundImage = [[UIImage imageNamed:@"hackfoldr-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
-    self.backgroundImageView.tintColor = [UIColor colorWithRed:0.888 green:0.953 blue:0.826 alpha:1.000];
+    self.backgroundImageView.tintColor = [UIColor hackfoldrIconWhite];
     self.backgroundImageView.backgroundColor = [UIColor clearColor];
     [self updateBackgroundImageWithSize:self.view.frame.size];
 
