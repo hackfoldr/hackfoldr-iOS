@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode8.2
+osx_image: xcode9.1
 
 branches:
   only:
@@ -13,6 +13,7 @@ env:
 before_install:
 - gem install xcpretty -N --no-ri --no-rdoc
 - SIMULATOR_ID=$(xcrun instruments -s devices | grep -io "$SIMULATOR \[.*\]" | grep -o "\[.*\]" | sed "s/^\[\(.*\)\]$/\1/")
+- pod repo update
 
 script:
 - set -o pipefail
