@@ -39,6 +39,8 @@
 @property (nonatomic, strong) UIImage *hackfoldrImage;
 @property (nonatomic, strong) SVGImageView *g0vIcon;
 @property (assign) BOOL isRefreshAnimating;
+@property (assign) CGAffineTransform defaultIconTransform;
+@property (assign) CGFloat lastY;
 @end
 
 @implementation ListFieldViewController
@@ -107,6 +109,7 @@
     icon.frame = CGRectMake(0, 0, 24, 24);
     self.g0vIcon = icon;
     [self.refreshLoadingView addSubview:self.g0vIcon];
+    self.defaultIconTransform = self.g0vIcon.transform;
 
     // Clip so the graphics don't stick out
     self.refreshLoadingView.clipsToBounds = YES;
@@ -346,6 +349,7 @@
                              [self animateRefreshView];
                          } else {
                              self.isRefreshAnimating = NO;
+                             self.g0vIcon.transform = self.defaultIconTransform;
                          }
                      }];
 }
@@ -370,32 +374,38 @@
     CGFloat iconWidth = self.g0vIcon.bounds.size.width;
     CGFloat iconWidthHalf = iconWidth / 2.0;
 
+    CGFloat maxPullRange = 100.f;
+
     // Calculate the pull ratio, between 0.0-1.0
-    CGFloat pullRatio = MIN( MAX(pullDistance, 0.0), 100.0) / 100.0;
+    CGFloat pullRatio = MIN( MAX(pullDistance, 0.0), maxPullRange) / maxPullRange;
 
     // Set the Y coord of the graphics, based on pull distance
     CGFloat iconY = pullDistance / 2.0 - iconHeightHalf;
 
-    // Set the graphic's frames
-    CGRect iconFrame = self.g0vIcon.frame;
-    iconFrame.origin.x = refreshBounds.size.width / 2 - iconWidthHalf;
-    iconFrame.origin.y = iconY;
-    self.g0vIcon.frame = iconFrame;
+    // Use center to move icon
+    self.g0vIcon.center = CGPointMake(midX - iconWidthHalf, iconY);
 
     // Set the encompassing view's frames
     refreshBounds.size.height = pullDistance;
 
     self.refreshLoadingView.frame = refreshBounds;
 
+    if (pullRatio > 0.f) {
+        CGFloat angle = (-(CGRectGetMaxY(self.refreshControl.frame) - self.lastY) / maxPullRange * 11.25);
+        self.g0vIcon.transform = CGAffineTransformRotate(self.g0vIcon.transform, angle);
+    }
+    self.lastY = CGRectGetMaxY(self.refreshControl.frame);
+
     // If we're refreshing and the animation is not playing, then play the animation
     if (self.refreshControl.isRefreshing && !self.isRefreshAnimating) {
         [self animateRefreshView];
     }
 
-    NSLog(@"pullDistance: %.1f, pullRatio: %.1f, midX: %.1f, isRefreshing: %@",
+    NSLog(@"y: %.2f, pullDistance: %.1f, pullRatio: %.3f, iconY: %.2f, isRefreshing: %@",
+          self.refreshControl.frame.origin.y,
           pullDistance,
           pullRatio,
-          midX,
+          iconY,
           self.refreshControl.isRefreshing ? @"YES" : @"NO");
 }
 
