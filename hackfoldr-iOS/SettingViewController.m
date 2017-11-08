@@ -49,6 +49,7 @@
     XLFormSectionDescriptor *currentPageSection = [XLFormSectionDescriptor formSection];
     currentPageSection.title = NSLocalizedStringFromTable(@"Current Hackfoldr", @"Hackfoldr", @"Section title of current hackfoldr");
     NSString *key = [[NSUserDefaults standardUserDefaults] stringOfCurrentHackfoldrPage];
+
     XLFormRowDescriptor *currentHackpageKey = [XLFormRowDescriptor formRowDescriptorWithTag:nil rowType:XLFormRowDescriptorTypeInfo];
     currentHackpageKey.title = NSLocalizedStringFromTable(@"Current key", @"Hackfoldr", @"Current key title in SettingView.");
     currentHackpageKey.value = key;
@@ -64,31 +65,58 @@
     [form addFormSection:currentPageSection];
 
     XLFormSectionDescriptor *inputSection = [XLFormSectionDescriptor formSection];
-    inputSection.footerTitle = NSLocalizedStringFromTable(@"You can input new hackfoldr page key and select Change Key to change it.", @"Hackfoldr", @"Change key description at input section in SettingView.");
+    XLFormRowDescriptor *addButton = [XLFormRowDescriptor formRowDescriptorWithTag:nil rowType:XLFormRowDescriptorTypeButton];
+    addButton.title = @"Add Hackfoldr Page";
+    __weak XLFormRowDescriptor *wab = addButton;
+    addButton.action.formBlock = ^(XLFormRowDescriptor * _Nonnull sender) {
+        void (^deselectCell)(void) = ^() {
+            UITableViewCell *cell = [sender cellForFormController:self];
+            NSIndexPath *indexPathOfCell = [self.tableView indexPathForCell:cell];
+            [self.tableView deselectRowAtIndexPath:indexPathOfCell animated:YES];
+        };
 
-    XLFormRowDescriptor *inputRow = [XLFormRowDescriptor formRowDescriptorWithTag:@"hackfoldrKey" rowType:XLFormRowDescriptorTypeText];
-    inputRow.cellConfig[@"textField.placeholder"] = NSLocalizedStringFromTable(@"Hackfoldr key or URL", @"Hackfoldr", @"Place holder string for input element in SettingView.");
-    [inputSection addFormRow:inputRow];
+        __strong XLFormRowDescriptor *sab = wab;
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil
+                                                                    message:@"Select a way to input new key"
+                                                             preferredStyle:UIAlertControllerStyleActionSheet];
+        [ac addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"Hackfoldr key or URL", @"Hackfoldr", @"Place holder string for input element in SettingView.") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            // Show an alert with textField
+            UIAlertController *inputAlert = [UIAlertController alertControllerWithTitle:sab.title
+                                                                                message:nil
+                                                                         preferredStyle:UIAlertControllerStyleAlert];
+            NSString *changeKey = NSLocalizedStringFromTable(@"Change Key", @"Hackfoldr", @"Change hackfoldr key button title in SettingView.");
+            [inputAlert addAction:[UIAlertAction actionWithTitle:changeKey style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                if (inputAlert.textFields.count == 0) return;
 
-    XLFormRowDescriptor *sendButton = [XLFormRowDescriptor formRowDescriptorWithTag:nil rowType:XLFormRowDescriptorTypeButton];
-    sendButton.title = NSLocalizedStringFromTable(@"Change Key", @"Hackfoldr", @"Change hackfoldr key button title in SettingView.");
-    // Change page button clicked
-    sendButton.action.formBlock = ^(XLFormRowDescriptor * _Nonnull sender) {
-        NSString *inputText = form.formValues[@"hackfoldrKey"];
-        BFTask *cleanKeyTask = [self validatorHackfoldrKeyForSettingViewWithHackfoldrKey:inputText];
-        [cleanKeyTask continueWithBlock:^id(BFTask *task) {
-            if (task.error) {
-                self.updateHackfoldrPage(inputText, task.error);
-                return nil;
-            }
-            if (self.updateHackfoldrPage) {
-                self.updateHackfoldrPage(task.result, nil);
-            }
-
-            return nil;;
-        }];
+                UITextField *textField = inputAlert.textFields.firstObject;
+                BFTask *cleanKeyTask = [self validatorHackfoldrKeyForSettingViewWithHackfoldrKey:textField.text];
+                [cleanKeyTask continueWithBlock:^id(BFTask *task) {
+                    if (task.error) {
+                        self.updateHackfoldrPage(textField.text, task.error);
+                        return nil;
+                    }
+                    if (self.updateHackfoldrPage) {
+                        self.updateHackfoldrPage(task.result, nil);
+                    }
+                    return nil;
+                }];
+            }]];
+            [inputAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = action.title;
+            }];
+            [self presentViewController:inputAlert animated:YES completion:deselectCell];
+        }]];
+        [ac addAction:[UIAlertAction actionWithTitle:@"Scan QR Code" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            // Show scaner
+            deselectCell();
+        }]];
+        [ac addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            deselectCell();
+        }]];
+        [self presentViewController:ac animated:YES completion:nil];
     };
-    [inputSection addFormRow:sendButton];
+    [inputSection addFormRow:addButton];
+
     [form addFormSection:inputSection];
 
     XLFormSectionDescriptor *historySection = [XLFormSectionDescriptor formSection];
