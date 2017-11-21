@@ -62,11 +62,41 @@
 {
     [super viewDidLoad];
 
-    self.treeView = [[RATreeView alloc] initWithFrame:self.view.bounds style:RATreeViewStylePlain];
+    self.treeView = [[RATreeView alloc] initWithFrame:CGRectZero style:RATreeViewStylePlain];
     self.treeView.delegate = self;
     self.treeView.dataSource = self;
     self.treeView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.treeView];
+    self.treeView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *topC = [NSLayoutConstraint constraintWithItem:self.treeView
+                                                            attribute:NSLayoutAttributeTop
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:self.view
+                                                            attribute:NSLayoutAttributeTop
+                                                           multiplier:1.0
+                                                             constant:0.0];
+    NSLayoutConstraint *leftC = [NSLayoutConstraint constraintWithItem:self.treeView
+                                                            attribute:NSLayoutAttributeLeft
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:self.view
+                                                            attribute:NSLayoutAttributeLeft
+                                                           multiplier:1.0
+                                                             constant:0.0];
+    NSLayoutConstraint *rightC = [NSLayoutConstraint constraintWithItem:self.treeView
+                                                              attribute:NSLayoutAttributeRight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeRight
+                                                             multiplier:1.0
+                                                               constant:0.0];
+    NSLayoutConstraint *bottomC = [NSLayoutConstraint constraintWithItem:self.treeView
+                                                               attribute:NSLayoutAttributeBottom
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:self.view
+                                                               attribute:NSLayoutAttributeBottom
+                                                              multiplier:1.0
+                                                                constant:0.0];
+    [self.view addConstraints:@[topC, leftC, rightC, bottomC]];
 
     self.settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.settingButton addTarget:self action:@selector(settingAction:) forControlEvents:UIControlEventTouchUpInside];
