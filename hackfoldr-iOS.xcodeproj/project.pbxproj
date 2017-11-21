@@ -21,6 +21,8 @@
 		E79424AE1ACEEDCF00558AE9 /* HackoldrModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E79424AC1ACEEDCF00558AE9 /* HackoldrModel.xcdatamodeld */; };
 		E79424B11ACEEF6400558AE9 /* HackfoldrHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = E79424B01ACEEF6400558AE9 /* HackfoldrHistory.m */; };
 		E79424B31ACF015300558AE9 /* sample.csv.json in Resources */ = {isa = PBXBuildFile; fileRef = E79424B21ACF015300558AE9 /* sample.csv.json */; };
+		E79937391FC4C00C00DAC153 /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E79937381FC4C00C00DAC153 /* QRCodeViewController.m */; };
+		E799373B1FC4C71000DAC153 /* QRCode.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E799373A1FC4C71000DAC153 /* QRCode.storyboard */; };
 		E79B0E771E7AE43F005BE38C /* UIColor+Hackfoldr.m in Sources */ = {isa = PBXBuildFile; fileRef = E79B0E761E7AE43F005BE38C /* UIColor+Hackfoldr.m */; };
 		E79B0E7A1E7B1714005BE38C /* HackfoldrClient+Store.m in Sources */ = {isa = PBXBuildFile; fileRef = E79B0E791E7B1714005BE38C /* HackfoldrClient+Store.m */; };
 		E79B0E7E1E7C030E005BE38C /* g0v.svg in Resources */ = {isa = PBXBuildFile; fileRef = E79B0E7D1E7C030E005BE38C /* g0v.svg */; };
@@ -80,6 +82,9 @@
 		E79424AF1ACEEF6400558AE9 /* HackfoldrHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HackfoldrHistory.h; path = "hackfoldr-iOS/HackfoldrHistory.h"; sourceTree = "<group>"; };
 		E79424B01ACEEF6400558AE9 /* HackfoldrHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HackfoldrHistory.m; path = "hackfoldr-iOS/HackfoldrHistory.m"; sourceTree = "<group>"; };
 		E79424B21ACF015300558AE9 /* sample.csv.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sample.csv.json; path = TestData/sample.csv.json; sourceTree = "<group>"; };
+		E79937371FC4C00C00DAC153 /* QRCodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QRCodeViewController.h; path = "hackfoldr-iOS/QRCodeViewController.h"; sourceTree = "<group>"; };
+		E79937381FC4C00C00DAC153 /* QRCodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = QRCodeViewController.m; path = "hackfoldr-iOS/QRCodeViewController.m"; sourceTree = "<group>"; };
+		E799373A1FC4C71000DAC153 /* QRCode.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = QRCode.storyboard; path = "hackfoldr-iOS/QRCode.storyboard"; sourceTree = "<group>"; };
 		E79B0E751E7AE43F005BE38C /* UIColor+Hackfoldr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hackfoldr.h"; path = "hackfoldr-iOS/UIColor+Hackfoldr.h"; sourceTree = "<group>"; };
 		E79B0E761E7AE43F005BE38C /* UIColor+Hackfoldr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hackfoldr.m"; path = "hackfoldr-iOS/UIColor+Hackfoldr.m"; sourceTree = "<group>"; };
 		E79B0E781E7B1714005BE38C /* HackfoldrClient+Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HackfoldrClient+Store.h"; path = "hackfoldr-iOS/HackfoldrClient+Store.h"; sourceTree = "<group>"; };
@@ -196,6 +201,9 @@
 				882E652919B2D5920054E522 /* ListFieldViewController.m */,
 				E7EB66D319554E290069FD71 /* MainViewController.h */,
 				E7EB66D419554E290069FD71 /* MainViewController.m */,
+				E799373A1FC4C71000DAC153 /* QRCode.storyboard */,
+				E79937371FC4C00C00DAC153 /* QRCodeViewController.h */,
+				E79937381FC4C00C00DAC153 /* QRCodeViewController.m */,
 				E77B93D21FAB29EC00BD8130 /* SettingViewController.h */,
 				E77B93D31FAB29EC00BD8130 /* SettingViewController.m */,
 				E7B1DD88195AEE7D00768FFA /* TOWebViewController+HackfoldrField.h */,
@@ -382,6 +390,7 @@
 				88AC6BEA1F6BD13000E082E2 /* LaunchScreen.storyboard in Resources */,
 				E7EB66C619554E290069FD71 /* InfoPlist.strings in Resources */,
 				E79B0E7E1E7C030E005BE38C /* g0v.svg in Resources */,
+				E799373B1FC4C71000DAC153 /* QRCode.storyboard in Resources */,
 				E755907A1AEAB595007337B1 /* Hackfoldr.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -540,6 +549,7 @@
 				E7F9558719570D4E0098661E /* HackfoldrPage.m in Sources */,
 				E70F906D1A77F72200BF4B25 /* NSUserDefaults+DefaultHackfoldrPage.m in Sources */,
 				E7EB66C819554E290069FD71 /* main.m in Sources */,
+				E79937391FC4C00C00DAC153 /* QRCodeViewController.m in Sources */,
 				E77B93D41FAB29EC00BD8130 /* SettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
