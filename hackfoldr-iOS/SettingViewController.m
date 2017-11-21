@@ -20,6 +20,9 @@
 #import "NSURL+Hackfoldr.h"
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
 
+// View Controller
+#import "QRCodeViewController.h"
+
 @interface SettingViewController ()
 
 @end
@@ -108,6 +111,8 @@
         }]];
         [ac addAction:[UIAlertAction actionWithTitle:@"Scan QR Code" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             // Show scaner
+            QRCodeViewController *qvc = [QRCodeViewController viewController];
+            [self.navigationController pushViewController:qvc animated:YES];
             deselectCell();
         }]];
         [ac addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
