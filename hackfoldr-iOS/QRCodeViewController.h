@@ -12,4 +12,6 @@
 
 + (instancetype)viewController;
 
+@property (copy) NSString *qrCodeString;
+
 @end
