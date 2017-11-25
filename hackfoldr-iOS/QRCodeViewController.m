@@ -8,11 +8,17 @@
 
 #import "QRCodeViewController.h"
 
-@interface QRCodeViewController ()
+#import <AVFoundation/AVFoundation.h>
+
+@interface QRCodeViewController () <AVCaptureMetadataOutputObjectsDelegate>
 @property IBOutlet NSLayoutConstraint *widthOfCenterViewConstraint;
 @property IBOutlet UIView *centerView;
 @property IBOutlet UIImageView *qrCodeImageView;
 @property IBOutlet UIView *cameraView;
+
+@property AVCaptureDevice *device;
+@property AVCaptureSession *session;
+@property AVCaptureVideoPreviewLayer *previewLayer;
 @end
 
 @implementation QRCodeViewController
@@ -47,7 +53,9 @@
         self.cameraView.hidden = YES;
     } else {
         self.centerView.hidden = YES;
-
+#if !TARGET_IPHONE_SIMULATOR
+        [self showCapture];
+#endif
     }
 }
 
@@ -85,6 +93,52 @@
     CGImageRelease(bitmapImage);
 
     return [UIImage imageWithCGImage:scaledImage];;
+}
+
+- (void)showCapture {
+    self.device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+
+    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
+    AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc] init];
+    [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+
+    self.session = [[AVCaptureSession alloc] init];
+    [self.session setSessionPreset:AVCaptureSessionPresetHigh];
+
+    if ([self.session canAddInput:input]) {
+        [self.session addInput:input];
+    }
+    if ([self.session canAddOutput:output]) {
+        [self.session addOutput:output];
+    }
+
+    output.metadataObjectTypes = @[AVMetadataObjectTypeQRCode, AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode128Code];
+
+    self.previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
+    self.previewLayer.videoGravity = AVLayerVideoGravityResize;;
+    self.previewLayer.frame = self.view.bounds;
+
+    [self.cameraView.layer insertSublayer:self.previewLayer atIndex:0];
+    self.centerView.hidden = YES;
+
+    [self.session startRunning];
+}
+
+#pragma mark - AVCaptureMetadataOutputObjectsDelegate
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects
+       fromConnection:(AVCaptureConnection *)connection {
+    if (metadataObjects != nil && [metadataObjects count] > 0) {
+        AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
+        if (metadataObj.stringValue && metadataObj.stringValue.length > 0) {
+
+            [self.session stopRunning];
+
+            if (self.foundedResult) {
+                self.foundedResult(metadataObj.stringValue);
+            }
+        }
+    }
 }
 
 @end

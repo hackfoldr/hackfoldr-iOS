@@ -14,4 +14,6 @@
 
 @property (copy) NSString *qrCodeString;
 
+@property (copy) void (^foundedResult)(NSString *result);
+
 @end
