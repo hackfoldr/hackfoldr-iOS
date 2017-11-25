@@ -38,7 +38,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareAction)];
+    [self.navigationController.navigationBar.topItem setRightBarButtonItem:shareItem animated:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -194,6 +200,13 @@
     }
 
     return completion.task;
+}
+
+- (void)shareAction {
+    QRCodeViewController *qrvc = [QRCodeViewController viewController];
+    NSString *hackfoldrPageKey = [[NSUserDefaults standardUserDefaults] stringOfCurrentHackfoldrPage];
+    qrvc.qrCodeString = [@"https://hackfoldr.org" stringByAppendingPathComponent:hackfoldrPageKey];
+    [self.navigationController pushViewController:qrvc animated:YES];
 }
 
 @end
