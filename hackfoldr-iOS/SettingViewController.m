@@ -112,6 +112,21 @@
         [ac addAction:[UIAlertAction actionWithTitle:@"Scan QR Code" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             // Show scaner
             QRCodeViewController *qvc = [QRCodeViewController viewController];
+            qvc.foundedResult = ^(NSString *result) {
+                [self.navigationController popViewControllerAnimated:YES];
+
+                BFTask *cleanKeyTask = [self validatorHackfoldrKeyForSettingViewWithHackfoldrKey:result];
+                [cleanKeyTask continueWithBlock:^id(BFTask *t) {
+                    if (t.error) {
+                        self.updateHackfoldrPage(t.result, t.error);
+                        return nil;
+                    }
+                    if (self.updateHackfoldrPage) {
+                        self.updateHackfoldrPage(t.result, nil);
+                    }
+                    return nil;
+                }];
+            };
             [self.navigationController pushViewController:qvc animated:YES];
             deselectCell();
         }]];
