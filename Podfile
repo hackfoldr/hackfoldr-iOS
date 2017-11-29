@@ -16,10 +16,6 @@ target "hackfoldr-iOS" do
   pod 'FontAwesomeKit', :git => 'https://github.com/PrideChung/FontAwesomeKit.git'
   pod 'FontAwesomeKit/FontAwesome', :git => 'https://github.com/PrideChung/FontAwesomeKit.git'
   pod 'PocketSVG'
-
-  # Track crash
-  pod 'Fabric'
-  pod 'Crashlytics'
 end
 
 target "hackfoldr-iOSTests" do
