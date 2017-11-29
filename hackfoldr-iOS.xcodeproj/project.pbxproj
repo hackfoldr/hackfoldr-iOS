@@ -90,6 +90,7 @@
 		E79B0E781E7B1714005BE38C /* HackfoldrClient+Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HackfoldrClient+Store.h"; path = "hackfoldr-iOS/HackfoldrClient+Store.h"; sourceTree = "<group>"; };
 		E79B0E791E7B1714005BE38C /* HackfoldrClient+Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "HackfoldrClient+Store.m"; path = "hackfoldr-iOS/HackfoldrClient+Store.m"; sourceTree = "<group>"; };
 		E79B0E7D1E7C030E005BE38C /* g0v.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = g0v.svg; sourceTree = "<group>"; };
+		E7A644D31FCEC12D00D28263 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		E7B1DD88195AEE7D00768FFA /* TOWebViewController+HackfoldrField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TOWebViewController+HackfoldrField.h"; path = "hackfoldr-iOS/TOWebViewController+HackfoldrField.h"; sourceTree = "<group>"; };
 		E7B1DD89195AEE7D00768FFA /* TOWebViewController+HackfoldrField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TOWebViewController+HackfoldrField.m"; path = "hackfoldr-iOS/TOWebViewController+HackfoldrField.m"; sourceTree = "<group>"; };
 		E7EB66B819554E290069FD71 /* hackfoldr-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hackfoldr-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -586,6 +587,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				E7EB66C519554E290069FD71 /* en */,
+				E7A644D31FCEC12D00D28263 /* zh-Hant */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
