@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 
+#import <CoreSpotlight/CoreSpotlight.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
 
 #import "AppDelegate.h"
@@ -21,7 +22,6 @@
 // ViewController
 #import <RATreeView/RATreeView.h>
 #import "ListFieldViewController.h"
-#import "UIAlertView+AFNetworking.h"
 
 @interface MainViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 @property (nonatomic, strong) ListFieldViewController *listViewController;
@@ -50,7 +50,7 @@
 
     UIImage *backgroundImage = [[UIImage imageNamed:@"hackfoldr-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
-    self.backgroundImageView.tintColor = [UIColor colorWithRed:0.888 green:0.953 blue:0.826 alpha:1.000];
+    self.backgroundImageView.tintColor = [UIColor hackfoldrIconWhite];
     self.backgroundImageView.backgroundColor = [UIColor clearColor];
     [self updateBackgroundImageWithSize:self.view.frame.size];
 
@@ -61,6 +61,12 @@
     self.view.backgroundColor = [UIColor hackfoldrGreenColor];
 
     [self mainNavigationController].delegate = self;
+
+    [CSSearchableIndex.defaultSearchableIndex deleteAllSearchableItemsWithCompletionHandler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"deleteAllSearchableItems %@", error);
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -123,21 +129,6 @@
 
 }
 
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    NSLog(@"alertView clickedAt:%d", (int)buttonIndex);
-    if (buttonIndex == 1) {
-        [self.listViewController showSettingViewController];
-        return;
-    }
-
-    if ([HackfoldrClient sharedClient].lastPage) {
-        [self showListViewController];
-    }
-}
-
 #pragma mark - Actions
 
 - (void)showListViewController
@@ -157,13 +148,29 @@
 {
     HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] hackfoldrPageTaskWithKey:[self hackfoldrPageKey] rediredKey:nil];
 
+    NSString *title = NSLocalizedStringFromTable(@"Error", @"Hackfoldr", @"Error title");
     NSString *cancelButtonTitle = NSLocalizedStringFromTable(@"Cancel", @"Hackfoldr", @"Alert Cancel button");
     NSString *setupTitle = NSLocalizedStringFromTable(@"Setup Key", @"Hackfoldr", @"Alert Setup button");
 
-    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
-                                                  delegate:self
-                                         cancelButtonTitle:cancelButtonTitle
-                                         otherButtonTitles:setupTitle ,nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:setupTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.listViewController showSettingViewController];
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:cancelButtonTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        if ([HackfoldrClient sharedClient].lastPage) {
+            [self showListViewController];
+        }
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }]];
+
+    [completionSource.task continueWithBlock:^id _Nullable(BFTask * _Nonnull t) {
+        if (t.error) {
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        return nil;
+    }];
 
     [completionSource.task continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
         [self showListViewController];

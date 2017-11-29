@@ -1,9 +1,0 @@
-ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFCSVParserResponseSerializer" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/Bolts" "${PODS_ROOT}/Headers/Public/CHCSVParser" "${PODS_ROOT}/Headers/Public/Crashlytics" "${PODS_ROOT}/Headers/Public/Fabric" "${PODS_ROOT}/Headers/Public/FontAwesomeKit" "${PODS_ROOT}/Headers/Public/MagicalRecord" "${PODS_ROOT}/Headers/Public/OHHTTPStubs" "${PODS_ROOT}/Headers/Public/PocketSVG" "${PODS_ROOT}/Headers/Public/QuickDialog" "${PODS_ROOT}/Headers/Public/RATreeView" "${PODS_ROOT}/Headers/Public/TOWebViewController"
-LIBRARY_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/OHHTTPStubs"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/AFCSVParserResponseSerializer" -isystem "${PODS_ROOT}/Headers/Public/AFNetworking" -isystem "${PODS_ROOT}/Headers/Public/Bolts" -isystem "${PODS_ROOT}/Headers/Public/CHCSVParser" -isystem "${PODS_ROOT}/Headers/Public/Crashlytics" -isystem "${PODS_ROOT}/Headers/Public/Fabric" -isystem "${PODS_ROOT}/Headers/Public/FontAwesomeKit" -isystem "${PODS_ROOT}/Headers/Public/MagicalRecord" -isystem "${PODS_ROOT}/Headers/Public/OHHTTPStubs" -isystem "${PODS_ROOT}/Headers/Public/PocketSVG" -isystem "${PODS_ROOT}/Headers/Public/QuickDialog" -isystem "${PODS_ROOT}/Headers/Public/RATreeView" -isystem "${PODS_ROOT}/Headers/Public/TOWebViewController"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"OHHTTPStubs" -framework "CFNetwork" -framework "Foundation"
-PODS_BUILD_DIR = $BUILD_DIR
-PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
-PODS_ROOT = ${SRCROOT}/Pods

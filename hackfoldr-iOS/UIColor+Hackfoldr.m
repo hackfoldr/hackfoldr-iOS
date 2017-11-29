@@ -15,4 +15,8 @@
     return [UIColor colorWithRed:0.490 green:0.781 blue:0.225 alpha:1.000];
 }
 
++ (UIColor *)hackfoldrIconWhite {
+    return [UIColor colorWithRed:0.888 green:0.953 blue:0.826 alpha:1.000];
+}
+
 @end

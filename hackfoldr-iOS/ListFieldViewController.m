@@ -11,6 +11,8 @@
 #import <Bolts/Bolts.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <PocketSVG/PocketSVG.h>
+#import <RATreeView/RATreeView.h>
+#import <SafariServices/SafariServices.h>
 
 // Model & Client
 #import <MagicalRecord/MagicalRecord.h>
@@ -19,24 +21,26 @@
 #import "HackfoldrPage.h"
 // Category
 #import "HackfoldrClient+Store.h"
+#import "HackfoldrPage+CSSearchableItem.h"
 #import "NSURL+Hackfoldr.h"
 #import "NSUserDefaults+DefaultHackfoldrPage.h"
 #import "UIColor+Hackfoldr.h"
 #import "UIImage+TOWebViewControllerIcons.h"
 // ViewController
-#import <RATreeView/RATreeView.h>
-#import <SafariServices/SafariServices.h>
 #import "ListFieldViewController.h"
-#import "QuickDialog.h"
+#import "SettingViewController.h"
 #import "TOWebViewController+HackfoldrField.h"
-#import "UIAlertView+AFNetworking.h"
 
-@interface ListFieldViewController () <RATreeViewDelegate, RATreeViewDataSource>
-@property (nonatomic, strong) QuickDialogController *dialogController;
+@interface ListFieldViewController () <RATreeViewDelegate, RATreeViewDataSource, UIScrollViewDelegate>
+@property (nonatomic, strong) SettingViewController *settingsController;
 
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UIView *refreshLoadingView;
+@property (nonatomic, strong) UIImage *hackfoldrImage;
 @property (nonatomic, strong) SVGImageView *g0vIcon;
 @property (assign) BOOL isRefreshAnimating;
+@property (assign) CGAffineTransform defaultIconTransform;
+@property (assign) CGFloat lastY;
 @end
 
 @implementation ListFieldViewController
@@ -58,11 +62,41 @@
 {
     [super viewDidLoad];
 
-    self.treeView = [[RATreeView alloc] initWithFrame:self.view.bounds style:RATreeViewStylePlain];
+    self.treeView = [[RATreeView alloc] initWithFrame:CGRectZero style:RATreeViewStylePlain];
     self.treeView.delegate = self;
     self.treeView.dataSource = self;
     self.treeView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.treeView];
+    self.treeView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *topC = [NSLayoutConstraint constraintWithItem:self.treeView
+                                                            attribute:NSLayoutAttributeTop
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:self.view
+                                                            attribute:NSLayoutAttributeTop
+                                                           multiplier:1.0
+                                                             constant:0.0];
+    NSLayoutConstraint *leftC = [NSLayoutConstraint constraintWithItem:self.treeView
+                                                            attribute:NSLayoutAttributeLeft
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:self.view
+                                                            attribute:NSLayoutAttributeLeft
+                                                           multiplier:1.0
+                                                             constant:0.0];
+    NSLayoutConstraint *rightC = [NSLayoutConstraint constraintWithItem:self.treeView
+                                                              attribute:NSLayoutAttributeRight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeRight
+                                                             multiplier:1.0
+                                                               constant:0.0];
+    NSLayoutConstraint *bottomC = [NSLayoutConstraint constraintWithItem:self.treeView
+                                                               attribute:NSLayoutAttributeBottom
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:self.view
+                                                               attribute:NSLayoutAttributeBottom
+                                                              multiplier:1.0
+                                                                constant:0.0];
+    [self.view addConstraints:@[topC, leftC, rightC, bottomC]];
 
     self.settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.settingButton addTarget:self action:@selector(settingAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -95,6 +129,7 @@
 - (void)setupRefreshControl
 {
     self.refreshControl = [[UIRefreshControl alloc] init];
+    self.treeView.scrollView.refreshControl = self.refreshControl;
 
     self.refreshLoadingView = [[UIView alloc] initWithFrame:self.refreshControl.bounds];
     self.refreshLoadingView.backgroundColor = [UIColor clearColor];
@@ -104,6 +139,7 @@
     icon.frame = CGRectMake(0, 0, 24, 24);
     self.g0vIcon = icon;
     [self.refreshLoadingView addSubview:self.g0vIcon];
+    self.defaultIconTransform = self.g0vIcon.transform;
 
     // Clip so the graphics don't stick out
     self.refreshLoadingView.clipsToBounds = YES;
@@ -112,6 +148,8 @@
 
     [self.refreshControl addSubview:self.refreshLoadingView];
     [self.refreshControl addTarget:self action:@selector(refreshAction:) forControlEvents:UIControlEventValueChanged];
+
+    self.treeView.scrollView.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -119,6 +157,8 @@
     [super viewWillAppear:animated];
 
     self.title = self.page.pageTitle;
+
+    [self createSearchIndex];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -134,113 +174,26 @@
 - (void)showSettingViewController
 {
     // When Setting view is showed, don't show again
-    for (QuickDialogController *vc in self.navigationController.viewControllers) {
-        if ([vc isKindOfClass:[QuickDialogController class]]) {
+    for (SettingViewController *vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[SettingViewController class]]) {
             return;
         }
     }
 
-    QRootElement *settingRoot = [[QRootElement alloc] init];
-    settingRoot.title = NSLocalizedStringFromTable(@"Setting Hackfoldr Page", @"Hackfoldr", @"Title of SettingView");
-    settingRoot.grouped = YES;
-
-    QuickDialogController *dialogController = [QuickDialogController controllerForRoot:settingRoot];
-    self.dialogController = dialogController;
-
-    QSection *currentPageSection = [[QSection alloc] init];
-    currentPageSection.title = NSLocalizedStringFromTable(@"Current Hackfoldr", @"Hackfoldr", @"Section title of current hackfoldr");
-    NSString *key = [[NSUserDefaults standardUserDefaults] stringOfCurrentHackfoldrPage];
-    QLabelElement *currentHackpageKey = [[QLabelElement alloc] init];
-    currentHackpageKey.title = NSLocalizedStringFromTable(@"Current key", @"Hackfoldr", @"Current key title in SettingView.");
-    currentHackpageKey.value = key;
-    [currentPageSection addElement:currentHackpageKey];
-
-    QDateTimeElement *currentHackpageDate = [[QDateTimeElement alloc] init];
-    HackfoldrHistory *currentHistory = [HackfoldrHistory MR_findFirstByAttribute:@"hackfoldrKey" withValue:key];
-    currentHackpageDate.title = NSLocalizedStringFromTable(@"Refresh At", @"Hackfoldr", @"Refresh date about current hackfoldr key in SettingView.");
-    currentHackpageDate.dateValue = currentHistory.refreshDate;
-    currentHackpageDate.enabled = NO;
-    [currentPageSection addElement:currentHackpageDate];
-
-    [settingRoot addSection:currentPageSection];
-
-    QSection *inputSection = [[QSection alloc] init];
-    inputSection.footer = NSLocalizedStringFromTable(@"You can input new hackfoldr page key and select Change Key to change it.", @"Hackfoldr", @"Change key description at input section in SettingView.");
-
-    QEntryElement *inputElement = [[QEntryElement alloc] init];
-    inputElement.placeholder = NSLocalizedStringFromTable(@"Hackfoldr key or URL", @"Hackfoldr", @"Place holder string for input element in SettingView.");
-    [inputSection addElement:inputElement];
-
-    QButtonElement *sendButtonElement = [[QButtonElement alloc] init];
-    sendButtonElement.title = NSLocalizedStringFromTable(@"Change Key", @"Hackfoldr", @"Change hackfoldr key button title in SettingView.");
-    // Change page button clicked
-    sendButtonElement.onSelected = ^(void) {
-
-        BFTask *cleanKeyTask = [self validatorHackfoldrKeyForSettingViewWithHackfoldrKey:inputElement.textValue];
-        [cleanKeyTask continueWithBlock:^id(BFTask *task) {
-            if (task.error) {
-                // hide self
-                [dialogController popToPreviousRootElement];
-                return nil;
-            }
-            // Update hackfoldr page
-            [[self updateHackfoldrPageWithDialogController:dialogController key:task.result] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
+    SettingViewController *dialogController = [[SettingViewController alloc] init];
+    self.settingsController = dialogController;
+    dialogController.updateHackfoldrPage = ^void(NSString * _Nonnull pageKey, NSError * _Nullable error) {
+        if (error) {
+            [self.settingsController popoverPresentationController];
+        } else {
+            [[self updateHackfoldrPageWithDialogController:self.settingsController key:pageKey] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
                 [self reloadPage];
 
                 [self.navigationController popViewControllerAnimated:YES];
                 return nil;
             }];
-
-            return nil;;
-        }];
+        }
     };
-    [inputSection addElement:sendButtonElement];
-    [settingRoot addSection:inputSection];
-
-    QSection *historySection = [[QSection alloc] init];
-    historySection.title = NSLocalizedStringFromTable(@"History", @"Hackfoldr", @"History section title in SettingView");
-    historySection.footer = NSLocalizedStringFromTable(@"You can select one cell to return to the past.", @"Hackfoldr", @"History section footer in SettingView");
-    NSArray *histories = [HackfoldrHistory MR_findAllSortedBy:@"refreshDate" ascending:NO];
-    [histories enumerateObjectsUsingBlock:^(HackfoldrHistory *history, NSUInteger idx, BOOL *stop) {
-        QButtonElement *buttonElement = [[QButtonElement alloc] init];
-        buttonElement.title = history.title;
-        buttonElement.onSelected = ^() {
-            // Update hackfoldr page
-            [[self updateHackfoldrPageWithDialogController:dialogController key:history.hackfoldrKey] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-                [self reloadPage];
-
-                [self.navigationController popViewControllerAnimated:YES];
-                return nil;
-            }];
-        };
-        [historySection addElement:buttonElement];
-    }];
-    [settingRoot addSection:historySection];
-
-    QSection *restSection = [[QSection alloc] init];
-    restSection.title = NSLocalizedStringFromTable(@"Reset Actions", @"Hackfoldr", @"Reset hackfoldr actions in SettingView");
-    restSection.footer = NSLocalizedStringFromTable(@"If you lost in app, just select it.", @"Hackfoldr", @"Reset section footer in SettingView");
-    QButtonElement *restHackfoldrPageElement = [[QButtonElement alloc] init];
-    restHackfoldrPageElement.title = NSLocalizedStringFromTable(@"Hackfoldr Help", @"Hackfoldr", @"Reset hackfoldr page button title in SettingView");
-    restHackfoldrPageElement.onSelected = ^(void) {
-        // Set current HackfoldrPage to |DefaultHackfoldrPage|
-        NSString *defaultHackfoldrKey = [[NSUserDefaults standardUserDefaults] stringOfDefaultHackfoldrPage];
-        // update hackfoldr page
-        [[self updateHackfoldrPageWithDialogController:dialogController key:defaultHackfoldrKey] continueWithSuccessBlock:^id _Nullable(BFTask * _Nonnull t) {
-            [self reloadPage];
-
-            [self.navigationController popViewControllerAnimated:YES];
-            return nil;
-        }];
-    };
-    [restSection addElement:restHackfoldrPageElement];
-    [settingRoot addSection:restSection];
-
-    QSection *infoSection = [[QSection alloc] init];
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    infoSection.footer = [NSString stringWithFormat:@"App Version: %@ (%@)\nCreate by Superbil", version, build];
-    [settingRoot addSection:infoSection];
 
     if (self.navigationController) {
         [self.navigationController pushViewController:dialogController animated:YES];
@@ -250,24 +203,7 @@
     }
 }
 
-- (BFTask *)validatorHackfoldrKeyForSettingViewWithHackfoldrKey:(NSString *)newHackfoldrKey
-{
-    BFTaskCompletionSource *completion = [BFTaskCompletionSource taskCompletionSource];
-
-    NSString *validatorKey = [NSURL validatorHackfoldrKey:newHackfoldrKey];
-
-    if (validatorKey && validatorKey.length > 0) {
-        [completion setResult:validatorKey];
-    } else {
-        [completion setError:[NSError errorWithDomain:@"SettingView"
-                                                 code:1
-                                             userInfo:nil]];
-    }
-
-    return completion.task;
-}
-
-- (BFTask *)updateHackfoldrPageWithDialogController:(QuickDialogController *)dialogController key:(NSString *)hackfoldrKey
+- (BFTask *)updateHackfoldrPageWithDialogController:(SettingViewController *)dialogController key:(NSString *)hackfoldrKey
 {
     NSString *rediredKey = nil;
     // lookup |rediredKey| from core data
@@ -278,16 +214,22 @@
 
     HackfoldrTaskCompletionSource *completionSource = [[HackfoldrClient sharedClient] hackfoldrPageTaskWithKey:hackfoldrKey rediredKey:rediredKey];
 
+    NSString *title = NSLocalizedStringFromTable(@"Error", @"Hackfoldr", @"Error title");
     NSString *dismissButtonTitle = NSLocalizedStringFromTable(@"Dismiss", @"Hackfoldr", @"Dismiss button title in SettingView");
-    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:completionSource.connectionTask
-                                                  delegate:self
-                                         cancelButtonTitle:dismissButtonTitle
-                                         otherButtonTitles:nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
 
-    [dialogController loading:YES];
+    [alert addAction:[UIAlertAction actionWithTitle:dismissButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }]];
+
+    [completionSource.task continueWithBlock:^id _Nullable(BFTask * _Nonnull t) {
+        if (t.error) {
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        return nil;
+    }];
 
     [[completionSource.task continueWithBlock:^id(BFTask *task) {
-        [dialogController loading:NO];
         return task;
     }] continueWithSuccessBlock:^id(BFTask *task) {
         NSLog(@"change hackfoldr page to: %@", hackfoldrKey);
@@ -317,7 +259,7 @@
 {
     if (!self.page.key) return;
 
-    [[self updateHackfoldrPageWithDialogController:self.dialogController key:self.page.key] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id _Nullable(BFTask * _Nonnull t) {
+    [[self updateHackfoldrPageWithDialogController:self.settingsController key:self.page.key] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id _Nullable(BFTask * _Nonnull t) {
         [self.refreshControl endRefreshing];
 
         if (t.error) {
@@ -334,7 +276,10 @@
 
 - (void)updateHackfoldrPageWithKey:(NSString *)hackfoldrKey
 {
-    [self updateHackfoldrPageWithDialogController:self.dialogController key:hackfoldrKey];
+    [[self updateHackfoldrPageWithDialogController:self.settingsController key:hackfoldrKey] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id _Nullable(BFTask * _Nonnull t) {
+        [self reloadPage];
+        return nil;
+    }];
 }
 
 - (void)reloadPage {
@@ -368,6 +313,28 @@
     }];
 }
 
+- (void)createSearchIndex {
+    NSMutableArray *items = [NSMutableArray array];
+    NSArray<HackfoldrHistory *> *histories = [HackfoldrHistory MR_findAllSortedBy:@"refreshDate" ascending:NO];
+    [histories enumerateObjectsUsingBlock:^(HackfoldrHistory * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        CSSearchableItem *item = [self.page searchableItemWithDomain:NSStringFromClass(self.class)];
+        [items addObject:item];
+    }];
+
+    [CSSearchableIndex.defaultSearchableIndex indexSearchableItems:items completionHandler: ^(NSError * __nullable error) {
+        if (error) {
+            NSLog(@"Indexed failed %@", error);
+            return;
+        }
+        NSLog(@"create search indexed");
+    }];
+    self.userActivity.eligibleForSearch = YES;
+    self.userActivity.eligibleForPublicIndexing = YES;
+    self.userActivity.eligibleForHandoff = YES;
+
+    [self updateUserActivityState:self.userActivity];
+}
+
 - (UIImage *)folderImageWithField:(HackfoldrField *)field
 {
     if (field.actions && [field.actions rangeOfString:@"expand"].location != NSNotFound) {
@@ -388,6 +355,13 @@
     return foldrImage;
 }
 
+- (UIImage *)hackfoldrImage {
+    if (_hackfoldrImage) return _hackfoldrImage;
+
+    _hackfoldrImage = [[UIImage imageNamed:@"hackfoldr-icon-small"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    return _hackfoldrImage;
+}
+
 - (void)animateRefreshView
 {
     self.isRefreshAnimating = YES;
@@ -405,6 +379,7 @@
                              [self animateRefreshView];
                          } else {
                              self.isRefreshAnimating = NO;
+                             self.g0vIcon.transform = self.defaultIconTransform;
                          }
                      }];
 }
@@ -429,32 +404,38 @@
     CGFloat iconWidth = self.g0vIcon.bounds.size.width;
     CGFloat iconWidthHalf = iconWidth / 2.0;
 
+    CGFloat maxPullRange = 100.f;
+
     // Calculate the pull ratio, between 0.0-1.0
-    CGFloat pullRatio = MIN( MAX(pullDistance, 0.0), 100.0) / 100.0;
+    CGFloat pullRatio = MIN( MAX(pullDistance, 0.0), maxPullRange) / maxPullRange;
 
     // Set the Y coord of the graphics, based on pull distance
     CGFloat iconY = pullDistance / 2.0 - iconHeightHalf;
 
-    // Set the graphic's frames
-    CGRect iconFrame = self.g0vIcon.frame;
-    iconFrame.origin.x = refreshBounds.size.width / 2 - iconWidthHalf;
-    iconFrame.origin.y = iconY;
-    self.g0vIcon.frame = iconFrame;
+    // Use center to move icon
+    self.g0vIcon.center = CGPointMake(midX - iconWidthHalf, iconY);
 
     // Set the encompassing view's frames
     refreshBounds.size.height = pullDistance;
 
     self.refreshLoadingView.frame = refreshBounds;
 
+    if (pullRatio > 0.f) {
+        CGFloat angle = (-(CGRectGetMaxY(self.refreshControl.frame) - self.lastY) / maxPullRange * 11.25);
+        self.g0vIcon.transform = CGAffineTransformRotate(self.g0vIcon.transform, angle);
+    }
+    self.lastY = CGRectGetMaxY(self.refreshControl.frame);
+
     // If we're refreshing and the animation is not playing, then play the animation
     if (self.refreshControl.isRefreshing && !self.isRefreshAnimating) {
         [self animateRefreshView];
     }
 
-    NSLog(@"pullDistance: %.1f, pullRatio: %.1f, midX: %.1f, isRefreshing: %@",
+    NSLog(@"y: %.2f, pullDistance: %.1f, pullRatio: %.3f, iconY: %.2f, isRefreshing: %@",
+          self.refreshControl.frame.origin.y,
           pullDistance,
           pullRatio,
-          midX,
+          iconY,
           self.refreshControl.isRefreshing ? @"YES" : @"NO");
 }
 
@@ -496,6 +477,7 @@
                 [lvc reloadPage];
                 return nil;
             }];
+            [treeView deselectRowForItem:item animated:YES];
             return;
         }
     }
@@ -511,6 +493,7 @@
 
         [self.navigationController pushViewController:webViewController animated:YES];
     }
+    [treeView deselectRowForItem:item animated:YES];
 }
 
 - (BOOL)treeView:(RATreeView *)treeView shouldExpandRowForItem:(id)item
@@ -605,7 +588,7 @@
         CGFloat iconSize = [UIFont systemFontSize] + 2.f;
 
         if ([NSURL canHandleHackfoldrURL:[NSURL URLWithString:field.urlString]]) {
-            iconImage = [[UIImage imageNamed:@"hackfoldr-icon-small"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            iconImage = self.hackfoldrImage;
         } else if (field.actions.length > 0 && [field.actions rangeOfString:@"fa-"].location != NSNotFound) {
             // Custom icon
             NSString *iconName = nil;

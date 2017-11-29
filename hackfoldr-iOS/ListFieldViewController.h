@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ListFieldViewController : UITableViewController
+@interface ListFieldViewController : UIViewController
 
 + (instancetype)viewController;
 

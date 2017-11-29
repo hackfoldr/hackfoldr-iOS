@@ -1,9 +1,35 @@
 # Change Log
 
-## 1.1
+### 1.4
 
-- 更新元件
-- 支援 Safari 瀏覽
+- Fix iPhone X layout problem
+- Fix table view will show two times
+- Add share QR code and scan QR code
+- Change to use XLForm
+- Update pods
+
+### 1.3
+
+- Fix problem about display on iPhone Plus
+
+### 1.2
+
+- Show list like trees [#20](https://github.com/hackfoldr/hackfoldr-iOS/issues/20)
+- Update icons, using [Font Awesome](http://fontawesome.io)
+- Support customized links, now one can use `hackfoldr://<your_key>` to open hackfoldr [#18](https://github.com/hackfoldr/hackfoldr-iOS/issues/18)
+- Fix some labels with incorrect content [#22](https://github.com/hackfoldr/hackfoldr-iOS/issues/22)
+- Support subField with custom icons (Font Awesome) [#27](https://github.com/hackfoldr/hackfoldr-iOS/issues/27)
+- Show page details when link is linking to another hackfoldr page
+- Update pods
+
+### 1.1
+
+- Support Safari
+- Update pods
+
+### 1.0
+
+- Everything is fine, release app
 
 ## 1.0 beta-4
 

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Aj9-is-CSd">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Code View Controller-->
+        <scene sceneID="GDm-FJ-jh1">
+            <objects>
+                <viewController storyboardIdentifier="QRCodeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Aj9-is-CSd" customClass="QRCodeViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iTz-Or-xO1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PSl-OV-qMB" userLabel="Center View">
+                                <rect key="frame" x="67" y="195.5" width="240" height="240"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Xi-fh-8EG">
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="240"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="5Xi-fh-8EG" secondAttribute="bottom" id="1fp-YJ-Y9F"/>
+                                    <constraint firstAttribute="width" constant="240" id="Ox1-wU-J8s"/>
+                                    <constraint firstItem="5Xi-fh-8EG" firstAttribute="leading" secondItem="PSl-OV-qMB" secondAttribute="leading" id="QRj-kM-gzv"/>
+                                    <constraint firstAttribute="trailing" secondItem="5Xi-fh-8EG" secondAttribute="trailing" id="Tq0-0M-txc"/>
+                                    <constraint firstAttribute="width" secondItem="PSl-OV-qMB" secondAttribute="height" multiplier="1:1" id="YzS-Pe-d3W"/>
+                                    <constraint firstItem="5Xi-fh-8EG" firstAttribute="top" secondItem="PSl-OV-qMB" secondAttribute="top" id="lsb-zm-Sfj"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YaZ-uh-tnp" userLabel="Camera View">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="PSl-OV-qMB" firstAttribute="centerX" secondItem="aeO-vx-VW9" secondAttribute="centerX" id="2p3-iK-R64"/>
+                            <constraint firstItem="YaZ-uh-tnp" firstAttribute="leading" secondItem="aeO-vx-VW9" secondAttribute="leading" id="43t-Z8-tud"/>
+                            <constraint firstItem="PSl-OV-qMB" firstAttribute="centerY" secondItem="aeO-vx-VW9" secondAttribute="centerY" constant="-50" id="MnA-kU-g1U"/>
+                            <constraint firstItem="aeO-vx-VW9" firstAttribute="bottom" secondItem="YaZ-uh-tnp" secondAttribute="bottom" id="duQ-Il-QGM"/>
+                            <constraint firstItem="YaZ-uh-tnp" firstAttribute="trailing" secondItem="aeO-vx-VW9" secondAttribute="trailing" id="mhg-aI-Y8Z"/>
+                            <constraint firstItem="YaZ-uh-tnp" firstAttribute="top" secondItem="aeO-vx-VW9" secondAttribute="top" id="xi0-4o-Rnn"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="aeO-vx-VW9"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="cameraView" destination="YaZ-uh-tnp" id="3J3-z8-501"/>
+                        <outlet property="centerView" destination="PSl-OV-qMB" id="tpU-EM-jYU"/>
+                        <outlet property="qrCodeImageView" destination="5Xi-fh-8EG" id="jPw-eh-Ufl"/>
+                        <outlet property="widthOfCenterViewConstraint" destination="Ox1-wU-J8s" id="v3V-Bh-8U2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Iks-l1-Zvw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53.600000000000001" y="-87.706146926536732"/>
+        </scene>
+    </scenes>
+</document>
