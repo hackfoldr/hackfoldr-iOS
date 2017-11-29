@@ -75,7 +75,7 @@
 
     XLFormSectionDescriptor *inputSection = [XLFormSectionDescriptor formSection];
     XLFormRowDescriptor *addButton = [XLFormRowDescriptor formRowDescriptorWithTag:nil rowType:XLFormRowDescriptorTypeButton];
-    addButton.title = @"Add Hackfoldr Page";
+    addButton.title = NSLocalizedStringFromTable(@"Add Hackfoldr Page", @"Hackfoldr", @"'Add Hackfoldr Page' button title");
     __weak XLFormRowDescriptor *wab = addButton;
     addButton.action.formBlock = ^(XLFormRowDescriptor * _Nonnull sender) {
         void (^deselectCell)(void) = ^() {
@@ -86,7 +86,7 @@
 
         __strong XLFormRowDescriptor *sab = wab;
         UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil
-                                                                    message:@"Select a way to input new key"
+                                                                    message:NSLocalizedStringFromTable(@"Select a way to input new key", @"Hackfoldr", @"Message for 'Add Hackfolr Page'")
                                                              preferredStyle:UIAlertControllerStyleActionSheet];
         [ac addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"Hackfoldr key or URL", @"Hackfoldr", @"Place holder string for input element in SettingView.") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             // Show an alert with textField
@@ -115,7 +115,7 @@
             }];
             [self presentViewController:inputAlert animated:YES completion:deselectCell];
         }]];
-        [ac addAction:[UIAlertAction actionWithTitle:@"Scan QR Code" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [ac addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"Scan QR Code", @"Hackfoldr", @"Scan QR code button title") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             // Show scaner
             QRCodeViewController *qvc = [QRCodeViewController viewController];
             qvc.foundedResult = ^(NSString *result) {
@@ -136,7 +136,7 @@
             [self.navigationController pushViewController:qvc animated:YES];
             deselectCell();
         }]];
-        [ac addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [ac addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"Cancel", @"Hackfoldr", @"Cancel button title of 'Add Hackfoldr Page'") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             deselectCell();
         }]];
         [self presentViewController:ac animated:YES completion:nil];

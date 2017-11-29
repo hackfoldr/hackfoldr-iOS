@@ -40,7 +40,11 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    self.title = self.qrCodeString ? @"Show QR Code" : @"Scan QR Code";
+    if (self.qrCodeString) {
+        self.title = NSLocalizedStringFromTable(@"Show QR Code", @"Hackfoldr", @"title of QR code view controller");
+    } else {
+        self.title = NSLocalizedStringFromTable(@"Scan QR Code", @"Hackfoldr", @"title of QR code view controller");
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
