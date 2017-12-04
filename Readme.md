@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hackfoldr/hackfoldr-iOS.svg?branch=develop)](https://travis-ci.org/hackfoldr/hackfoldr-iOS)
+[![Build Status](https://travis-ci.org/hackfoldr/hackfoldr-iOS.svg?branch=master)](https://travis-ci.org/hackfoldr/hackfoldr-iOS)
 
 # hackfoldr-iOS #
 
