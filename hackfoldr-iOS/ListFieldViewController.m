@@ -123,7 +123,9 @@
     }
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftView];
 
-    [self setupRefreshControl];
+    if (@available(iOS 10.0, *)) {
+        [self setupRefreshControl];
+    }
 }
 
 - (void)setupRefreshControl
