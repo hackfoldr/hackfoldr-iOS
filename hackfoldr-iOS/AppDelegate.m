@@ -102,7 +102,7 @@
     return canHandle;
 }
 
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray * __nullable restorableObjects))restorationHandler {
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
     if ([userActivity.activityType isEqualToString:CSSearchableItemActionType]) {
         NSLog(@"CSSearchableItemActionType");
         NSString *uniqueIdentifier = userActivity.userInfo[CSSearchableItemActivityIdentifier];

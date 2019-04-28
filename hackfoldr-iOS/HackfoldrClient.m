@@ -71,10 +71,10 @@
 {
     HackfoldrTaskCompletionSource *source = [HackfoldrTaskCompletionSource taskCompletionSource];
     NSString *requestPath = [NSString stringWithFormat:@"%@.csv.json", inPath];
-    source.connectionTask = [self GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id fieldArray) {
+    source.connectionTask = [self GET:requestPath parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id fieldArray) {
         HackfoldrPage *page = [[HackfoldrPage alloc] initWithKey:inPath fieldArray:fieldArray];
-        _lastPage = [page copy];
-        [source setResult:_lastPage];
+        self->_lastPage = [page copy];
+        [source setResult:self->_lastPage];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [source setError:error];
     }];
@@ -94,12 +94,12 @@
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://docs.google.com/"]];
     manager.responseSerializer = [[self class] CSVSerializer];
 
-    NSString *requestKeyID = [keyID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *requestKeyID = [keyID stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
     NSString *requestPath = [NSString stringWithFormat:@"spreadsheets/d/%@/export?format=csv&gid=0", requestKeyID];
-    source.connectionTask = [manager GET:requestPath parameters:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
+    source.connectionTask = [manager GET:requestPath parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id csvFieldArray) {
         HackfoldrPage *page = [[HackfoldrPage alloc] initWithKey:keyID fieldArray:csvFieldArray];
-        _lastPage = [page copy];
-        [source setResult:_lastPage];
+        self->_lastPage = [page copy];
+        [source setResult:self->_lastPage];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"error:%@ %@", error, task.response);
         [source setError:error];
