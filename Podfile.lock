@@ -48,25 +48,25 @@ PODS:
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
-  - OHHTTPStubs (6.1.0):
-    - OHHTTPStubs/Default (= 6.1.0)
-  - OHHTTPStubs/Core (6.1.0)
-  - OHHTTPStubs/Default (6.1.0):
+  - OHHTTPStubs (8.0.0):
+    - OHHTTPStubs/Default (= 8.0.0)
+  - OHHTTPStubs/Core (8.0.0)
+  - OHHTTPStubs/Default (8.0.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (6.1.0):
+  - OHHTTPStubs/JSON (8.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (6.1.0):
+  - OHHTTPStubs/NSURLSession (8.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (6.1.0)
+  - OHHTTPStubs/OHPathHelpers (8.0.0)
   - PocketSVG (2.4.2)
   - RATreeView (2.1.2)
   - TOWebViewController (2.2.8):
     - TOWebViewController/Core (= 2.2.8)
   - TOWebViewController/Core (2.2.8)
-  - XLForm (4.0.0)
+  - XLForm (4.0.1)
 
 DEPENDENCIES:
   - AFCSVParserResponseSerializer
@@ -111,11 +111,11 @@ SPEC CHECKSUMS:
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
   FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
-  OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
+  OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
   PocketSVG: c30139829206a43df2ec203880e3970531facba7
   RATreeView: 380cde0090cfde21dc6ac29137f49d3b768fdd28
   TOWebViewController: 953a24619d32f7aa1d9d4098a74885a9236f7348
-  XLForm: 04110197c12187dd28a6c7295d3d8b95f4fdb4de
+  XLForm: b8d47a9a00fb6166981cb40de7169d70d611e9be
 
 PODFILE CHECKSUM: 1b60b2d866db7e542bbedcac696f4826fffe25a7
 
