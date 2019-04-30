@@ -1,5 +1,10 @@
 # Change Log
 
+### 1.5
+
+- Fix warning, change to use new API
+- Update pods
+
 ### 1.4
 
 - Fix iPhone X layout problem

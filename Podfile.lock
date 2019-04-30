@@ -2,27 +2,27 @@ PODS:
   - AFCSVParserResponseSerializer (1.0.0):
     - AFNetworking (~> 3.0)
     - CHCSVParser (~> 2.0)
-  - AFNetworking (3.1.0):
-    - AFNetworking/NSURLSession (= 3.1.0)
-    - AFNetworking/Reachability (= 3.1.0)
-    - AFNetworking/Security (= 3.1.0)
-    - AFNetworking/Serialization (= 3.1.0)
-    - AFNetworking/UIKit (= 3.1.0)
-  - AFNetworking/NSURLSession (3.1.0):
+  - AFNetworking (3.2.1):
+    - AFNetworking/NSURLSession (= 3.2.1)
+    - AFNetworking/Reachability (= 3.2.1)
+    - AFNetworking/Security (= 3.2.1)
+    - AFNetworking/Serialization (= 3.2.1)
+    - AFNetworking/UIKit (= 3.2.1)
+  - AFNetworking/NSURLSession (3.2.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.1.0)
-  - AFNetworking/Security (3.1.0)
-  - AFNetworking/Serialization (3.1.0)
-  - AFNetworking/UIKit (3.1.0):
+  - AFNetworking/Reachability (3.2.1)
+  - AFNetworking/Security (3.2.1)
+  - AFNetworking/Serialization (3.2.1)
+  - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
-  - Bolts (1.8.4):
-    - Bolts/AppLinks (= 1.8.4)
-    - Bolts/Tasks (= 1.8.4)
-  - Bolts/AppLinks (1.8.4):
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.8.4)
+  - Bolts/Tasks (1.9.0)
   - CHCSVParser (2.1.0)
   - FontAwesomeKit (2.2.1):
     - FontAwesomeKit/Core (= 2.2.1)
@@ -48,25 +48,25 @@ PODS:
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
-  - OHHTTPStubs (6.0.0):
-    - OHHTTPStubs/Default (= 6.0.0)
-  - OHHTTPStubs/Core (6.0.0)
-  - OHHTTPStubs/Default (6.0.0):
+  - OHHTTPStubs (8.0.0):
+    - OHHTTPStubs/Default (= 8.0.0)
+  - OHHTTPStubs/Core (8.0.0)
+  - OHHTTPStubs/Default (8.0.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (6.0.0):
+  - OHHTTPStubs/JSON (8.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (6.0.0):
+  - OHHTTPStubs/NSURLSession (8.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (6.0.0)
-  - PocketSVG (2.2.1)
+  - OHHTTPStubs/OHPathHelpers (8.0.0)
+  - PocketSVG (2.4.2)
   - RATreeView (2.1.2)
-  - TOWebViewController (2.2.6):
-    - TOWebViewController/Core (= 2.2.6)
-  - TOWebViewController/Core (2.2.6)
-  - XLForm (4.0.0)
+  - TOWebViewController (2.2.8):
+    - TOWebViewController/Core (= 2.2.8)
+  - TOWebViewController/Core (2.2.8)
+  - XLForm (4.0.1)
 
 DEPENDENCIES:
   - AFCSVParserResponseSerializer
@@ -82,6 +82,19 @@ DEPENDENCIES:
   - TOWebViewController
   - XLForm (~> 4.0.0)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFCSVParserResponseSerializer
+    - AFNetworking
+    - Bolts
+    - CHCSVParser
+    - MagicalRecord
+    - OHHTTPStubs
+    - PocketSVG
+    - RATreeView
+    - TOWebViewController
+    - XLForm
+
 EXTERNAL SOURCES:
   FontAwesomeKit:
     :git: https://github.com/PrideChung/FontAwesomeKit.git
@@ -93,17 +106,17 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFCSVParserResponseSerializer: ff1f90868576cbfbedda7f0c2f31361af232b144
-  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
   FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
-  OHHTTPStubs: 752f9b11fd810a15162d50f11c06ff94f8e012eb
-  PocketSVG: 51c4d5cb9ae7623d4494f439f69747394bad5d67
+  OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
+  PocketSVG: c30139829206a43df2ec203880e3970531facba7
   RATreeView: 380cde0090cfde21dc6ac29137f49d3b768fdd28
-  TOWebViewController: a29908019f7e0e0f8eccfab8a1ee8dcdf4fc5aac
-  XLForm: 04110197c12187dd28a6c7295d3d8b95f4fdb4de
+  TOWebViewController: 953a24619d32f7aa1d9d4098a74885a9236f7348
+  XLForm: b8d47a9a00fb6166981cb40de7169d70d611e9be
 
 PODFILE CHECKSUM: 1b60b2d866db7e542bbedcac696f4826fffe25a7
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.5.3
